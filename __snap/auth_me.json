@@ -1,1 +1,1 @@
-{"user":null,"providers":["google","discord"],"emailLogin":true,"registrationOpen":true,"privateCore":true,"devAuthEnabled":false}
+{"user":null,"devAuthEnabled":false,"providers":[],"privateCore":true,"emailLogin":true,"registrationOpen":false}

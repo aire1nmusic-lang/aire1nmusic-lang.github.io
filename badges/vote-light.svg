@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="60" viewBox="0 0 220 60" role="img" aria-label="Голосуй за нас на GameScout">
+  <rect x="0.5" y="0.5" width="219" height="59" rx="14" fill="#ffffff" stroke="#0e151c" stroke-opacity="0.18"/>
+  <svg x="12" y="14" width="52" height="30.76" viewBox="284 317.5 729.5 431.5"><path fill="#2b3442" d="M787.5 321.5 L485 321.5 L288 519 L503 734 L503 611.5 L404 513 L515 402 L707 402 Z M606 486 L473.5 486 L553.5 566 L590 566 L590 582.5 L527 645.5 L527 745 L696 576 Z"/><path fill="#0aa5c2" d="M990 397.5 L767 397.5 L664 500.5 L750.5 587 L907 587 L859 635 L713.5 635 L625.5 723.5 L879.5 723.5 L1009.5 593.5 L923 507 L766 507 L799.5 473.5 L914 473.5 Z"/></svg>
+  <text x="76" y="27" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="15" font-weight="700" fill="#0e151c">Голосуй за нас</text>
+  <text x="76" y="45" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" fill="#4b5966">на GameScout</text>
+  <circle cx="198" cy="30" r="10" fill="#0e151c"/>
+  <path d="M193.5 30.2l3.2 3.2 6-6.6" fill="none" stroke="#c6ff52" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

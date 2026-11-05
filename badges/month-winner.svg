@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="60" viewBox="0 0 220 60" role="img" aria-label="Лучший месяца на GameScout">
+  <rect x="1" y="1" width="218" height="58" rx="14" fill="#10131b" stroke="#c4f24f" stroke-width="2"/>
+  <path d="M30 14h20v10c0 8-5 13-10 14-5-1-10-6-10-14z" fill="#c4f24f"/>
+  <path d="M30 18h-6c0 6 3 9 6 10M50 18h6c0 6-3 9-6 10" fill="none" stroke="#c4f24f" stroke-width="2"/>
+  <rect x="37" y="38" width="6" height="6" fill="#c4f24f"/><rect x="31" y="44" width="18" height="4" rx="1" fill="#c4f24f"/>
+  <text x="66" y="27" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#ffffff">Лучший месяца</text>
+  <text x="66" y="44" font-family="Arial, sans-serif" font-size="12" fill="#c4f24f">GameScout</text>
+</svg>
