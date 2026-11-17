@@ -283,6 +283,59 @@ img{display:block;max-width:100%}
 .mapbtn{position:absolute;right:12px;bottom:calc(90px + env(safe-area-inset-bottom));z-index:70;display:none;height:34px;padding:0 12px;border-radius:999px;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:12.5px;box-shadow:0 6px 20px #0008}
 @media (max-width:860px){.mapbtn{display:block}}
 .mapsheet .flow{padding:8px}
+
+/* ===== v2: tinted glass over the world art, champions, line icons ===== */
+.screen{background:linear-gradient(180deg,#0a0d1218 0%,#0a0d1299 42%,#0a0d12d9 78%,#0a0d12f0 100%),url(img/rainbow-768.webp) 42% 0/cover no-repeat,#0a0d12}
+#server.screen{background:#0a0d12}
+.band{border-radius:0;padding-bottom:6px}.band::before,.band::after{display:none}
+.search{background:#f6f8faf2;box-shadow:0 10px 30px -12px #000a}
+.tile,.card,.pod,.row,.op,.kpi,.gi,.list,.info .card2,.seg,.stepper,.forecast,.dt:not(.on),.chip:not(.on),.view-toggle,.mine,.duo>button,.sc i,.wc{
+  background-color:#121820a6;background-image:linear-gradient(150deg,#ffffff16,#ffffff04 55%);
+  -webkit-backdrop-filter:blur(14px) saturate(1.25);backdrop-filter:blur(14px) saturate(1.25);
+  border:1px solid #ffffff21;box-shadow:inset 0 1px 0 #ffffff1f,0 12px 30px -20px #000}
+.wallet{-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);background-color:#121820b3}
+.tabbar{background:#0b0f15b8;-webkit-backdrop-filter:blur(22px) saturate(1.4);backdrop-filter:blur(22px) saturate(1.4)}
+.appbar{background:#0a0d12a6;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.chips{background:transparent}
+.sheet{background:#111720e8;-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px)}
+.actionbar{background:#0b0f15c4;-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px)}
+.ic{width:20px;height:20px;flex:none}
+.sec-h h2{display:flex;align-items:center;gap:8px;font-size:20px;letter-spacing:-.01em}
+.sec-h h2 .ic{width:22px;height:22px}
+.h-gold .ic{color:var(--gold)} .h-lime .ic{color:var(--lime)} .h-violet .ic{color:#b99bff}
+.h-gold{background:linear-gradient(90deg,#ffe3a1,#f2c46b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.h-gold .ic{color:#f2c46b}
+/* shortcut icons: glass squircles with a coloured glow */
+.sc i{color:var(--c);box-shadow:inset 0 1px 0 #ffffff26,0 0 0 1px color-mix(in srgb,var(--c) 30%,transparent),0 10px 24px -12px var(--c)}
+.sc i .ic{width:26px;height:26px}.sc i img{width:34px;height:34px}
+.sc i b{font:800 18px Inter}
+/* champion: big TOP-1 card, the character breaks out of the frame */
+.champ{position:relative;display:block;width:100%;height:214px;margin-top:58px;border-radius:24px;text-align:left;isolation:isolate;
+  box-shadow:0 0 0 1px #f2c46b70,0 0 0 4px #f2c46b14,0 22px 60px -22px #f2c46bcc}
+.champ .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;z-index:-2}
+.champ::after{content:"";position:absolute;inset:0;border-radius:24px;background:linear-gradient(0deg,#0a0d12f0 6%,#0a0d1266 46%,#0000 70%);z-index:-1}
+.champ .hero{position:absolute;right:-2px;bottom:64px;height:206px;width:auto;filter:drop-shadow(0 12px 22px #000c);pointer-events:none}
+.champ .medal{position:absolute;left:12px;top:12px;width:66px;height:66px;filter:drop-shadow(0 6px 14px #000a)}
+.champ .crownlbl{position:absolute;left:84px;top:22px;font:800 11px Inter;letter-spacing:.14em;text-transform:uppercase;color:#ffe3a1}
+.champ .gbar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:10px;padding:10px 10px 10px 12px;border-radius:16px;
+  background:#0d1219b0;-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);border:1px solid #ffffff24;box-shadow:inset 0 1px 0 #ffffff22}
+.champ .gbar .mid{flex:1;min-width:0}.champ .gbar .name{font-size:22px}
+.st.big{height:34px;padding:0 11px;font-size:16px;border-radius:11px}.st.big img{width:20px;height:20px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.duo>button{position:relative;border-radius:18px;overflow:hidden;text-align:left;height:150px;display:flex;flex-direction:column;justify-content:flex-end;padding:8px}
+.duo .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.duo>button::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0a0d12f2 10%,#0a0d1255 55%,#0000);z-index:1}
+.duo .medal{position:absolute;left:8px;top:8px;width:40px;height:40px;z-index:2}
+.duo .name,.duo .meta,.duo .stats{position:relative;z-index:2}.duo .name{font-size:16px}
+/* TOP screen: the leader's character over the podium */
+.pd.p1{overflow:visible;box-shadow:0 0 0 1px #f2c46b70,0 18px 44px -18px #f2c46bb0}
+.pd.p1 .img{border-radius:16px 16px 0 0}
+.pd .pdhero{position:absolute;left:50%;transform:translateX(-50%);bottom:64px;height:190px;width:auto;filter:drop-shadow(0 10px 18px #000c);pointer-events:none}
+.podium{padding-top:70px}
+.op .when,.op .cd{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.gi .ic{width:22px;height:22px;color:var(--c,var(--lime))}
+.gi b{display:flex;align-items:center;gap:8px}
+.btn .ic{width:18px;height:18px}
 </style>
 </head>
 <body>
@@ -322,25 +375,27 @@ img{display:block;max-width:100%}
   </div>
 
   <div class="shortcuts">
-    <button class="sc" data-go="openings"><i class="c1">20</i>Открытия</button>
-    <button class="sc" data-go="top"><i class="c4">№1</i>ТОП Coins</button>
-    <button class="sc" data-go="top" data-seg="votes"><i class="c5">👍</i>Выбор игроков</button>
-    <button class="sc" data-go="catalog" data-filter="x1–x5"><i class="c3">x1</i>Долгая игра</button>
-    <button class="sc" data-go="catalog" data-filter="x100+"><i class="c2">PvP</i>x100 и выше</button>
-    <button class="sc" data-toast="Кланы: рейтинг и набор в кланы"><i class="c6">⚔</i>Кланы</button>
+    <button class="sc" data-go="openings"><i style="--c:#b99bff"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></i>Открытия</button>
+    <button class="sc" data-go="top"><i style="--c:#f2c46b"><img src="img/coin-stack-96.webp" alt=""></i>ТОП Coins</button>
+    <button class="sc" data-go="top" data-seg="votes"><i style="--c:#c8ff55"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M7 10v11M15 5.9 14 10h5.8a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 18.4 21H7V10l4-8a3 3 0 0 1 4 3.9Z"/></svg></i>Выбор игроков</button>
+    <button class="sc" data-go="catalog" data-filter="x1–x5"><i style="--c:#34e6f5"><b>x1</b></i>Долгая игра</button>
+    <button class="sc" data-go="catalog" data-filter="x100+"><i style="--c:#ff6b7a"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 17.5 21 6V3h-3L6.5 14.5M11 19l-6-6M8 16l-4 4M5 21l-2-2"/></svg></i>PvP x100+</button>
+    <button class="sc" data-toast="Кланы: рейтинг и набор в кланы"><i style="--c:#d68cff"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></i>Кланы</button>
   </div>
 
+
   <div class="sec">
-    <div class="sec-h"><h2>Лидеры поддержки</h2><a data-go="top">Все</a></div>
-    <div class="rail">
-      <button class="pod" data-go="server"><div class="art"><img class="bg" src="img/l2-top1-bg-800.webp" alt=""><img class="medal" src="img/medal-1-glass-192.webp" alt="1"><span class="fav heart"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg></span></div><div class="body"><div class="name">Lineage2dex x25</div><div class="meta">Interlude · x25</div><div class="stats"><span class="st coin"><img src="img/coin-stack-96.webp" alt="">7</span></div></div></button>
-      <button class="pod" data-go="server"><div class="art"><img class="bg" src="img/l2-top2-800.webp" alt=""><img class="medal" src="img/medal-2-glass-192.webp" alt="2"></div><div class="body"><div class="name">La2Era Aurora</div><div class="meta">High Five · x3</div><div class="stats"><span class="st coin"><img src="img/coin-stack-96.webp" alt="">6</span></div></div></button>
-      <button class="pod" data-go="server"><div class="art"><img class="bg" src="img/l2-top3-800.webp" alt=""><img class="medal" src="img/medal-3-glass-192.webp" alt="3"></div><div class="body"><div class="name">Easy-craft.net x100</div><div class="meta">High Five · x100</div><div class="stats"><span class="st coin"><img src="img/coin-stack-96.webp" alt="">4</span></div></div></button>
+    <div class="sec-h"><h2 class="h-gold"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m2 7 5 5 5-8 5 8 5-5-2 12H4Z"/></svg>Лидеры поддержки</h2><a data-go="top">Все</a></div>
+    <button class="champ" data-go="server"><img class="bg" src="img/l2-top1-bg-800.webp" alt=""><img class="hero" src="img/l2-top3-hero-600.webp" alt=""><img class="medal" src="img/medal-1-glass-192.webp" alt="1"><span class="crownlbl">1 место недели</span>
+      <span class="gbar"><span class="mid"><div class="name">Lineage2dex x25</div><div class="meta">Interlude · x25 · старт GameScout</div></span><span class="st coin big"><img src="img/coin-stack-96.webp" alt="">7</span><span class="heart fav"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg></span></span></button>
+    <div class="duo">
+      <button data-go="server"><img class="bg" src="img/l2-top2-800.webp" alt=""><img class="medal" src="img/medal-2-glass-192.webp" alt="2"><div class="name">La2Era Aurora</div><div class="meta">High Five · x3</div><div class="stats"><span class="st coin"><img src="img/coin-stack-96.webp" alt="">6</span></div></button>
+      <button data-go="server"><img class="bg" src="img/l2-top3-800.webp" alt=""><img class="medal" src="img/medal-3-glass-192.webp" alt="3"><div class="name">Easy-craft.net x100</div><div class="meta">High Five · x100</div><div class="stats"><span class="st coin"><img src="img/coin-stack-96.webp" alt="">4</span></div></button>
     </div>
   </div>
 
   <div class="sec">
-    <div class="sec-h"><h2>Скоро открытие</h2><a data-go="openings">Календарь</a></div>
+    <div class="sec-h"><h2 class="h-lime"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12M6 22h12M7 2v4a5 5 0 0 0 10 0V2M7 22v-4a5 5 0 0 1 10 0v4"/></svg>Скоро открытие</h2><a data-go="openings">Календарь</a></div>
     <div class="rail">
       <button class="pod" data-go="server"><div class="art"><img class="bg" src="img/openings-cover.webp" alt=""><span class="st date" style="position:absolute;left:8px;top:8px">20 нояб · 03:00</span></div><div class="body"><div class="name">Bohpts.net x20</div><div class="meta">Interlude · рейты x20</div><div class="stats"><span class="st" style="color:var(--lime)">через 3 д 02 ч</span></div></div></button>
       <button class="pod" data-go="server"><div class="art"><img class="bg" src="img/openings-cover.webp" alt=""><span class="st date" style="position:absolute;left:8px;top:8px">20 нояб · 21:30</span></div><div class="body"><div class="name">L2epic.fail x10</div><div class="meta">Interlude · XP x10, SP x9</div><div class="stats"><span class="st" style="color:var(--lime)">через 3 д 20 ч</span></div></div></button>
@@ -349,7 +404,7 @@ img{display:block;max-width:100%}
   </div>
 
   <div class="sec">
-    <div class="sec-h"><h2>Выбор игроков</h2><a data-go="top" data-seg="votes">Все</a></div>
+    <div class="sec-h"><h2 class="h-lime"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M7 10v11M15 5.9 14 10h5.8a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 18.4 21H7V10l4-8a3 3 0 0 1 4 3.9Z"/></svg>Выбор игроков</h2><a data-go="top" data-seg="votes">Все</a></div>
     <div class="feed" id="homeFeed"></div>
   </div>
 </section>
@@ -384,9 +439,9 @@ img{display:block;max-width:100%}
   <div class="appbar"><h2>Открытия</h2><button class="chip" data-sheet="filters" style="height:34px">Interlude ▾</button></div>
   <div class="dates" id="dates"></div>
   <div class="sec" style="padding-top:8px"><div class="sub">Скоро · 3 сервера</div></div>
-  <button class="op" data-go="server"><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">20 <small>нояб · 03:00</small></span><span class="cd">3 д 02:42</span></div><div class="body"><div class="mid" style="flex:1"><div class="name">Bohpts.net x20</div><div class="meta">Interlude · рейты x20</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта">🔔 Напомнить</span></div></button>
-  <button class="op" data-go="server"><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">20 <small>нояб · 21:30</small></span><span class="cd">3 д 20:42</span></div><div class="body"><div class="mid" style="flex:1"><div class="name">L2epic.fail x10</div><div class="meta">Interlude · XP x10, SP x9</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта">🔔 Напомнить</span></div></button>
-  <button class="op" data-go="server"><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">4 <small>дек · 03:00</small></span><span class="cd">17 д</span></div><div class="body"><div class="mid" style="flex:1"><div class="name">Baza x1</div><div class="meta">Goddess of Destruction · x1</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта">🔔 Напомнить</span></div></button>
+  <button class="op" data-go="server"><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">20 <small>нояб · 03:00</small></span><span class="cd">3 д 02:42</span></div><div class="body"><div class="mid" style="flex:1"><div class="name">Bohpts.net x20</div><div class="meta">Interlude · рейты x20</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Напомнить</span></div></button>
+  <button class="op" data-go="server"><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">20 <small>нояб · 21:30</small></span><span class="cd">3 д 20:42</span></div><div class="body"><div class="mid" style="flex:1"><div class="name">L2epic.fail x10</div><div class="meta">Interlude · XP x10, SP x9</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Напомнить</span></div></button>
+  <button class="op" data-go="server"><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">4 <small>дек · 03:00</small></span><span class="cd">17 д</span></div><div class="body"><div class="mid" style="flex:1"><div class="name">Baza x1</div><div class="meta">Goddess of Destruction · x1</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Напомнить</span></div></button>
   <div class="sec" style="padding-top:18px"><div class="sub">Недавно открылись · за 90 дней</div></div>
   <div style="padding-top:8px" id="recent"></div>
 </section>
@@ -396,10 +451,10 @@ img{display:block;max-width:100%}
   <div class="me"><div class="ava">GS</div><div style="flex:1"><b style="font-size:18px">Game Scout</b><div class="sub">Игрок · вход через Google</div></div><button class="icon-btn" data-toast="Настройки аккаунта" aria-label="Настройки"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></svg></button></div>
   <div class="wallet"><small class="sub">Кошелёк</small><div class="sum"><img src="img/coin-stack-96.webp" alt=""><b>0</b><span class="sub">GS Coins</span></div><div style="display:flex;gap:8px"><span class="btn gold sm" style="flex:1" data-toast="Пополнение появится после запуска оплаты">Пополнить</span><span class="btn dark sm" style="flex:1" data-toast="История поддержек и пополнений">История</span></div></div>
   <div class="grid4">
-    <button class="gi" data-go="favorites"><b>❤ Избранное</b><small>3 сервера</small></button>
-    <button class="gi" data-toast="3 голоса в сутки: сервер, клан, медиа"><b>👍 Голоса сегодня</b><small>0 из 3</small></button>
-    <button class="gi" data-toast="Ваши серверы и заявки владельца"><b>🏰 Мои серверы</b><small>нет · добавить</small></button>
-    <button class="gi" data-toast="Кланы и медиа, которые вы ведёте"><b>⚔ Кланы и медиа</b><small>нет</small></button>
+    <button class="gi" data-go="favorites"><b style="--c:#ff6b7a"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>Избранное</b><small>3 сервера</small></button>
+    <button class="gi" data-toast="3 голоса в сутки: сервер, клан, медиа"><b><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M7 10v11M15 5.9 14 10h5.8a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 18.4 21H7V10l4-8a3 3 0 0 1 4 3.9Z"/></svg>Голоса сегодня</b><small>0 из 3</small></button>
+    <button class="gi" data-toast="Ваши серверы и заявки владельца"><b style="--c:#f2c46b"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 21V9l3 2V5l3 2V3h6v4l3-2v6l3-2v12Z"/><path d="M10 21v-5h4v5"/></svg>Мои серверы</b><small>нет · добавить</small></button>
+    <button class="gi" data-toast="Кланы и медиа, которые вы ведёте"><b style="--c:#d68cff"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 17.5 21 6V3h-3L6.5 14.5M11 19l-6-6M8 16l-4 4M5 21l-2-2"/></svg>Кланы и медиа</b><small>нет</small></button>
   </div>
   <div class="list">
     <button class="li" data-toast="Telegram: обгон в рейтинге, открытия"><span>Уведомления в Telegram</span><em>выкл</em></button>
@@ -427,9 +482,9 @@ img{display:block;max-width:100%}
   <div class="info">
     <div class="card2"><b>О сервере</b><p class="sub" style="margin-top:6px;font-size:13.5px;color:#c3ccd7">Сервер Lineage 2 · High Five, рейты x3. Описание и ссылки ведёт владелец после подтверждения.</p></div>
     <div class="card2"><dl><dt>Хроника</dt><dd>High Five</dd><dt>Рейты</dt><dd>x3</dd><dt>Онлайн</dt><dd>нет свежего замера</dd><dt>Сайт</dt><dd style="color:var(--lime)">сайт проекта ›</dd></dl></div>
-    <div class="card2" style="display:flex;gap:10px;align-items:center"><span style="font-size:22px">🛡</span><div style="flex:1"><b>Это ваш сервер?</b><div class="sub">Подтвердите права и ведите карточку сами</div></div><span class="btn dark sm" data-toast="Подтверждение владельца">Подтвердить</span></div>
+    <div class="card2" style="display:flex;gap:10px;align-items:center"><span style="color:var(--lime)"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></span><div style="flex:1"><b>Это ваш сервер?</b><div class="sub">Подтвердите права и ведите карточку сами</div></div><span class="btn dark sm" data-toast="Подтверждение владельца">Подтвердить</span></div>
   </div>
-  <div class="actionbar"><button class="btn vote" data-toast="Голос учтён · осталось 2 из 3 на сегодня" aria-label="Голос">👍<span class="t"> Голос</span></button><button class="btn gold" data-sheet="support"><img src="img/coin-stack-96.webp" alt="" style="width:20px;height:20px">Поддержать</button><button class="btn lime" data-toast="Открываем сайт сервера">▶ Играть</button></div>
+  <div class="actionbar"><button class="btn vote" data-toast="Голос учтён · осталось 2 из 3 на сегодня" aria-label="Голос"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M7 10v11M15 5.9 14 10h5.8a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 18.4 21H7V10l4-8a3 3 0 0 1 4 3.9Z"/></svg><span class="t"> Голос</span></button><button class="btn gold" data-sheet="support"><img src="img/coin-stack-96.webp" alt="" style="width:20px;height:20px">Поддержать</button><button class="btn lime" data-toast="Открываем сайт сервера"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8Z"/></svg>Играть</button></div>
 </section>
 
 <!-- ================= TAB BAR ================= -->
@@ -524,7 +579,7 @@ function renderTop(mode){
   const list=[...SERVERS].sort((a,b)=>mode==='votes'?b.votes-a.votes:b.coins-a.coins);
   const p=mode==='votes'?['l2-people2-800','l2-people1-800','l2-people3-800']:['l2-top2-800','l2-top1-bg-800','l2-top3-800'];
   const order=[1,0,2];
-  $('#podium').innerHTML=order.map((k,j)=>{const s=list[k];return `<button class="pd ${k===0?'p1':''}" data-go="server"><div class="img" style="background-image:url(img/${p[j]}.webp)"></div><img class="medal" src="img/medal-${k+1}-glass-192.webp" alt=""><div class="name">${s.n}</div>${mode==='votes'?VOTE(s.votes):COIN(s.coins)}</button>`}).join('');
+  $('#podium').innerHTML=order.map((k,j)=>{const s=list[k];return `<button class="pd ${k===0?'p1':''}" data-go="server">${k===0?`<img class="pdhero" src="img/${mode==='votes'?'l2-people1-hero-600':'l2-top3-hero-600'}.webp" alt="">`:''}<div class="img" style="background-image:url(img/${p[j]}.webp)"></div><img class="medal" src="img/medal-${k+1}-glass-192.webp" alt=""><div class="name">${s.n}</div>${mode==='votes'?VOTE(s.votes):COIN(s.coins)}</button>`}).join('');
   $('#topList').innerHTML=list.slice(3,10).map((s,i)=>row(s,i+3,mode)).join('');
   $$('[data-segbtn]').forEach(b=>b.classList.toggle('on',b.dataset.segbtn===mode));
 }
