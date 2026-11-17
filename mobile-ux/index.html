@@ -468,8 +468,8 @@ img{display:block;max-width:100%}
   <div class="appbar"><h2>Открытия</h2><button class="chip g" data-sheet="filters" style="height:34px">Interlude ▾</button></div>
   <div class="dates" id="dates"></div>
   <div class="day-h"><b>20 ноября</b><span class="sub">2 старта</span></div>
-  <button class="op g promoted" data-go="server"><span class="tag gold flag"><span data-i="crown"></span>Старт дня · золото</span><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">03:00 <small>МСК</small></span><span class="cdb">3 д 02:42</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">Bohpts.net x20</div><div class="meta">Interlude · рейты x20</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
-  <button class="op g silver" data-go="server"><span class="tag flag" style="background:#dfe6ee;color:#1d2530"><span data-i="crown"></span>Старт дня · серебро</span><div class="cover" style="height:110px"><img src="img/openings-cover.webp" alt=""><span class="when">21:30 <small>МСК</small></span><span class="cdb">3 д 20:42</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">L2epic.fail x10</div><div class="meta">Interlude · XP x10, SP x9</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
+  <button class="op g promoted" data-go="server"><span class="tag gold flag"><span data-i="crown"></span>1-е место старта</span><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">03:00 <small>МСК</small></span><span class="cdb">3 д 02:42</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">Bohpts.net x20</div><div class="meta">Interlude · рейты x20</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
+  <button class="op g silver" data-go="server"><span class="tag flag" style="background:#dfe6ee;color:#1d2530"><span data-i="crown"></span>2-е место старта</span><div class="cover" style="height:110px"><img src="img/openings-cover.webp" alt=""><span class="when">21:30 <small>МСК</small></span><span class="cdb">3 д 20:42</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">L2epic.fail x10</div><div class="meta">Interlude · XP x10, SP x9</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
   <div class="day-h"><b>4 декабря</b><span class="sub">1 старт</span></div>
   <button class="op g" data-go="server"><div class="cover" style="height:96px"><img src="img/openings-cover.webp" alt=""><span class="when">03:00 <small>МСК</small></span><span class="cdb">17 д</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">Baza x1</div><div class="meta">Goddess of Destruction · x1</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
   <p class="note" style="padding:4px 16px">В один день первыми идут оплаченные места старта: золото, серебро, бронза. Остальные — по числу включённых напоминаний, затем по голосам.</p>
@@ -510,14 +510,14 @@ img{display:block;max-width:100%}
   <p class="sub" style="padding:12px 16px 0">Старт — главный день сервера. Места старта видны в «Открытиях», на главной и в напоминаниях. Цены — пример для обсуждения.</p>
   <div class="sec" style="padding-top:12px"><h4 class="lab">1. Дата старта</h4></div>
   <div class="dates" id="pdates" style="padding-top:6px"></div>
-  <div class="sec" style="padding-top:10px"><h4 class="lab">2. Место в этот день</h4>
+  <div class="sec" style="padding-top:10px"><h4 class="lab">2. Место среди стартов этой даты</h4>
     <div class="tiers" id="tiers"></div>
   </div>
   <div class="sec" style="padding-top:12px"><h4 class="lab">3. Сколько держать</h4>
     <div class="fwrap" id="durs"><button class="chip g on" data-d="1">День старта</button><button class="chip g" data-d="2.2">3 дня</button><button class="chip g" data-d="4">7 дней</button><button class="chip g" data-d="7">14 дней</button><button class="chip g" data-d="12">Месяц</button></div>
   </div>
   <div class="total g"><div><small class="sub">Итого</small><b id="ptotal">10 000 ₽</b><small class="sub" id="pcoins">200 Coins</small></div><button class="btn gold" data-toast="Оплата пока выключена — это макет">Купить место</button></div>
-  <p class="note" style="padding:0 16px">Каждое место в день одно на игру: купленное видят другие владельцы серым «занято». Голоса и Coins рейтинга это не меняет.</p>
+  <p class="note" style="padding:0 16px">Каждое место на дату одно на игру: купленное видят другие владельцы серым «занято». Голоса и Coins рейтинга это не меняет.</p>
 </section>
 
 <!-- ======================= TAB BAR ======================= -->
@@ -534,8 +534,8 @@ img{display:block;max-width:100%}
 <div class="sheet" id="worlds"><div class="grab"></div><h3>Выберите игру</h3>
   <div class="worlds">
     <button class="wc on" data-close><img src="img/rainbow-768.webp" alt=""><span class="ok"><span data-i="check"></span></span><b>Lineage 2</b><small>137 серверов · хроники, рейты, открытия</small></button>
-    <button class="wc" data-close data-toast="Мир Minecraft: свой фон и анимация позже"><img src="img/mc-master-800.webp" alt=""><b>Minecraft</b><small>выживание, анархия, мини-игры</small></button>
-    <button class="wc" data-close data-toast="Мир GTA RP: свой фон и анимация позже"><img src="img/gta-master-800.webp" alt=""><b>GTA RP</b><small>RAGE MP, alt:V, FiveM</small></button>
+    <button class="wc" data-close data-toast="Мир Minecraft: свой фон и анимация позже"><img src="img/mc-cave-800.webp" alt=""><b>Minecraft</b><small>выживание, анархия, мини-игры</small></button>
+    <button class="wc" data-close data-toast="Мир GTA RP: свой фон и анимация позже"><img src="img/gta-race-800.webp" alt=""><b>GTA RP</b><small>RAGE MP, alt:V, FiveM</small></button>
   </div>
 </div>
 <div class="sheet" id="filters"><div class="grab"></div><h3>Фильтры</h3>
@@ -669,7 +669,7 @@ const CAB={
     <div class="kp4"><div><b>1 284</b><small>просмотров</small></div><div><b>312</b><small>нажали «Играть»</small></div><div><b>46</b><small>в избранном</small></div><div><b>89</b><small>ждут старта</small></div></div>
     <svg class="spark" viewBox="0 0 300 70" preserveAspectRatio="none"><defs><linearGradient id="sg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#c8ff55" stop-opacity=".45"/><stop offset="1" stop-color="#c8ff55" stop-opacity="0"/></linearGradient></defs><path d="M0 55 L43 48 L86 50 L129 36 L172 40 L215 22 L258 26 L300 12 L300 70 L0 70Z" fill="url(#sg)"/><path d="M0 55 L43 48 L86 50 L129 36 L172 40 L215 22 L258 26 L300 12" fill="none" stroke="#c8ff55" stroke-width="2.5"/></svg>
     <div class="place-line">Место в поддержке: <b>#4 → #2</b> за неделю</div></div>
-  <button class="promo-start g" data-go="startpromo"><span class="ps-ic">${ic('rocket')}</span><span style="flex:1"><b>Продвижение старта</b><small>золото, серебро или бронза в день открытия</small></span>${ic('cr')}</button>
+  <button class="promo-start g" data-go="startpromo"><span class="ps-ic">${ic('rocket')}</span><span style="flex:1"><b>Продвижение старта</b><small>1-е, 2-е или 3-е место среди стартов даты</small></span>${ic('cr')}</button>
   <div class="grid2"><button class="gi g" data-toast="Telegram: «вас обогнали»" style="--c:#b99bff"><b>${ic('bell')}Тревога обгона</b><small>Telegram</small></button><button class="gi g" data-toast="Редактор карточки" style="--c:#34e6f5"><b>${ic('image')}Карточка</b><small>описание, медиа</small></button></div>
   <div class="wallet g"><small class="sub">Кошелёк владельца</small><div class="sum"><img src="img/coin-stack-96.webp" alt=""><b>0</b><span class="sub">GS Coins</span></div><span class="btn gold sm" style="width:100%" data-toast="Пополнение">Пополнить</span></div>`},
  clan:{sub:'Клан / медиа',html:()=>`
@@ -684,7 +684,7 @@ role('player');
 
 /* navigation */
 /* start promotion: one slot per tier per day; a sold slot is greyed for others */
-const TIERS=[['gold','Золото · первый в дне','золотая рамка, первым в «Открытиях», баннер в карусели',10000,1],['silver','Серебро · второй в дне','серебряная рамка, вторым в дне',6000,2],['bronze','Бронза · третий в дне','бронзовая рамка, третьим в дне',3500,3]];
+const TIERS=[['gold','Золото · 1-е место старта','первым в «Открытиях» в этот день, золотая рамка, баннер в карусели',10000,1],['silver','Серебро · 2-е место старта','вторым в «Открытиях» в этот день, серебряная рамка',6000,2],['bronze','Бронза · 3-е место старта','третьим в «Открытиях» в этот день, бронзовая рамка',3500,3]];
 let ptier='silver',pdur=1,pdate=20;
 function pTaken(t){return pdate===20&&t==='gold'}
 function renderPromo(){
