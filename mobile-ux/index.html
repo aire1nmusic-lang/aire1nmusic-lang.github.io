@@ -30,7 +30,7 @@ img{display:block;max-width:100%}
 
 /* ===== screens over the world art ===== */
 .screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding-bottom:100px;transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .2s;
-  background:linear-gradient(180deg,#0a0d1218 0%,#0a0d1299 42%,#0a0d12d9 78%,#0a0d12f0 100%),url(img/rainbow-768.webp) 42% 0/cover no-repeat,#0a0d12}
+  background:linear-gradient(180deg,#0a0d1210 0%,#0a0d1259 45%,#0a0d12a6 80%,#0a0d12cc 100%),url(img/rainbow-768.webp) 42% 0/cover no-repeat,#0a0d12}
 .screen::-webkit-scrollbar{display:none}
 .screen.hidden{opacity:0;pointer-events:none}
 .screen.off-r{transform:translateX(100%)} .screen.off-l{transform:translateX(-28%);opacity:0;pointer-events:none}
@@ -38,7 +38,7 @@ img{display:block;max-width:100%}
 #server.screen{background:#0a0d12}
 
 /* glass material */
-.g{background-color:var(--glass);background-image:var(--glass-hi);-webkit-backdrop-filter:blur(14px) saturate(1.25);backdrop-filter:blur(14px) saturate(1.25);border:1px solid var(--line);box-shadow:inset 0 1px 0 #ffffff1f,0 12px 30px -20px #000}
+.g{background-color:#0a0e1452;background-image:linear-gradient(180deg,#ffffff17,#ffffff03 45%);-webkit-backdrop-filter:blur(18px) saturate(1.7) brightness(.92);backdrop-filter:blur(18px) saturate(1.7) brightness(.92);border:1px solid #ffffff29;box-shadow:inset 0 1px 0 #ffffff2e,inset 0 -1px 0 #ffffff0a,0 14px 30px -22px #000}
 
 /* header */
 .head{padding:12px 16px 0}
@@ -66,7 +66,8 @@ img{display:block;max-width:100%}
 .tag .ic{width:14px;height:14px}
 .tag.gold{background:linear-gradient(140deg,#ffe3a1,#e2a43a);color:#2a1a05}
 .tag.violet{background:#b99bff;color:#1a0c33}
-.promo h3{font-size:21px;margin-top:8px;line-height:1.1}
+.promo .tag{position:absolute;left:12px;top:12px}
+.promo h3{font-size:21px;line-height:1.1}
 .promo p{color:#d6dde6;font-size:12.5px;margin-top:2px}
 .dots{display:flex;gap:5px;justify-content:center;margin-top:9px}.dots i{width:6px;height:6px;border-radius:3px;background:#ffffff40;transition:.2s}.dots i.on{width:18px;background:var(--ink)}
 
@@ -132,14 +133,15 @@ img{display:block;max-width:100%}
 .champ .hero{position:absolute;right:-2px;bottom:64px;height:206px;width:auto;filter:drop-shadow(0 12px 22px #000c);pointer-events:none}
 .champ .medal{position:absolute;left:12px;top:12px;width:66px;height:66px;filter:drop-shadow(0 6px 14px #000a)}
 .champ .lbl{position:absolute;left:84px;top:22px;font:800 11px Inter;letter-spacing:.14em;text-transform:uppercase;color:#ffe3a1}
-.champ .gbar{position:absolute;left:8px;right:8px;bottom:8px;padding:10px 10px 10px 12px;border-radius:16px;background:#0d1219b8;-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);border:1px solid #ffffff24;box-shadow:inset 0 1px 0 #ffffff22}
-.champ .gbar .name{font-size:22px}
-.champ .gbar .foot{margin-top:6px}
+.champ .gbar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:10px;padding:8px 8px 8px 12px;border-radius:16px;background:linear-gradient(180deg,#ffffff1c,#ffffff06),#0a0e144d;-webkit-backdrop-filter:blur(16px) saturate(1.7);backdrop-filter:blur(16px) saturate(1.7);border:1px solid #ffffff33;box-shadow:inset 0 1px 0 #ffffff33}
+.champ .gbar .gl{flex:1;min-width:0}.champ .gbar .foot{margin:0;gap:6px}.champ .gbar .heart{margin-left:0}
+.champ .gbar .name{font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.champ::after{background:linear-gradient(0deg,#0a0d12b3 4%,#0a0d1240 30%,#0000 55%)}
 /* #2 and #3: art cropped to the character, everything readable at the bottom */
 .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .place{position:relative;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;height:206px;padding:8px;border:1px solid #ffffff26;isolation:isolate}
 .place .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.place.p2 .bg{object-position:88% 22%}.place.p3 .bg{object-position:92% 20%}
+.place.p2 .bg{object-position:66% 22%}.place.p3 .bg{object-position:70% 20%}
 .place::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0a0d12f5 30%,#0a0d1240 62%,#0000 80%);z-index:-1}
 .place .medal{position:absolute;left:8px;top:8px;width:42px;height:42px}
 .place .name{font-size:16px}
@@ -174,8 +176,8 @@ img{display:block;max-width:100%}
 .tab .badge{top:-4px;right:calc(50% - 22px)}
 
 /* app bars, chips, rows */
-.appbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:12px;background:#0a0d12a6;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-bottom:1px solid #ffffff17}
-.appbar h2{font-size:17px;font-weight:800;flex:1}
+.appbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:12px;background:#0a0d1259;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-bottom:1px solid #ffffff17}
+.appbar h2{font-size:18px;font-weight:800;flex:1;line-height:38px}
 .back{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#ffffff14;border:1px solid #ffffff24}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:10px 12px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
@@ -186,15 +188,19 @@ img{display:block;max-width:100%}
 .view-toggle button{width:42px;height:36px;border-radius:9px;display:grid;place-items:center;color:var(--muted)}
 .view-toggle button.on{background:#ffffff1f;color:var(--ink)}
 .row{display:flex;align-items:center;gap:10px;padding:10px 12px;margin:0 12px 8px;border-radius:14px;width:calc(100% - 24px)}
+.row.t1{background-image:linear-gradient(90deg,#f2c46b33,#f2c46b08 60%);border-color:#f2c46b80;box-shadow:inset 0 1px 0 #ffe3a133,0 10px 26px -16px #f2c46b}
+.row.t2{background-image:linear-gradient(90deg,#cfd8e32b,#cfd8e306 60%);border-color:#cfd8e366}
+.row.t3{background-image:linear-gradient(90deg,#d08a5a2e,#d08a5a06 60%);border-color:#d08a5a70}
+.row.t1 .name{color:#ffe3a1}.row.t1 .rk img,.row.t2 .rk img,.row.t3 .rk img{width:36px;height:36px}
 .row .rk{width:30px;font:800 17px Inter;color:var(--muted);text-align:center;flex:none}
 .row .rk img{width:32px;height:32px}
 .row .lg{width:40px;height:40px;border-radius:12px;background:#0f141b;border:1px solid #ffffff2b;display:grid;place-items:center;flex:none}
 .row .mid{flex:1;min-width:0}
 .row .name{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row .end{display:flex;gap:6px;align-items:center}
-.seg{display:flex;margin:12px 16px 0;padding:4px;border-radius:14px}
-.seg button{flex:1;height:40px;border-radius:11px;font-weight:700;font-size:13.5px;color:var(--muted)}
-.seg button.on{background:var(--ink);color:#0b0e13}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:12px 16px 0;padding:4px;border-radius:14px}
+.seg button{height:40px;border-radius:11px;font-weight:700;font-size:13.5px;color:var(--muted);text-align:center;border:0}
+.seg button.on{background:var(--lime);color:var(--lime-ink);box-shadow:0 6px 16px -8px var(--lime)}
 
 /* openings */
 .dates{display:flex;gap:8px;overflow-x:auto;padding:12px 16px 4px;scrollbar-width:none}
@@ -212,7 +218,8 @@ img{display:block;max-width:100%}
 .op .cdb{position:absolute;right:10px;bottom:10px;padding:6px 10px;border-radius:10px;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:13px}
 .op .body{padding:10px 12px 12px;display:flex;align-items:center;gap:10px}
 .op.promoted{box-shadow:0 0 0 1.5px #f2c46b,0 18px 44px -18px #f2c46bb0}
-.op.promoted .flag{position:absolute;right:10px;top:10px;z-index:2}
+.op .flag{position:absolute;right:10px;top:10px;z-index:2}
+.op.silver{box-shadow:0 0 0 1.5px #cfd8e3aa,0 16px 40px -20px #cfd8e399}
 .owner-cta{margin:4px 16px 0;padding:14px;border-radius:18px;display:flex;gap:12px;align-items:center;background:radial-gradient(120% 140% at 0 0,#f2c46b30,transparent 60%),#121820b3;border:1px solid #f2c46b55;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 .owner-cta b{font-size:15px}.owner-cta p{color:#e7d6ae;font-size:12.5px;margin-top:2px}
 
@@ -278,6 +285,15 @@ img{display:block;max-width:100%}
 .list{margin:12px 16px 0;border-radius:16px;overflow:hidden}
 .li{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #ffffff12;width:100%}
 .li:last-child{border-bottom:0}.li span{flex:1}.li em{font-style:normal;color:var(--muted);font-size:13px}
+.stats{margin:12px 16px 0;border-radius:18px;padding:12px 14px}
+.stats-h{display:flex;align-items:center;justify-content:space-between}.stats-h h4{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.demo{font:700 10.5px Inter;padding:3px 7px;border-radius:7px;background:#b99bff26;color:#d8c8ff}
+.kp4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 6px}.kp4 div{text-align:center}.kp4 b{display:block;font-size:17px}.kp4 small{color:var(--muted);font-size:10.5px;line-height:1.15;display:block}
+.spark{width:100%;height:64px;display:block}
+.place-line{font-size:12.5px;color:var(--muted);margin-top:4px}.place-line b{color:var(--lime)}
+.promo-start{margin:10px 16px 0;width:calc(100% - 32px);display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;border-color:#f2c46b66!important;background-image:radial-gradient(120% 160% at 0 0,#f2c46b38,transparent 60%),linear-gradient(180deg,#ffffff14,#ffffff03)!important}
+.promo-start b{font-size:15.5px}.promo-start small{display:block;color:#e7d6ae;font-size:12.5px}
+.ps-ic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(140deg,#ffe3a1,#d39a33);color:#2a1a05;flex:none}
 .srvcard{margin:12px 16px 0;border-radius:18px;padding:12px;display:flex;gap:12px;align-items:center}
 .srvcard img{width:58px;height:58px}
 .srvcard .gap{color:#ffe3a1;font-size:12.5px;margin-top:2px}
@@ -286,7 +302,7 @@ img{display:block;max-width:100%}
 .scrim{position:absolute;inset:0;background:#000000a6;opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
 .scrim.on{opacity:1;pointer-events:auto}
 .sheet{position:absolute;left:0;right:0;bottom:0;max-height:90%;overflow-y:auto;border-radius:26px 26px 0 0;transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);z-index:41;padding:8px 16px calc(18px + env(safe-area-inset-bottom));
-  background:linear-gradient(180deg,#ffffff14,#ffffff05 30%),#10151dd6;-webkit-backdrop-filter:blur(26px) saturate(1.3);backdrop-filter:blur(26px) saturate(1.3);border-top:1px solid #ffffff33;box-shadow:inset 0 1px 0 #ffffff26}
+  background:linear-gradient(180deg,#ffffff1a,#ffffff05 30%),#0b0f16b8;-webkit-backdrop-filter:blur(26px) saturate(1.3);backdrop-filter:blur(26px) saturate(1.3);border-top:1px solid #ffffff33;box-shadow:inset 0 1px 0 #ffffff26}
 .sheet.on{transform:none}
 .grab{width:44px;height:5px;border-radius:3px;background:#ffffff40;margin:4px auto 12px}
 .sheet h3{font-size:20px;font-weight:800;margin-bottom:12px}
@@ -298,16 +314,30 @@ img{display:block;max-width:100%}
 .wc.on{box-shadow:0 0 0 2px var(--lime)}
 .wc .ok{position:absolute;right:12px;top:12px;width:30px;height:30px;border-radius:50%;background:var(--lime);color:var(--lime-ink);display:grid;place-items:center}
 .wc .ok .ic{width:18px;height:18px}
+.lab{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.tiers{display:grid;gap:8px;margin-top:8px}
+.tier{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border-radius:16px;text-align:left}
+.tier .md{width:44px;height:44px;flex:none}
+.tier b{font-size:15px}.tier small{display:block;color:var(--muted);font-size:12px}
+.tier .pr{margin-left:auto;text-align:right;font-weight:800;white-space:nowrap}.tier .pr small{font-weight:600}
+.tier.gold{border-color:#f2c46b88!important;background-image:linear-gradient(90deg,#f2c46b2e,#f2c46b05 60%),linear-gradient(180deg,#ffffff12,#ffffff03)!important}
+.tier.silver{border-color:#cfd8e377!important}
+.tier.bronze{border-color:#d08a5a88!important}
+.tier.on{box-shadow:0 0 0 2px var(--lime),0 12px 30px -16px var(--lime)}
+.tier.taken{opacity:.45;filter:grayscale(1);pointer-events:auto}
+.tier.taken .pr{color:var(--muted)}
+.total{margin:16px 16px 10px;border-radius:18px;padding:12px 12px 12px 16px;display:flex;align-items:center;gap:12px}
+.total>div{flex:1}.total b{display:block;font-size:24px;color:var(--coin)}
 .fgroup{margin-bottom:16px}.fgroup h4{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
 .fwrap{display:flex;flex-wrap:wrap;gap:8px}
 .stepper{display:flex;align-items:center;justify-content:space-between;border-radius:18px;padding:10px}
-.stepper button{width:48px;height:48px;border-radius:14px;background:#ffffff14;font-size:24px}
+.stepper button{width:48px;height:48px;border-radius:14px;background:#ffffff14;font-size:24px;display:grid;place-items:center;text-align:center}
 .stepper .v{display:flex;align-items:center;gap:10px}.stepper .v img{width:42px;height:42px}.stepper .v b{font-size:34px;color:var(--coin)}
 .to1{width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:16px;border:1.5px solid var(--lime);background:#c8ff5514;text-align:left}
 .to1 b{font-size:15px}.to1 small{display:block;color:#cfe2b4;font-size:12px}
 .to1 .p{margin-left:auto;font:800 16px Inter;color:var(--lime);white-space:nowrap}
 .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}
-.quick button{height:40px;border-radius:12px;font-weight:700}
+.quick button{height:42px;border-radius:12px;font-weight:800;text-align:center;display:grid;place-items:center}
 .quick button.on{background:var(--lime)!important;color:var(--lime-ink);border-color:var(--lime)!important}
 .forecast{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;border-radius:16px;padding:12px;margin:4px 0 12px}
 .forecast div{text-align:center}.forecast small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
@@ -437,13 +467,12 @@ img{display:block;max-width:100%}
 <section class="screen hidden" id="openings">
   <div class="appbar"><h2>Открытия</h2><button class="chip g" data-sheet="filters" style="height:34px">Interlude ▾</button></div>
   <div class="dates" id="dates"></div>
-  <div class="owner-cta"><span style="color:var(--gold)" data-i="rocket"></span><div style="flex:1"><b>Ваш старт — первым в этот день</b><p>Главный старт дня, баннер на главной и напоминание игрокам</p></div><button class="btn gold sm" data-sheet="boost">Продвинуть</button></div>
   <div class="day-h"><b>20 ноября</b><span class="sub">2 старта</span></div>
-  <button class="op g promoted" data-go="server"><span class="tag gold flag"><span data-i="crown"></span>Главный старт дня</span><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">03:00 <small>МСК</small></span><span class="cdb">3 д 02:42</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">Bohpts.net x20</div><div class="meta">Interlude · рейты x20 · продвигается</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
-  <button class="op g" data-go="server"><div class="cover" style="height:96px"><img src="img/openings-cover.webp" alt=""><span class="when">21:30 <small>МСК</small></span><span class="cdb">3 д 20:42</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">L2epic.fail x10</div><div class="meta">Interlude · XP x10, SP x9</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
+  <button class="op g promoted" data-go="server"><span class="tag gold flag"><span data-i="crown"></span>Старт дня · золото</span><div class="cover"><img src="img/openings-cover.webp" alt=""><span class="when">03:00 <small>МСК</small></span><span class="cdb">3 д 02:42</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">Bohpts.net x20</div><div class="meta">Interlude · рейты x20</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
+  <button class="op g silver" data-go="server"><span class="tag flag" style="background:#dfe6ee;color:#1d2530"><span data-i="crown"></span>Старт дня · серебро</span><div class="cover" style="height:110px"><img src="img/openings-cover.webp" alt=""><span class="when">21:30 <small>МСК</small></span><span class="cdb">3 д 20:42</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">L2epic.fail x10</div><div class="meta">Interlude · XP x10, SP x9</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
   <div class="day-h"><b>4 декабря</b><span class="sub">1 старт</span></div>
   <button class="op g" data-go="server"><div class="cover" style="height:96px"><img src="img/openings-cover.webp" alt=""><span class="when">03:00 <small>МСК</small></span><span class="cdb">17 д</span></div><div class="body"><div style="flex:1;min-width:0"><div class="name">Baza x1</div><div class="meta">Goddess of Destruction · x1</div></div><span class="btn dark sm" data-toast="Напомним в Telegram за час до старта"><span data-i="bell"></span>Напомнить</span></div></button>
-  <p class="note" style="padding:4px 16px">Порядок в один день: сначала «Главный старт дня» (платно), затем по числу игроков, включивших напоминание, затем по голосам.</p>
+  <p class="note" style="padding:4px 16px">В один день первыми идут оплаченные места старта: золото, серебро, бронза. Остальные — по числу включённых напоминаний, затем по голосам.</p>
 </section>
 
 <!-- ======================= CABINET ======================= -->
@@ -473,6 +502,22 @@ img{display:block;max-width:100%}
     <div class="box g" style="display:flex;gap:10px;align-items:center"><span style="color:var(--lime)" data-i="shield"></span><div style="flex:1"><b>Это ваш сервер?</b><div class="sub">Подтвердите права и ведите карточку сами</div></div><span class="btn dark sm" data-go="profile" data-role="owner">Подтвердить</span></div>
   </div>
   <div class="actionbar"><button class="btn dark vote" data-toast="Голос учтён · осталось 2 из 3 на сегодня" aria-label="Голос"><span data-i="thumb"></span><span class="t">Голос</span></button><button class="btn gold" data-sheet="support"><img src="img/coin-stack-96.webp" alt="" style="width:20px;height:20px">Поддержать</button><button class="btn lime" data-toast="Открываем сайт сервера"><span data-i="play"></span>Играть</button></div>
+</section>
+
+
+<section class="screen push off-r" id="startpromo">
+  <div class="appbar"><button class="back" data-back aria-label="Назад"><span data-i="left"></span></button><h2>Продвижение старта</h2></div>
+  <p class="sub" style="padding:12px 16px 0">Старт — главный день сервера. Места старта видны в «Открытиях», на главной и в напоминаниях. Цены — пример для обсуждения.</p>
+  <div class="sec" style="padding-top:12px"><h4 class="lab">1. Дата старта</h4></div>
+  <div class="dates" id="pdates" style="padding-top:6px"></div>
+  <div class="sec" style="padding-top:10px"><h4 class="lab">2. Место в этот день</h4>
+    <div class="tiers" id="tiers"></div>
+  </div>
+  <div class="sec" style="padding-top:12px"><h4 class="lab">3. Сколько держать</h4>
+    <div class="fwrap" id="durs"><button class="chip g on" data-d="1">День старта</button><button class="chip g" data-d="2.2">3 дня</button><button class="chip g" data-d="4">7 дней</button><button class="chip g" data-d="7">14 дней</button><button class="chip g" data-d="12">Месяц</button></div>
+  </div>
+  <div class="total g"><div><small class="sub">Итого</small><b id="ptotal">10 000 ₽</b><small class="sub" id="pcoins">200 Coins</small></div><button class="btn gold" data-toast="Оплата пока выключена — это макет">Купить место</button></div>
+  <p class="note" style="padding:0 16px">Каждое место в день одно на игру: купленное видят другие владельцы серым «занято». Голоса и Coins рейтинга это не меняет.</p>
 </section>
 
 <!-- ======================= TAB BAR ======================= -->
@@ -539,7 +584,7 @@ img{display:block;max-width:100%}
     <div><b>Хроники свёрнуты</b><p>Одна стеклянная строка «Выбери свою эпоху», плитки раскрываются по нажатию. Выбранная хроника — лаймовая метка.</p></div>
     <div><b>Карусель сверху</b><p>Свайп: скоро открытие · ТОП поддержки · ТОП голосов · владельцам.</p></div>
     <div><b>Одинаковый низ карточек</b><p>Coins и голоса одной высоты слева, избранное справа — на всех карточках.</p></div>
-    <div><b>Платный старт</b><p>«Главный старт дня» первым в дате, баннер в карусели, напоминание игрокам.</p></div>
+    <div><b>Платный старт</b><p>В кабинете владельца: золото, серебро или бронза в день старта, на 1–30 дней. Купленное место другим видно серым.</p></div>
     <div><b>Кабинет под роль</b><p>Игрок · владелец · клан/медиа · админ: сверху главное действие, ниже «что сделать дальше».</p></div>
   </div>
 </aside>
@@ -548,7 +593,7 @@ img{display:block;max-width:100%}
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const P={
- chev:'<path d="m6 9 6 6 6-6"/>',left:'<path d="m15 18-6-6 6-6"/>',right:'<path d="M5 12h14M13 6l6 6-6 6"/>',check:'<path d="m5 12 5 5 9-10"/>',
+ chev:'<path d="m6 9 6 6 6-6"/>',cr:'<path d="m9 6 6 6-6 6"/>',left:'<path d="m15 18-6-6 6-6"/>',right:'<path d="M5 12h14M13 6l6 6-6 6"/>',check:'<path d="m5 12 5 5 9-10"/>',
  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',sliders:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
  cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
@@ -578,14 +623,14 @@ const S=[
  {n:'Destarion.site x55',c:'High Five',r:'x55',coins:0,votes:11},{n:'L2dewell.ru x5 HF',c:'High Five',r:'x5',coins:0,votes:7}];
 const foot=s=>`<div class="foot">${COIN(s.coins)}${VOTE(s.votes)}${HEART}</div>`;
 const card=s=>`<button class="card g" data-go="server"><div class="ph"><img src="img/${ART[s.c]||ART.Interlude}.webp" alt=""><span class="logo">${LOGO}</span></div><div class="body"><div class="name">${s.n}</div><div class="meta">${s.c} · ${s.r}</div>${foot(s)}</div></button>`;
-const row=(s,i,mode)=>`<button class="row g" data-go="server"><span class="rk">${i<3?`<img src="img/medal-${i+1}-glass-192.webp" alt="${i+1}">`:i+1}</span><span class="lg">${LOGO}</span><span class="mid"><div class="name">${s.n}</div><div class="meta">${s.c} · ${s.r}</div></span><span class="end">${mode==='votes'?VOTE(s.votes):mode==='coins'?COIN(s.coins):COIN(s.coins)+VOTE(s.votes)}</span></button>`;
+const row=(s,i,mode)=>`<button class="row g ${i<3?'t'+(i+1):''}" data-go="server"><span class="rk">${i<3?`<img src="img/medal-${i+1}-glass-192.webp" alt="${i+1}">`:i+1}</span><span class="lg">${LOGO}</span><span class="mid"><div class="name">${s.n}</div><div class="meta">${s.c} · ${s.r}</div></span><span class="end">${mode==='votes'?VOTE(s.votes):mode==='coins'?COIN(s.coins):COIN(s.coins)+VOTE(s.votes)}</span></button>`;
 function champion(mode){
   const L=[...S].sort((a,b)=>mode==='votes'?b.votes-a.votes:b.coins-a.coins);
   const art=mode==='votes'?['l2-people1-800','l2-people2-800','l2-people3-800']:['l2-top1-bg-800','l2-top2-800','l2-top3-800'];
   const hero=mode==='votes'?'l2-people1-hero-600':'l2-top3-hero-600';
   const val=s=>mode==='votes'?VOTE(s.votes,'big'):COIN(s.coins,'big'), v2=s=>mode==='votes'?VOTE(s.votes):COIN(s.coins);
   return `<button class="champ" data-go="server"><img class="bg" src="img/${art[0]}.webp" alt=""><img class="hero" src="img/${hero}.webp" alt=""><img class="medal" src="img/medal-1-glass-192.webp" alt="1"><span class="lbl">1 место недели</span>
-   <span class="gbar"><div class="name">${L[0].n}</div><div class="meta">${L[0].c} · ${L[0].r}</div><div class="foot">${val(L[0])}${HEART}</div></span></button>
+   <span class="gbar"><span class="gl"><div class="name">${L[0].n}</div><div class="meta">${L[0].c} · ${L[0].r}</div></span><span class="foot">${val(L[0])}${HEART}</span></span></button>
    <div class="duo">${[1,2].map(k=>`<button class="place p${k+1}" data-go="server"><img class="bg" src="img/${art[k]}.webp" alt=""><img class="medal" src="img/medal-${k+1}-glass-192.webp" alt="${k+1}"><div class="name">${L[k].n}</div><div class="meta">${L[k].c} · ${L[k].r}</div><div class="foot">${v2(L[k])}${HEART}</div></button>`).join('')}</div>`;
 }
 $('#homeChamp').innerHTML=champion('coins');
@@ -613,14 +658,19 @@ $('#dates').innerHTML=`<button class="dt g on"><small>все</small><b>3</b></bu
 /* cabinet by role */
 const CAB={
  player:{sub:'Игрок · вход через Google',html:()=>`
-  <div class="wallet g"><small class="sub">Кошелёк</small><div class="sum"><img src="img/coin-stack-96.webp" alt=""><b>0</b><span class="sub">GS Coins</span></div><div style="display:flex;gap:8px"><span class="btn gold sm" style="flex:1" data-toast="Пополнение: карта, СБП, позже крипта">Пополнить</span><span class="btn dark sm" style="flex:1" data-toast="История поддержек">История</span></div></div>
-  <div class="next g"><h4>Сегодня</h4><div class="task"><span class="ck"></span><span>Голос за сервер</span><em>0/1</em></div><div class="task"><span class="ck"></span><span>Голос за клан</span><em>0/1</em></div><div class="task"><span class="ck"></span><span>Голос за медиа</span><em>0/1</em></div></div>
+  <div class="next g votes"><h4>Голоса сегодня · 0 из 3</h4><div class="task"><span class="ck"></span><span>За сервер</span><em data-go="top" data-seg="votes">Голосовать</em></div><div class="task"><span class="ck"></span><span>За клан</span><em data-toast="Рейтинг кланов">Голосовать</em></div><div class="task"><span class="ck"></span><span>За медиа</span><em data-toast="Рейтинг медиа">Голосовать</em></div><button class="btn lime" style="width:100%;margin-top:8px" data-go="top" data-seg="votes">${ic('thumb')}Отдать голос</button></div>
   <div class="grid2"><button class="gi g" data-go="favorites" style="--c:#ff6b7a"><b>${ic('heart')}Избранное</b><small>3 сервера</small></button><button class="gi g" data-go="openings" style="--c:#b99bff"><b>${ic('bell')}Напоминания</b><small>2 старта</small></button></div>
+  <div class="wallet g"><small class="sub">Кошелёк</small><div class="sum"><img src="img/coin-stack-96.webp" alt=""><b>0</b><span class="sub">GS Coins</span></div><div style="display:flex;gap:8px"><span class="btn gold sm" style="flex:1" data-toast="Пополнение: карта, СБП, позже крипта">Пополнить</span><span class="btn dark sm" style="flex:1" data-toast="История поддержек">История</span></div></div>
   <div class="list g"><button class="li" data-toast="Telegram: обгон, старты"><span>Уведомления в Telegram</span><em>выкл</em></button><button class="li" data-role="owner"><span>Я владелец сервера</span><em>›</em></button><button class="li" data-toast="Помощь"><span>Помощь и правила Coins</span><em>›</em></button></div>`},
  owner:{sub:'Владелец · La2Era Aurora',html:()=>`
   <div class="srvcard g"><img src="img/medal-2-glass-192.webp" alt=""><div style="flex:1;min-width:0"><div class="name">La2Era Aurora</div><div class="meta">#2 в поддержке · 6 Coins</div><div class="gap">До ТОП-1 не хватает 2 Coins</div></div><button class="btn gold sm" data-sheet="support">В ТОП-1</button></div>
   <div class="next g"><h4>Что сделать дальше</h4><div class="task"><span class="ck done">${ic('check')}</span><span>Права подтверждены</span></div><div class="task"><span class="ck"></span><span>Описание и ссылки</span><em data-toast="Редактор карточки">Заполнить</em></div><div class="task"><span class="ck"></span><span>Баннер и скриншоты</span><em data-toast="Загрузка медиа">Загрузить</em></div><div class="task"><span class="ck"></span><span>Дата старта</span><em data-go="openings">Указать</em></div></div>
-  <div class="grid2"><button class="gi g" data-sheet="boost" style="--c:#f2c46b"><b>${ic('rocket')}Продвинуть старт</b><small>главный старт дня</small></button><button class="gi g" data-toast="Telegram: «вас обогнали»" style="--c:#b99bff"><b>${ic('bell')}Тревога обгона</b><small>Telegram</small></button></div>
+  <div class="stats g"><div class="stats-h"><h4>Статистика · 7 дней</h4><span class="demo">пример</span></div>
+    <div class="kp4"><div><b>1 284</b><small>просмотров</small></div><div><b>312</b><small>нажали «Играть»</small></div><div><b>46</b><small>в избранном</small></div><div><b>89</b><small>ждут старта</small></div></div>
+    <svg class="spark" viewBox="0 0 300 70" preserveAspectRatio="none"><defs><linearGradient id="sg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#c8ff55" stop-opacity=".45"/><stop offset="1" stop-color="#c8ff55" stop-opacity="0"/></linearGradient></defs><path d="M0 55 L43 48 L86 50 L129 36 L172 40 L215 22 L258 26 L300 12 L300 70 L0 70Z" fill="url(#sg)"/><path d="M0 55 L43 48 L86 50 L129 36 L172 40 L215 22 L258 26 L300 12" fill="none" stroke="#c8ff55" stroke-width="2.5"/></svg>
+    <div class="place-line">Место в поддержке: <b>#4 → #2</b> за неделю</div></div>
+  <button class="promo-start g" data-go="startpromo"><span class="ps-ic">${ic('rocket')}</span><span style="flex:1"><b>Продвижение старта</b><small>золото, серебро или бронза в день открытия</small></span>${ic('cr')}</button>
+  <div class="grid2"><button class="gi g" data-toast="Telegram: «вас обогнали»" style="--c:#b99bff"><b>${ic('bell')}Тревога обгона</b><small>Telegram</small></button><button class="gi g" data-toast="Редактор карточки" style="--c:#34e6f5"><b>${ic('image')}Карточка</b><small>описание, медиа</small></button></div>
   <div class="wallet g"><small class="sub">Кошелёк владельца</small><div class="sum"><img src="img/coin-stack-96.webp" alt=""><b>0</b><span class="sub">GS Coins</span></div><span class="btn gold sm" style="width:100%" data-toast="Пополнение">Пополнить</span></div>`},
  clan:{sub:'Клан / медиа',html:()=>`
   <div class="srvcard g"><span style="color:#d68cff">${ic('shield')}</span><div style="flex:1"><b>Ваш клан</b><div class="meta">Нет карточки · рейтинг кланов Lineage 2</div></div><button class="btn lime sm" data-toast="Форма добавления клана">Добавить</button></div>
@@ -633,6 +683,17 @@ function role(r){$$('.chip[data-role]').forEach(b=>b.classList.toggle('on',b.dat
 role('player');
 
 /* navigation */
+/* start promotion: one slot per tier per day; a sold slot is greyed for others */
+const TIERS=[['gold','Золото · первый в дне','золотая рамка, первым в «Открытиях», баннер в карусели',10000,1],['silver','Серебро · второй в дне','серебряная рамка, вторым в дне',6000,2],['bronze','Бронза · третий в дне','бронзовая рамка, третьим в дне',3500,3]];
+let ptier='silver',pdur=1,pdate=20;
+function pTaken(t){return pdate===20&&t==='gold'}
+function renderPromo(){
+  $('#pdates').innerHTML=[['пн',17],['вт',18],['ср',19],['пт',20],['сб',21],['вс',22],['пн',23]].map(([d,n])=>`<button class="dt g ${n===pdate?'on':''}" data-pdate="${n}"><small>${d}</small><b>${n}</b>${n===20?'<i></i>':''}</button>`).join('');
+  $('#tiers').innerHTML=TIERS.map(([id,t,d,price,m])=>{const taken=pTaken(id);return `<button class="tier g ${id} ${taken?'taken':''} ${ptier===id&&!taken?'on':''}" data-tier="${id}"><img class="md" src="img/medal-${m}-glass-192.webp" alt=""><span><b>${t}</b><small>${taken?'занято другим сервером':d}</small></span><span class="pr">${taken?'занято':Math.round(price*pdur/100)*100+' ₽'}</span></button>`}).join('');
+  const tier=TIERS.find(x=>x[0]===ptier),rub=Math.round(tier[3]*pdur/100)*100;
+  $('#ptotal').textContent=rub.toLocaleString('ru-RU')+' ₽';$('#pcoins').textContent=Math.round(rub/50)+' Coins · 1 Coin = 50 ₽';
+}
+renderPromo();
 const TABS=['home','catalog','top','openings','profile'];let tab='home';const stack=[];
 function showTab(t){TABS.forEach(id=>$('#'+id).classList.toggle('hidden',id!==t));tab=t;$$('[data-tabbtn]').forEach(b=>b.classList.toggle('on',b.dataset.tabbtn===t));while(stack.length){$('#'+stack.pop()).className='screen push off-r'}$('#tabbar').style.display='';$('#'+t).classList.remove('off-l')}
 function push(id){const cur=stack.length?$('#'+stack.at(-1)):$('#'+tab),el=$('#'+id);el.scrollTop=0;el.className='screen push off-r';void el.offsetWidth;setTimeout(()=>{el.className='screen push';cur.classList.add('off-l')},16);stack.push(id);$('#tabbar').style.display=id==='server'?'none':''}
@@ -643,8 +704,11 @@ function closeSheets(){$$('.sheet').forEach(s=>s.classList.remove('on'));$('#scr
 let tt;function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('on'),2000)}
 function setAmt(v){v=Math.max(1,v);$('#amt').textContent=v;$('#amt2').textContent=v;const d=6+v-7;$('#after').textContent=d>0?'#1':'#2';$('#lead').innerHTML=d>0?`Обгоните №1 на <b style="color:var(--ink)">${d} Coins</b>`:`До №1 не хватает <b style="color:var(--ink)">${1-d} Coins</b>`}
 document.addEventListener('click',e=>{
-  const t=e.target.closest('[data-fav],[data-chron-toggle],[data-chron],.sc,[data-sheet],[data-go],[data-tabbtn],[data-back],[data-close],[data-toast],[data-step],[data-to1],#quick button,#pay .pm,.fwrap .chip,.dt,[data-role],.pkg');
+  const t=e.target.closest('[data-tier],[data-pdate],#durs .chip,[data-fav],[data-chron-toggle],[data-chron],.sc,[data-sheet],[data-go],[data-tabbtn],[data-back],[data-close],[data-toast],[data-step],[data-to1],#quick button,#pay .pm,.fwrap .chip,.dt,[data-role],.pkg');
   if(!t)return;
+  if(t.matches('[data-tier]')){if(t.classList.contains('taken')){toast('Это место на 20 ноября уже купили');return}ptier=t.dataset.tier;renderPromo();return}
+  if(t.matches('[data-pdate]')){pdate=+t.dataset.pdate;if(pTaken(ptier))ptier='silver';renderPromo();return}
+  if(t.closest('#durs')){$$('#durs .chip').forEach(x=>x.classList.toggle('on',x===t));pdur=+t.dataset.d;renderPromo();return}
   if(t.matches('[data-fav]')){e.stopPropagation();t.classList.toggle('on');toast(t.classList.contains('on')?'Добавлено в избранное':'Убрано из избранного');return}
   if(t.matches('[data-chron-toggle]')){$('#chron').classList.toggle('open');return}
   if(t.matches('[data-chron]')){const c=t.dataset.chron;$$('[data-chron]').forEach(x=>x.classList.toggle('on',x===t));$('#chronCur').textContent=c?'✓ '+c:'Все';$('#chronCur').classList.toggle('on',!!c);$('#chron').classList.remove('open');if(c)setTimeout(()=>go('catalog',{dataset:{filter:c}}),260);return}
@@ -667,14 +731,14 @@ document.addEventListener('click',e=>{
 $('#scrim').onclick=closeSheets;
 $('#promos').addEventListener('scroll',e=>{const w=e.target.firstElementChild.offsetWidth+10;const i=Math.round(e.target.scrollLeft/w);$$('#dots i').forEach((d,k)=>d.classList.toggle('on',k===i))},{passive:true});
 /* flow map */
-const N=[['home','Главная',190,10],['worlds','Выбор игры',360,10],['catalog','Каталог',20,115],['top','ТОП',190,115],['openings','Открытия',360,115],['filters','Фильтры',20,220],['server','Сервер',190,220],['profile','Кабинет',360,220],['support','Поддержка',190,325],['boost','Продвижение',360,325]];
-const E=[['home','worlds','игра ▾'],['home','catalog','поиск, хроника'],['home','top','ТОП'],['home','openings','календарь'],['catalog','filters','чипсы'],['catalog','server','карточка'],['top','server','место'],['openings','server','старт'],['server','support','Поддержать'],['openings','boost','Продвинуть']];
+const N=[['home','Главная',190,10],['worlds','Выбор игры',360,10],['catalog','Каталог',20,115],['top','ТОП',190,115],['openings','Открытия',360,115],['filters','Фильтры',20,220],['server','Сервер',190,220],['profile','Кабинет',360,220],['support','Поддержка',190,325],['startpromo','Продвижение старта',360,325]];
+const E=[['home','worlds','игра ▾'],['home','catalog','поиск, хроника'],['home','top','ТОП'],['home','openings','календарь'],['catalog','filters','чипсы'],['catalog','server','карточка'],['top','server','место'],['openings','server','старт'],['server','support','Поддержать'],['profile','startpromo','владелец']];
 function flowSVG(){const pos=Object.fromEntries(N.map(n=>[n[0],n])),W=130,H=44;
  const lines=E.map(([a,b,l])=>{const A=pos[a],B=pos[b],x1=A[2]+W/2,y1=A[3]+H/2,x2=B[2]+W/2,y2=B[3]+H/2,dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),ex=x2-dx/len*28,ey=y2-dy/len*24,sx=x1+dx/len*30,sy=y1+dy/len*22;return `<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="#c8ff55" stroke-opacity=".55" stroke-width="1.6" marker-end="url(#ar)"/>${l?`<text class="lbl" x="${(sx+ex)/2}" y="${(sy+ey)/2+4}" text-anchor="middle">${l}</text>`:''}`}).join('');
  const nodes=N.map(([id,t,x,y])=>`<g class="n" data-node="${id}"><rect x="${x}" y="${y}" width="${W}" height="${H}" rx="12"/><text x="${x+W/2}" y="${y+27}" text-anchor="middle">${t}</text></g>`).join('');
  return `<svg viewBox="0 0 510 380"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#c8ff55"/></marker></defs>${lines}${nodes}</svg>`}
 $('#flow1').innerHTML=flowSVG();$('#flow2').innerHTML=flowSVG();
-$$('[data-node]').forEach(g=>g.addEventListener('click',()=>{const id=g.dataset.node;closeSheets();if(id==='support'){showTab('home');push('server');setTimeout(()=>sheet('support'),350)}else if(['filters','worlds'].includes(id))sheet(id);else if(id==='boost'){showTab('openings');sheet('boost')}else go(id)}));
+$$('[data-node]').forEach(g=>g.addEventListener('click',()=>{const id=g.dataset.node;closeSheets();if(id==='support'){showTab('home');push('server');setTimeout(()=>sheet('support'),350)}else if(['filters','worlds'].includes(id))sheet(id);else if(id==='startpromo'){go('profile',{dataset:{role:'owner'}});setTimeout(()=>push('startpromo'),50)}else go(id)}));
 $('#mapbtn').onclick=()=>sheet('map');
 icons();
 </script>
