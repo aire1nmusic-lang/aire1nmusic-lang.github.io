@@ -1,1 +1,1 @@
-{"user":null,"devAuthEnabled":false,"providers":[],"privateCore":true,"emailLogin":true,"registrationOpen":false}
+{"user": {"id": "preview", "displayName": "\u0414\u0435\u043c\u043e \u0418\u0433\u0440\u043e\u043a", "email": "demo@example.test", "emailVerified": true, "roles": ["PLAYER"], "permissions": []}, "privateCore": true, "emailLogin": true, "providers": []}
