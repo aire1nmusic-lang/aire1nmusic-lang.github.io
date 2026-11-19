@@ -1,0 +1,6 @@
+/r/:code  /spa-shell.html  200
+/clan/:slug  /spa-shell.html  200
+/media/:slug  /spa-shell.html  200
+/en/r/:code  /spa-shell.html  200
+/en/clan/:slug  /spa-shell.html  200
+/en/media/:slug  /spa-shell.html  200

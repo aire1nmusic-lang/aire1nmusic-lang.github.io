@@ -1,0 +1,565 @@
+/* GameScout phone version v2 (docs/mobile-v2-spec.md). Everything is scoped to html[data-m2] (width < 768 + flag), so it never touches desktop or the old phone version. Not in the JS bundle: bump ?v= in index.html on every change. */
+html[data-m2]{--m2-lime:#c8ff55;--m2-lime-ink:#14200a;--m2-gold:#f2c46b;--m2-muted:#9aa6b5}
+
+/* shared glass material: tinted, blurred, with a top highlight */
+html[data-m2] .m2-glass{background-color:#0a0e1452;background-image:linear-gradient(180deg,#ffffff17,#ffffff03 45%);-webkit-backdrop-filter:blur(18px) saturate(1.7) brightness(.92);backdrop-filter:blur(18px) saturate(1.7) brightness(.92);border:1px solid #ffffff29;box-shadow:inset 0 1px 0 #ffffff2e,0 10px 30px -14px #000a}
+
+/* bottom bar: 5 tabs */
+html[data-m2] body .gs-mobile-nav.m2-nav{display:flex!important;height:calc(66px + env(safe-area-inset-bottom));padding:6px 4px env(safe-area-inset-bottom);background:#0b0f15b8;border-top:1px solid #ffffff1c;-webkit-backdrop-filter:blur(22px) saturate(1.4);backdrop-filter:blur(22px) saturate(1.4);z-index:60}
+html[data-m2] .m2-tab{flex:1;min-width:0;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;line-height:1.1;color:#8c97a6;transition:color .2s}
+html[data-m2] .m2-tab.on{color:var(--m2-lime)}
+html[data-m2] .m2-tab-i{position:relative;display:grid;place-items:center;transition:transform .2s}
+html[data-m2] .m2-tab.on .m2-tab-i{transform:translateY(-2px)}
+html[data-m2] .m2-tab-i em{position:absolute;top:-6px;right:-10px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:#ff5d6c;color:#fff;font:700 10.5px/17px Inter,system-ui,sans-serif;font-style:normal;text-align:center}
+html[data-m2] .gs-page-main{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+
+/* world home: the site header gives way to the phone header */
+html[data-m2] .m2-home .gs-site-header,html[data-m2] .m2-head-on .gs-site-header{display:none!important}
+html[data-m2] .m2-home main.gs-page-main,html[data-m2] .m2-head-on main.gs-page-main{padding-top:0!important}
+html[data-m2] .m2-head{position:relative;z-index:55;padding:calc(10px + env(safe-area-inset-top)) 14px 0}
+html[data-m2] .m2-toprow{display:flex;align-items:center;gap:8px}
+html[data-m2] .m2-grow{flex:1}
+html[data-m2] .m2-chip{display:flex;align-items:center;gap:8px;min-height:44px;max-width:62vw;padding:5px 12px 5px 6px;border-radius:999px;font-weight:700;color:#f2f4f7;background:#0b0f15a8;border:1px solid #ffffff2b;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+html[data-m2] .m2-chip img{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none}
+html[data-m2] .m2-chip b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html[data-m2] .m2-icon{position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#f2f4f7;background:#0b0f15a8;border:1px solid #ffffff2b;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+html[data-m2] .m2-head .gs-header-coins{height:44px;min-width:44px;border-radius:14px;background:#2a1f0acc;border:1px solid #f2c46b8c;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+html[data-m2] .m2-icon{border-radius:14px}
+html[data-m2] .m2-search{margin-top:10px;width:100%;display:flex;align-items:center;gap:10px;min-height:52px;padding:0 6px 0 16px;border-radius:16px;color:#f2f4f7;text-align:left;background-color:#0a0e148c;background-image:linear-gradient(180deg,#ffffff14,#ffffff03 50%);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border:1px solid #ffffff2e;box-shadow:inset 0 1px 0 #ffffff24,0 10px 30px -12px #000a}
+html[data-m2] .m2-search span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#aab4c0;font-size:15px}
+html[data-m2] .m2-search i{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#ffffff12;border:1px solid #ffffff21}
+
+/* sheets */
+html[data-m2] .m2-scrim{position:fixed;inset:0;z-index:90;background:#000000a6;border:0}
+html[data-m2] .m2-sheet{position:fixed;left:0;right:0;bottom:0;z-index:91;max-height:88dvh;overflow-y:auto;border-radius:26px 26px 0 0;padding:8px 16px calc(18px + env(safe-area-inset-bottom));background-color:#0b0f16b8;-webkit-backdrop-filter:blur(26px) saturate(1.3);backdrop-filter:blur(26px) saturate(1.3);color:#f2f4f7}
+html[data-m2] .m2-grab{display:block;width:44px;height:5px;border-radius:3px;background:#ffffff40;margin:4px auto 12px}
+html[data-m2] .m2-sheet h3{font-size:20px;font-weight:800;margin-bottom:12px}
+html[data-m2] .m2-worlds{display:grid;gap:10px}
+html[data-m2] .m2-world{position:relative;display:flex;flex-direction:column;justify-content:flex-end;aspect-ratio:16/9;max-height:190px;border-radius:18px;overflow:hidden;padding:14px;border:1px solid #ffffff26;isolation:isolate;color:#fff}
+html[data-m2] .m2-world img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+html[data-m2] .m2-world::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#000d 8%,#0000 60%);z-index:-1}
+html[data-m2] .m2-world b{font-size:20px}
+html[data-m2] .m2-world.on{box-shadow:0 0 0 2px var(--m2-lime)}
+
+/* ===== step 2: world home ===== */
+html[data-m2] .l2a .wrap{width:100%;padding-inline:14px}
+html[data-m2] .l2a .l2-content{display:flex;flex-direction:column}
+html[data-m2] body .l2a .gs-hero,html[data-m2] body .l2a section.discovery .search-row.l2-main-search:not(#a):not(#b):not(#c){display:none!important}
+html[data-m2] .m2-home .gs-live,html[data-m2] .m2-head-on .gs-live{display:none!important}
+html[data-m2] .l2a .m2-carousel{order:1;margin:0 -14px}
+html[data-m2] .l2a .discovery{order:2;margin:14px 0 0;padding:0;background:none;border:0;box-shadow:none}
+html[data-m2] .l2a .m2-shortcuts{order:3}
+html[data-m2] .l2a #l2-catalog{order:4}
+html[data-m2] .l2a .owner{order:5}
+html[data-m2] .m2-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:14px;padding:12px 14px 0;scrollbar-width:none}
+html[data-m2] .m2-track::-webkit-scrollbar{display:none}
+html[data-m2] .m2-promo{flex:0 0 88%;scroll-snap-align:start;height:156px;border-radius:20px;position:relative;overflow:hidden;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid #ffffff26;color:#fff;isolation:isolate}
+html[data-m2] .m2-promo-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+html[data-m2] .m2-promo::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#000000f0 10%,#00000070 55%,#0000 85%)}
+html[data-m2] .m2-promo-hero{position:absolute;right:6px;bottom:0;height:150px;width:auto;z-index:0;filter:drop-shadow(0 8px 16px #000c);pointer-events:none}
+html[data-m2] .m2-promo b{position:relative;z-index:2;font-size:21px;line-height:1.1;max-width:66%}
+html[data-m2] .m2-promo small{position:relative;z-index:2;color:#d6dde6;font-size:12.5px;margin-top:2px}
+html[data-m2] .m2-tag{position:absolute;left:12px;top:12px;z-index:2;display:inline-flex;align-items:center;gap:5px;font:800 11px Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:8px;background:var(--m2-lime);color:var(--m2-lime-ink)}
+html[data-m2] .m2-tag.gold{background:linear-gradient(140deg,#ffe3a1,#e2a43a);color:#2a1a05}
+html[data-m2] .m2-tag.violet{background:#b99bff;color:#1a0c33}
+html[data-m2] .m2-dots{display:flex;gap:5px;justify-content:center;margin-top:9px}
+html[data-m2] .m2-dots i{width:6px;height:6px;border-radius:3px;background:#ffffff40;transition:.2s}
+html[data-m2] .m2-dots i.on{width:18px;background:#f2f4f7}
+
+/* shortcuts: equal 64px tiles that lift and glow */
+html[data-m2] .m2-shortcuts{display:grid;grid-auto-flow:column;grid-auto-columns:72px;gap:10px;overflow-x:auto;padding:16px 0 6px;scrollbar-width:none}
+html[data-m2] .m2-shortcuts::-webkit-scrollbar{display:none}
+html[data-m2] .m2-sc{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:11.5px;line-height:1.2;color:#d7dee7;text-align:center;min-height:44px}
+html[data-m2] .m2-sc i{display:grid;place-items:center;width:64px;height:64px;border-radius:20px;color:var(--c);background-color:#0a0e1452;background-image:linear-gradient(180deg,#ffffff17,#ffffff03 45%);-webkit-backdrop-filter:blur(18px) saturate(1.7);backdrop-filter:blur(18px) saturate(1.7);border:1px solid #ffffff29;transition:transform .22s cubic-bezier(.2,.9,.3,1.4),box-shadow .22s}
+html[data-m2] .m2-sc:hover i,html[data-m2] .m2-sc:focus-visible i{transform:translateY(-4px) scale(1.04);box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 55%,transparent),0 14px 26px -10px var(--c)}
+html[data-m2] .m2-sc:active i{transform:translateY(-5px) scale(1.07);box-shadow:0 0 0 2px var(--c),0 16px 30px -10px var(--c)}
+html[data-m2] .m2-sc span{height:28px}
+
+/* leaders: №1 large, №2 and №3 as a pair, rows below */
+html[data-m2] body .l2a .gsb .gsb-list:not(#a):not(#b):not(#c){display:grid;grid-template-columns:1fr 1fr;gap:10px}
+html[data-m2] body .l2a .gsb .gsb-list>*:not(#a):not(#b):not(#c){grid-column:1/-1;margin-bottom:0!important}
+html[data-m2] body .l2a .gsb .gsb-list>.gsb-plaque.p2:not(#a):not(#b):not(#c),html[data-m2] body .l2a .gsb .gsb-list>.gsb-plaque.p3:not(#a):not(#b):not(#c){grid-column:auto;height:206px!important;margin-top:0!important}
+html[data-m2] body .l2a .gsb .gsb-plaque.p2 .gsb-bar:not(#a):not(#b):not(#c),html[data-m2] body .l2a .gsb .gsb-plaque.p3 .gsb-bar:not(#a):not(#b):not(#c){height:auto!important;min-height:0;flex-wrap:wrap;align-content:flex-end;gap:2px 6px;padding:8px!important;bottom:2px}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-avatar:not(#a):not(#b):not(#c){display:none!important}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-txt:not(#a):not(#b):not(#c){flex:1 1 100%;min-width:0}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-name:not(#a):not(#b):not(#c){font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-meta:not(#a):not(#b):not(#c){display:none}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-medal:not(#a):not(#b):not(#c){transform:scale(.62);transform-origin:left top;top:8px!important;left:4px!important}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-num:not(#a):not(#b):not(#c){flex:1}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-bar:not(#a):not(#b):not(#c){display:grid!important;grid-template-columns:minmax(0,1fr);align-content:end;gap:0;padding:6px 8px!important}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-num small:not(#a):not(#b):not(#c){display:none!important}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-num:not(#a):not(#b):not(#c){justify-self:start;padding:0!important}
+html[data-m2] body .l2a .gsb .gsb-row .gsb-idle:not(#a):not(#b):not(#c){display:none!important}
+/* long names («GTA5RP · Murrieta»): two lines instead of a cut after the common prefix (owner 18.11) */
+html[data-m2] body :is(.gsb .gsb-row .gsb-row-name,.gs-row-line .gs-row-name):not(#a):not(#b):not(#c):not(#d):not(#e){white-space:normal!important;overflow:hidden!important;text-overflow:clip!important;display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;line-clamp:2;overflow-wrap:anywhere;line-height:1.2!important}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-bar:not(#a):not(#b):not(#c){grid-template-columns:minmax(0,1fr)!important;grid-auto-flow:row}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-txt:not(#a):not(#b):not(#c){grid-column:1/-1!important;width:100%}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-name:not(#a):not(#b):not(#c){font-size:15px!important;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis;display:block}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-num:not(#a):not(#b):not(#c){justify-self:start!important;margin-left:0!important}
+
+/* ===== step 4: catalog ===== */
+html[data-m2] body .gs-catalog-page .gs-page-head{align-items:center}
+html[data-m2] body .gs-catalog-search:not(#a):not(#b):not(#c){border-radius:16px;min-height:52px}
+html[data-m2] body .gs-rate-row button:not(#a):not(#b):not(#c),html[data-m2] body .gs-catalog-toolbar .gs-filter-trigger:not(#a):not(#b):not(#c),html[data-m2] body .gs-catalog-toolbar .gs-catalog-sort button:not(#a):not(#b):not(#c){background-color:#0a0e1452!important;background-image:linear-gradient(180deg,#ffffff17,#ffffff03 45%)!important;-webkit-backdrop-filter:blur(18px) saturate(1.7);backdrop-filter:blur(18px) saturate(1.7);border:1px solid #ffffff29!important;border-radius:999px!important;min-height:44px;color:#f2f4f7}
+html[data-m2] body .gs-rate-row button[aria-pressed=true]:not(#a):not(#b):not(#c){background:var(--m2-lime)!important;color:var(--m2-lime-ink)!important;border-color:var(--m2-lime)!important}
+html[data-m2] body .gs-catalog-toolbar:not(#a):not(#b):not(#c){background:#0a0e1452!important;-webkit-backdrop-filter:blur(18px) saturate(1.7);backdrop-filter:blur(18px) saturate(1.7);border-color:#ffffff1f!important}
+html[data-m2] body .gs-catalog-toolbar .gs-filter-trigger:not(#a):not(#b):not(#c){height:44px!important;padding-inline:12px!important;display:inline-flex!important;gap:6px;white-space:nowrap;flex:none}
+/* phone catalog: list only, the list/tile switch is hidden (owner 17.11: tiles unreadable) */
+html[data-m2] body .gs-catalog-toolbar [class~="sm:flex"]:not(#a):not(#b):not(#c){display:none!important}
+html[data-m2] body .gs-live{display:none!important}
+html[data-m2] body .gs-catalog-toolbar .gs-catalog-sort{width:auto!important;min-width:0;flex:1 1 auto}
+html[data-m2] body .gs-catalog-toolbar .gs-catalog-sort button{white-space:nowrap;padding-inline:12px}
+html[data-m2] body .gs-catalog-toolbar>div:not(#a):not(#b):not(#c){flex-wrap:wrap;row-gap:8px}
+html[data-m2] body .gs-catalog-toolbar .gs-catalog-sort:not(#a):not(#b):not(#c){flex:1 1 120px;min-width:120px;margin-left:0}
+
+/* ===== Opus pass 17.11: 1:1 with the approved mockup v4 ===== */
+/* shortcuts: always a coloured glass tile with a soft glow, not an outline */
+html[data-m2] .m2-sc i{box-shadow:inset 0 1px 0 #ffffff2a,0 0 0 1px color-mix(in srgb,var(--c) 32%,transparent),0 10px 24px -12px var(--c)}
+html[data-m2] .m2-sc i svg{width:26px;height:26px;stroke-width:2}
+/* leaders on the world home: no outer frame, №1 is the champion card, №2/№3 a pair */
+html[data-m2] body .l2a .catalog-grid>.panel.gsb:not(#a):not(#b):not(#c):not(#d){background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important}
+html[data-m2] body .l2a .gsb .gsb-plaque.p1:not(#a):not(#b):not(#c){overflow:visible;border-radius:24px!important;box-shadow:0 0 0 1px #f2c46b70,0 0 0 4px #f2c46b14,0 22px 60px -22px #f2c46bcc!important}
+html[data-m2] body .l2a .gsb .gsb-plaque.p1 .gsb-art:not(#a):not(#b):not(#c){border-radius:24px;overflow:hidden}
+html[data-m2] body .l2a .gsb .gsb-plaque.p1 .gsb-bar:not(#a):not(#b):not(#c){left:8px!important;right:8px!important;bottom:8px!important;width:auto!important;height:auto!important;min-height:0;padding:8px 8px 8px 12px!important;gap:8px!important;border-radius:16px!important;background:linear-gradient(180deg,#ffffff1c,#ffffff06),#0a0e144d!important;-webkit-backdrop-filter:blur(16px) saturate(1.7)!important;backdrop-filter:blur(16px) saturate(1.7)!important;border:1px solid #ffffff33!important;box-shadow:inset 0 1px 0 #ffffff33!important}
+html[data-m2] body .l2a .gsb .gsb-plaque.p1 .gsb-avatar:not(#a):not(#b):not(#c){display:none!important}
+html[data-m2] body .l2a .gsb .gsb-plaque.p1 .gsb-name:not(#a):not(#b):not(#c){font-size:20px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+html[data-m2] body .l2a .gsb .gsb-plaque.p1 .gsb-num small:not(#a):not(#b):not(#c){display:none!important}
+/* the same even footer pill for Coins / votes on the plaques */
+html[data-m2] body .l2a .gsb .gsb-plaque .gsb-num:not(#a):not(#b):not(#c){display:inline-flex!important;align-items:center;gap:5px;height:32px;min-width:52px;padding:0 9px!important;border-radius:10px;border:1px solid #f2c46b38;background:#f2c46b14;color:#f5e4bc}
+html[data-m2] body .l2a .gsb .gsb-plaque .gsb-fav:not(#a):not(#b):not(#c){width:36px!important;height:36px!important;min-width:36px;border-radius:12px!important;background:#ffffff0f!important;border:1px solid #ffffff24!important}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-bar:not(#a):not(#b):not(#c){grid-template-columns:minmax(0,1fr) auto!important;align-items:center}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-fav:not(#a):not(#b):not(#c){grid-column:2;grid-row:2;width:32px!important;height:32px!important;min-width:32px}
+html[data-m2] body .l2a .gsb .gsb-plaque:is(.p2,.p3) .gsb-num:not(#a):not(#b):not(#c){grid-row:2;height:28px;min-width:44px}
+html[data-m2] body .l2a .gsb .gsb-plaque.p2 .gsb-art img{object-position:66% 22%!important}
+html[data-m2] body .l2a .gsb .gsb-plaque.p3 .gsb-art img{object-position:70% 20%!important}
+/* top-3 rows anywhere in lists: gold / silver / bronze */
+html[data-m2] body .gs-row-line:has([aria-label="Место 1"],[aria-label="Place 1"]):not(#a):not(#b){background-image:linear-gradient(90deg,#f2c46b33,#f2c46b08 60%)!important;border-color:#f2c46b80!important;box-shadow:inset 0 1px 0 #ffe3a133,0 10px 26px -16px #f2c46b!important}
+html[data-m2] body .gs-row-line:has([aria-label="Место 2"],[aria-label="Place 2"]):not(#a):not(#b){background-image:linear-gradient(90deg,#cfd8e32b,#cfd8e306 60%)!important;border-color:#cfd8e366!important}
+html[data-m2] body .gs-row-line:has([aria-label="Место 3"],[aria-label="Place 3"]):not(#a):not(#b){background-image:linear-gradient(90deg,#d08a5a2e,#d08a5a06 60%)!important;border-color:#d08a5a70!important}
+/* rating / openings switches: lime active, centred */
+html[data-m2] body .gs-rating-switch button[aria-pressed=true]:not(#a):not(#b),html[data-m2] body .gs-rating-switch [aria-selected=true]:not(#a):not(#b){background:#c8ff55!important;color:#14200a!important;border-color:#c8ff55!important}
+
+/* leaders block of the phone home (M2Leaders): the old support shelf gives way to it */
+html[data-m2] body .m2-home .l2a .gs-shelf-support:not(#a):not(#b):not(#c){display:none!important}
+html[data-m2] .l2a .m2-leaders{order:3;margin-top:18px}
+html[data-m2] .m2-sec-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+html[data-m2] .m2-sec-h h2{display:flex;align-items:center;gap:8px;font:800 20px Inter,system-ui,sans-serif;color:#f7d78c}
+html[data-m2] .m2-sec-h h2 svg{color:#f2c46b}
+html[data-m2] .m2-sec-h a{color:#c8ff55;font-weight:700;font-size:13px;min-height:44px;display:inline-flex;align-items:center}
+html[data-m2] .m2-champ{position:relative;display:block;height:214px;margin-top:52px;border-radius:24px;isolation:isolate;color:#fff;box-shadow:0 0 0 1px #f2c46b70,0 0 0 4px #f2c46b14,0 22px 60px -22px #f2c46bcc}
+html[data-m2] .m2-champ-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;z-index:-2}
+html[data-m2] .m2-champ::after{content:"";position:absolute;inset:0;border-radius:24px;background:linear-gradient(0deg,#0a0d12b3 4%,#0a0d1240 30%,#0000 55%);z-index:-1}
+html[data-m2] .m2-champ-hero{position:absolute;right:-2px;bottom:64px;height:206px;width:auto;filter:drop-shadow(0 12px 22px #000c);pointer-events:none}
+html[data-m2] .m2-champ-medal{position:absolute;left:12px;top:12px;width:66px;height:66px;filter:drop-shadow(0 6px 14px #000a)}
+html[data-m2] .m2-champ-lbl{position:absolute;left:84px;top:22px;font:800 11px Inter,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#ffe3a1}
+html[data-m2] .m2-gbar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:8px;padding:8px 8px 8px 12px;border-radius:16px;background:linear-gradient(180deg,#ffffff1c,#ffffff06),#0a0e144d;-webkit-backdrop-filter:blur(16px) saturate(1.7);backdrop-filter:blur(16px) saturate(1.7);border:1px solid #ffffff33;box-shadow:inset 0 1px 0 #ffffff33}
+html[data-m2] .m2-gl{flex:1;min-width:0;display:flex;flex-direction:column}
+html[data-m2] .m2-name{font-family:"Cormorant SC",Georgia,serif;font-weight:700;font-size:18px;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-m2] .m2-gbar .m2-name{font-size:20px}
+html[data-m2] .m2-champ small,html[data-m2] .m2-place small{color:#c9d2dc;font-size:12px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-m2] .m2-st{display:inline-flex;align-items:center;justify-content:center;gap:5px;height:32px;min-width:52px;padding:0 9px;border-radius:10px;font:700 13px Inter,system-ui,sans-serif;color:#f5e4bc;border:1px solid #f2c46b38;background:#f2c46b14;flex:none}
+html[data-m2] .m2-fav{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none;color:#f2f4f7;background:#ffffff0f;border:1px solid #ffffff24}
+html[data-m2] .m2-fav.on{color:#ff5d6c;border-color:#ff5d6c66;background:#ff5d6c1a}
+html[data-m2] .m2-fav.on svg{fill:currentColor}
+html[data-m2] .m2-duo{display:grid;gap:10px;margin-top:10px}
+html[data-m2] .m2-place{position:relative;display:block;height:132px;border-radius:20px;overflow:hidden;isolation:isolate;color:#fff;min-width:0}
+html[data-m2] .m2-place.p2{box-shadow:0 0 0 1px #cfd8e366,0 14px 34px -20px #cfd8e3aa}
+html[data-m2] .m2-place.p3{box-shadow:0 0 0 1px #d08a5a73,0 14px 34px -20px #d08a5aaa}
+html[data-m2] .m2-place-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 22%;z-index:-2}
+html[data-m2] .m2-place::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0a0d12a6 0%,#0a0d1240 45%,#0000 70%),linear-gradient(0deg,#0a0d12b3 0%,#0000 55%);z-index:-1}
+html[data-m2] .m2-place-medal{position:absolute;left:10px;top:8px;width:46px;height:46px;filter:drop-shadow(0 4px 10px #000a)}
+html[data-m2] .m2-place-lbl{position:absolute;left:62px;top:22px;font:800 10.5px Inter,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+html[data-m2] .m2-place.p2 .m2-place-lbl{color:#e3e9f0}
+html[data-m2] .m2-place.p3 .m2-place-lbl{color:#f0b58c}
+html[data-m2] .m2-place .m2-gbar{left:6px;right:6px;bottom:6px;padding:6px 6px 6px 12px;border-radius:14px}
+html[data-m2] .m2-place .m2-name{font-size:17px}
+html[data-m2] .m2-place .m2-fav{width:40px;height:40px}
+html[data-m2] .l2a .m2-leaders--people{order:5;margin-top:22px}
+html[data-m2] .l2a .owner{order:6}
+html[data-m2] .m2-leaders--people .m2-sec-h h2{color:#e6ffb8}
+html[data-m2] .m2-leaders--people .m2-sec-h h2 svg{color:#c8ff55}
+html[data-m2] body .m2-home .l2a .gs-shelf-people:not(#a):not(#b):not(#c){display:none!important}
+
+/* TOP screen: the champion block on top, the board keeps only the rows from №4 */
+html[data-m2] body .gs-rating-page .m2-leaders{margin:14px 0 6px}
+html[data-m2] body .gs-rating-page .m2-champ{margin-top:58px}
+html[data-m2] body .gs-rating-page .gsb-pair .gsb-plaque:not(#a):not(#b):not(#c){display:none!important}
+html[data-m2] body .gs-rating-page .gsb-pair .panel.gsb:not(#a):not(#b):not(#c){background:none!important;border:0!important;box-shadow:none!important;padding:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html[data-m2] body .gs-rating-page .gsb-pair .gsb-head:not(#a):not(#b):not(#c){display:none!important}
+html[data-m2] .m2-st.vote{color:#eef7e6;border-color:#c8ff5533;background:#c8ff5510}
+html[data-m2] .m2-st.vote svg{color:#c8ff55}
+
+/* server page: pinned Голос · Поддержать · Играть bar replaces the tab bar (as in the mockup) */
+html[data-m2] .m2-actionbar{position:fixed;left:0;right:0;bottom:0;z-index:95;display:flex;gap:8px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));background:#0b0f15c4;border-top:1px solid #ffffff1c;-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px)}
+html[data-m2] body:has(.m2-actionbar) .gs-mobile-nav.m2-nav:not(#a){display:none!important}
+html[data-m2] body:has(.m2-actionbar) main{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+html[data-m2] .m2-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 16px;border-radius:14px;font:800 14.5px Inter,system-ui,sans-serif;transition:transform .12s;white-space:nowrap;min-width:0}
+html[data-m2] .m2-btn:active{transform:scale(.97)}
+html[data-m2] .m2-btn.vote{flex:0 0 auto}
+html[data-m2] .m2-btn.lime{background:#c8ff55;color:#14200a}
+html[data-m2] .m2-btn.gold{background:linear-gradient(140deg,#f6d27c,#d39a33);color:#2a1a05}
+html[data-m2] .m2-btn.dark{background:#ffffff12;border:1px solid #ffffff2b;color:#f2f4f7}
+@media (max-width:370px){html[data-m2] .m2-actionbar{gap:6px;padding-inline:8px}html[data-m2] .m2-btn{padding:0 10px;font-size:13.5px}html[data-m2] .m2-btn.vote .t{display:none}html[data-m2] .m2-btn.vote{width:48px;padding:0}}
+
+/* support sheet as in the mockup: bottom sheet, «Сразу в ТОП-1» first, lime quick sums, payment methods (balance only, the rest «скоро») */
+html[data-m2] body dialog.gs-support-dialog:not(#a):not(#b):not(#c):not(#d){inset:auto 0 0!important;width:100%!important;max-width:none!important;height:auto!important;max-height:92dvh!important;margin:0!important;border-radius:26px 26px 0 0!important;border-width:1px 0 0!important;background:#0d1219f2!important}
+html[data-m2] body .gs-support-dialog .gs-support-studio:not(#a):not(#b):not(#c):not(#d){padding:14px 16px calc(18px + env(safe-area-inset-bottom))!important;gap:14px!important}
+html[data-m2] body .gs-support-amount-section{display:flex;flex-direction:column}
+html[data-m2] body .gs-support-amount-section>.gs-support-top1{order:-2;width:100%;min-height:58px;border-radius:16px;justify-content:flex-start;gap:10px;text-align:left}
+html[data-m2] body .gs-support-amount-section>.m2-top1-why{order:-1;margin:6px 2px 10px;color:#9aa6b4;font-size:12px}
+html[data-m2] body .gs-support-amount-section>.gs-support-top1 svg{color:#c8ff55}
+html[data-m2] body .gs-support-presets:not(#a):not(#b){display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:6px!important}
+html[data-m2] body .gs-support-presets .gs-amount-preset:not(#a):not(#b){height:44px!important;border-radius:12px!important;font-weight:800!important}
+html[data-m2] body .gs-support-presets .gs-amount-preset[aria-pressed="true"]:not(#a):not(#b){background:#c8ff55!important;color:#14200a!important;border-color:#c8ff55!important}
+html[data-m2] body .gs-position-after strong,html[data-m2] body .gs-after-place{color:#c8ff55}
+/* cabinet, player: today's votes as the first action */
+html[data-m2] .m2-votes-today{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;border:1px solid #c8ff5540;background:radial-gradient(120% 140% at 0 0,#c8ff5522,transparent 60%),#0a0e1452}
+html[data-m2] .m2-votes-today>span{flex:1;display:flex;flex-direction:column}
+html[data-m2] .m2-votes-today small{color:#9aa6b4;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+html[data-m2] .m2-votes-today b{font:800 24px Inter,system-ui,sans-serif;color:#f2f4f7}
+html[data-m2] .m2-votes-today .m2-btn{flex:0 0 auto}
+/* the old pinned «Играть» strip gives way to the new action bar */
+html[data-m2] body .gs-profile-cta-bar:not(#a):not(#b){display:none!important}
+
+/* ===== owner review 17.11 (phone) ===== */
+/* support sheet: compact cover that scrolls away, swipe down on it to close; the balance bar no longer covers the amount; no page scroll behind; lighter (no heavy blur) */
+@layer gs-glass-lab {
+html[data-m2] body dialog.gs-support-dialog:not(#a):not(#b):not(#c):not(#d){overscroll-behavior:contain;overflow-y:auto!important}
+html[data-m2] body dialog.gs-support-dialog *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html[data-m2] body dialog.gs-support-dialog .gs-qv-cover:not(#a):not(#b):not(#c){position:relative!important;height:118px!important;min-height:0!important;flex:none!important}
+html[data-m2] body dialog.gs-support-dialog .gs-qv-cover::before{content:"";position:absolute;left:50%;top:8px;width:44px;height:5px;margin-left:-22px;border-radius:3px;background:#ffffff66;z-index:3}
+html[data-m2] body dialog.gs-support-dialog .gs-support-studio .gs-support-buy:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f):not(#g):not(#h){position:static!important;box-shadow:none!important;border-radius:16px!important;border:1px solid #ffffff1f!important}
+}
+/* server page: tabs readable, similar servers compact two-line rows */
+html[data-m2] body .gs-server-profile .gs-server-tabs:not(#a):not(#b):not(#c){background:#0b0f15e0!important;border-color:#ffffff2e!important;width:100%}
+html[data-m2] body .gs-server-profile .gs-server-tabs a{flex:1;justify-content:center;color:#d7dee7}
+html[data-m2] body .gs-server-profile .gs-server-tabs a[aria-current="page"]:not(#a):not(#b){background:#c8ff55!important;color:#14200a!important}
+html[data-m2] body .gs-profile-similar:not(#a):not(#b){margin-top:24px!important;padding:14px!important}
+html[data-m2] body .gs-profile-similar .gs-row-line:not(#a):not(#b){flex-wrap:wrap;row-gap:8px;padding:10px!important;align-items:center}
+html[data-m2] body .gs-profile-similar .gs-row-avatar:not(#a):not(#b){width:40px!important;height:40px!important;border-radius:12px!important}
+html[data-m2] body .gs-profile-similar .gs-row-avatar img{object-fit:cover;width:100%;height:100%}
+html[data-m2] body .gs-profile-similar .gs-row-identity{flex:1 1 calc(100% - 52px)}
+html[data-m2] body .gs-profile-similar .gs-row-name{font-size:15px!important;white-space:normal!important}
+html[data-m2] body .gs-profile-similar .gs-row-metric:not(#a):not(#b){flex:1 1 100%;justify-content:flex-start;padding-left:50px}
+html[data-m2] body .gs-profile-similar .gs-row-metric>div{flex:1}
+html[data-m2] body .gs-profile-similar .gs-score-pill{height:32px!important;min-height:32px!important}
+html[data-m2] body .gs-profile-similar .gs-row-line [data-favorite],html[data-m2] body .gs-profile-similar .gs-row-line button{width:40px!important;height:40px!important;min-width:40px}
+/* «наверх» sits above the action bar */
+html[data-m2] body:has(.m2-actionbar) .gs-to-top{bottom:calc(84px + env(safe-area-inset-bottom))!important;z-index:96}
+html[data-m2] body .gs-profile-similar .gs-row-line:not(#a):not(#b){position:relative;padding-right:58px!important}
+html[data-m2] body .gs-profile-similar .gs-row-line button:not(#a):not(#b){position:absolute;right:8px;top:50%;margin-top:-20px}
+html[data-m2] body .gs-rating-page .gsb-pair .gsb-strip:not(#a):not(#b):not(#c){display:none!important}
+
+/* ===== cabinet in the phone style (mockup: «me» row, role chips, glass cards, lime actions) ===== */
+html[data-m2] body .gs-account-page:not(#a){padding-top:10px!important;gap:12px}
+html[data-m2] body .gs-account-hero:not(#a):not(#b):not(#c){padding:14px!important;border-radius:20px!important;background:#0a0e1452!important;background-image:linear-gradient(180deg,#ffffff14,#ffffff03 50%)!important;-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border:1px solid #ffffff29!important;box-shadow:inset 0 1px 0 #ffffff26!important}
+html[data-m2] body .gs-account-hero::before,html[data-m2] body .gs-account-hero::after{display:none!important}
+html[data-m2] body .gs-account-hero .gs-account-avatar--hero:not(#a):not(#b){width:54px!important;height:54px!important;border-radius:18px!important;background:linear-gradient(140deg,#8b5cf6,#34e6f5)!important;border:0!important}
+html[data-m2] body .gs-account-hero .gs-account-kicker{display:none}
+html[data-m2] body .gs-account-hero .gs-account-hero-title:not(#a){font:800 20px Inter,system-ui,sans-serif!important;margin-top:2px!important}
+html[data-m2] body .gs-account-hero .gs-account-hero-meta{width:100%}
+html[data-m2] body .gs-account-hero .gs-smoke-pill{min-height:44px;border-radius:14px!important}
+html[data-m2] body .gs-account-tabs:not(#a):not(#b):not(#c){display:flex!important;flex-wrap:nowrap!important;gap:6px!important;overflow-x:auto;scrollbar-width:none;padding:0!important;margin:0 -16px 4px!important;padding-inline:16px!important;background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html[data-m2] body .gs-account-tabs::-webkit-scrollbar{display:none}
+html[data-m2] body .gs-account-tab:not(#a):not(#b):not(#c){flex:none!important;min-height:40px!important;height:40px;padding:0 14px!important;border-radius:999px!important;white-space:nowrap;color:#d7dee7!important;background:#0a0e1466!important;border:1px solid #ffffff29!important;box-shadow:none!important}
+html[data-m2] body .gs-account-tab[aria-selected="true"]:not(#a):not(#b):not(#c){background:#c8ff55!important;color:#14200a!important;border-color:#c8ff55!important}
+html[data-m2] body .gs-account-card:not(#a):not(#b):not(#c){border-radius:20px!important;padding:14px!important;background:#0a0e1452!important;background-image:linear-gradient(180deg,#ffffff12,#ffffff02 50%)!important;-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border:1px solid #ffffff24!important;box-shadow:inset 0 1px 0 #ffffff22!important}
+html[data-m2] body .gs-account-card .gs-section-badge{font-size:10.5px;letter-spacing:.1em}
+html[data-m2] body .gs-account-card h2{font-size:17px!important}
+html[data-m2] body .gs-account-tiles:not(#a){display:grid!important;gap:8px!important;grid-template-columns:1fr!important}
+html[data-m2] body .gs-account-tile:not(#a):not(#b){min-height:60px;padding:10px 12px!important;border-radius:16px!important;background:#ffffff08!important;border:1px solid #ffffff1c!important;gap:12px}
+html[data-m2] body .gs-account-tile small{font-size:12px;color:#9aa6b4}
+html[data-m2] body .gs-vote-today .gs-vote-slots:not(#a){gap:8px!important}
+html[data-m2] body .gs-vote-today .gs-vote-slot:not(#a):not(#b){padding:12px!important;border-radius:16px!important}
+html[data-m2] body .gs-account-exit .gs-account-action{min-height:44px;border-radius:14px}
+
+/* cabinet of staff (admin panel) in the phone style too: glass cards, chip navigation with the lime active item */
+@layer gs-glass-lab {
+html[data-m2] body .gs-admin-premium:not(#a):not(#b):not(#c){border-radius:20px!important;padding:14px!important;background:#0a0e1452!important;background-image:linear-gradient(180deg,#ffffff12,#ffffff02 50%)!important;border:1px solid #ffffff24!important;box-shadow:inset 0 1px 0 #ffffff22!important}
+html[data-m2] body .gs-admin-groups:not(#a):not(#b),html[data-m2] body .gs-admin-subnav:not(#a):not(#b){display:flex!important;flex-wrap:nowrap!important;gap:6px!important;overflow-x:auto;scrollbar-width:none;background:none!important;border:0!important;padding:2px 0!important;box-shadow:none!important}
+html[data-m2] body .gs-admin-groups button:not(#a):not(#b),html[data-m2] body .gs-admin-subnav button:not(#a):not(#b),html[data-m2] body .gs-admin-tab:not(#a):not(#b){flex:none!important;min-height:40px!important;padding:0 14px!important;border-radius:999px!important;white-space:nowrap;color:#d7dee7!important;background:#0a0e1466!important;border:1px solid #ffffff29!important;box-shadow:none!important}
+html[data-m2] body .gs-admin-groups button:is([aria-pressed="true"],[aria-selected="true"],[aria-current]):not(#a):not(#b),html[data-m2] body .gs-admin-subnav button:is([aria-pressed="true"],[aria-selected="true"],[aria-current]):not(#a):not(#b),html[data-m2] body .gs-admin-tab:is([aria-pressed="true"],[aria-selected="true"],[aria-current]):not(#a):not(#b){background:#c8ff55!important;color:#14200a!important;border-color:#c8ff55!important}
+html[data-m2] body .gs-pay-switch:not(#a):not(#b){border-radius:16px!important;background:#ffffff08!important;border:1px solid #ffffff1c!important}
+html[data-m2] body .gs-account-personal:not(#a):not(#b)>summary{min-height:52px;display:flex;align-items:center;padding:0 16px;border-radius:16px;background:#0a0e1452;border:1px solid #ffffff29}
+html[data-m2] body .gs-account-sidebar .gs-account-wallet:not(#a):not(#b),html[data-m2] body .gs-account-sidebar .gs-fold:not(#a):not(#b){border-radius:18px!important;border:1px solid #f2c46b40!important}
+}
+
+/* ===== phone cabinet (M2Cabinet) — mockup «Кабинет: игрок / владелец / клан-медиа» ===== */
+@layer gs-glass-lab {
+html[data-m2] body .gs-account-page:has(.gs-account-tabbed) .gs-account-hero:not(#a):not(#b):not(#c),html[data-m2] body .gs-account-tabbed .gs-account-tabs:not(#a):not(#b):not(#c):not(#d){display:none!important}
+/* staff: the demo roles as chips (Игрок · Владелец сервера · Клан · Медиа · Админ) */
+html[data-m2] body .gs-view-as-bar:not(#a):not(#b){background:none!important;border:0!important;box-shadow:none!important;padding:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html[data-m2] body .gs-view-as-bar .gs-view-as-label,html[data-m2] body .gs-view-as-bar .gs-view-as-mobile,html[data-m2] body .gs-view-as-notice{display:none!important}
+html[data-m2] body .gs-view-as-buttons:not(#a):not(#b){display:flex!important;flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;gap:6px!important;margin:0 -16px;padding:0 16px}
+html[data-m2] body .gs-view-as-buttons::-webkit-scrollbar{display:none}
+html[data-m2] body .gs-view-as-btn:not(#a):not(#b){flex:none;min-height:40px!important;border-radius:999px!important;white-space:nowrap;background:#0a0e1466!important;border:1px solid #ffffff29!important;color:#d7dee7!important}
+html[data-m2] body .gs-view-as-btn.is-active:not(#a):not(#b){background:#c8ff55!important;border-color:#c8ff55!important;color:#14200a!important}
+}
+html[data-m2] .m2-cab{display:grid;gap:12px}
+html[data-m2] .m2-card{border-radius:20px;padding:14px;background-color:#0a0e1466;background-image:linear-gradient(180deg,#ffffff14,#ffffff03 50%);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border:1px solid #ffffff29;box-shadow:inset 0 1px 0 #ffffff22;color:#f2f4f7}
+html[data-m2] .m2-me{display:flex;align-items:center;gap:12px}
+html[data-m2] .m2-ava{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;flex:none;font:800 20px Inter,system-ui,sans-serif;color:#fff;background:linear-gradient(140deg,#8b5cf6,#34e6f5)}
+html[data-m2] .m2-me-t{flex:1;min-width:0;display:flex;flex-direction:column}
+html[data-m2] .m2-me-t b{font:800 19px Inter,system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-m2] .m2-me-t small,html[data-m2] .m2-muted{color:#9aa6b4;font-size:12.5px}
+html[data-m2] .m2-tasks h4{font:700 11.5px Inter,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#9aa6b4;margin:0 0 4px}
+html[data-m2] .m2-task{display:flex;align-items:center;gap:10px;min-height:46px;border-top:1px solid #ffffff12;font-size:14.5px}
+html[data-m2] .m2-task:first-of-type{border-top:0}
+html[data-m2] .m2-task>span:nth-child(2){flex:1;min-width:0}
+html[data-m2] .m2-task a,html[data-m2] .m2-task button{color:#c8ff55;font-weight:700;font-size:13px;min-height:44px;display:inline-flex;align-items:center}
+html[data-m2] .m2-task em{font-style:normal;font-size:12.5px}
+html[data-m2] .ck{width:22px;height:22px;border-radius:7px;border:2px solid #ffffff40;display:grid;place-items:center;flex:none}
+html[data-m2] .ck.done{background:#c8ff55;border-color:#c8ff55;color:#14200a}
+html[data-m2] .m2-wide{width:100%;margin-top:8px;flex:none}
+html[data-m2] .m2-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+html[data-m2] .m2-tile{display:flex;flex-direction:column;gap:4px;text-align:left;min-height:78px}
+html[data-m2] .m2-tile b{display:flex;align-items:center;gap:8px;font-size:14.5px}
+html[data-m2] .m2-tile small{color:#9aa6b4;font-size:12px}
+html[data-m2] .m2-tile .rose{color:#ff5d6c}html[data-m2] .m2-tile .violet{color:#b99bff}html[data-m2] .m2-tile .cyan{color:#34e6f5}
+html[data-m2] .m2-wallet{background-image:radial-gradient(120% 140% at 0 0,#f2c46b33,transparent 60%),linear-gradient(180deg,#ffffff14,#ffffff03 50%);border-color:#f2c46b4d}
+html[data-m2] .m2-wallet>small{color:#9aa6b4;font-size:12.5px}
+html[data-m2] .m2-sum{display:flex;align-items:center;gap:10px;margin:4px 0 10px}
+html[data-m2] .m2-sum b{font:800 28px Inter,system-ui,sans-serif;color:#ffe3a1}
+html[data-m2] .m2-sum span{color:#9aa6b4;font-size:13px}
+html[data-m2] .m2-row2{display:flex;gap:8px}
+html[data-m2] .m2-row2 .m2-btn{height:44px}
+html[data-m2] .m2-list{padding:0 14px;display:grid}
+html[data-m2] .m2-list>*{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:50px;border-top:1px solid #ffffff12;text-align:left;font-size:14.5px;color:#eef2f6}
+html[data-m2] .m2-list>*:first-child{border-top:0}
+html[data-m2] .m2-list em{font-style:normal;color:#9aa6b4;font-size:12.5px}
+html[data-m2] .m2-list svg{color:#8c97a6}
+html[data-m2] .m2-srv{display:flex;align-items:center;gap:12px}
+html[data-m2] .m2-srv img{flex:none;filter:drop-shadow(0 4px 10px #000a)}
+html[data-m2] .m2-srv-n{width:54px;height:54px;flex:none;display:grid;place-items:center;border-radius:16px;background:#ffffff0f;border:1px solid #ffffff24;font:800 17px Inter,system-ui,sans-serif}
+html[data-m2] .m2-srv-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+html[data-m2] .m2-srv-t small{color:#9aa6b4;font-size:12px}
+html[data-m2] .m2-srv-t small.lime{color:#c8ff55}
+html[data-m2] .m2-srv .m2-btn{flex:none;height:44px;padding:0 14px}
+html[data-m2] .m2-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+html[data-m2] .m2-chips button{flex:none;min-height:40px;padding:0 14px;border-radius:999px;white-space:nowrap;background:#0a0e1466;border:1px solid #ffffff29;color:#d7dee7}
+html[data-m2] .m2-chips button[aria-pressed="true"]{background:#c8ff55;border-color:#c8ff55;color:#14200a}
+html[data-m2] .m2-soon{display:flex;align-items:center;gap:12px}
+html[data-m2] .m2-soon-i{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none;background:linear-gradient(140deg,#f6d27c,#d39a33);color:#2a1a05}
+html[data-m2] .m2-soon>span:nth-child(2){flex:1;display:flex;flex-direction:column}
+html[data-m2] .m2-soon small{color:#9aa6b4;font-size:12px}
+html[data-m2] .m2-soon em{font-style:normal;font-size:11px;font-weight:800;color:#f2c46b;border:1px solid #f2c46b55;border-radius:999px;padding:3px 9px}
+html[data-m2] .m2-stats{padding:10px}
+html[data-m2] .m2-back{min-height:44px;padding:0 14px;border-radius:14px;background:#0a0e1466;border:1px solid #ffffff29;color:#f2f4f7;font-weight:700;justify-self:start}
+html[data-m2] .m2-task>span:nth-child(2)::first-letter{text-transform:uppercase}
+
+/* cabinet on narrow phones (owner 17.11: «криво»): nothing wider than the screen, the server card wraps, floating pills don't cover content */
+html[data-m2] .m2-cab{grid-template-columns:minmax(0,1fr)}
+html[data-m2] .m2-cab>*{min-width:0}
+html[data-m2] .m2-stats{overflow:hidden}
+html[data-m2] .m2-stats *{min-width:0}
+html[data-m2] .m2-srv{flex-wrap:wrap}
+html[data-m2] .m2-srv-t{flex:1 1 150px}
+@media (max-width:399px){html[data-m2] .m2-srv .m2-btn{flex:1 1 100%}}
+html[data-m2] .m2-me-t small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-m2] .m2-task>span:nth-child(2){line-height:1.25;padding:6px 0}
+html[data-m2] .m2-task a,html[data-m2] .m2-task button{flex:none;padding-left:6px}
+html[data-m2] body .gs-demo-site:not(#a):not(#b){left:10px!important;right:auto!important;bottom:calc(78px + env(safe-area-inset-bottom))!important;top:auto!important}
+html[data-m2] body .gs-demo-site>details:not([open])>summary{min-height:36px;padding:0 12px;font-size:12.5px}
+html[data-m2] body:has(.gs-demo-site) .gs-wbg:not(#a):not(#b){bottom:calc(126px + env(safe-area-inset-bottom))!important}
+html[data-m2] body .gs-account-page:not(#a){padding-bottom:150px!important}
+
+/* ===== owner review 17.11 (second round) ===== */
+/* leader №1 about 10% lower */
+html[data-m2] .m2-champ{height:192px;margin-top:46px}
+html[data-m2] .m2-champ-hero{height:186px;bottom:58px}
+html[data-m2] body .gs-rating-page .m2-champ{margin-top:50px}
+/* carousel: quiet placeholder while loading, the owners card = picture on top + one row (title left, button right) */
+html[data-m2] .m2-promo--wait{background:#ffffff0d;border:1px solid #ffffff1a}
+html[data-m2] .m2-promo--own{padding:0;justify-content:flex-start}
+html[data-m2] .m2-promo--own .m2-promo-bg{height:calc(100% - 52px);bottom:auto;object-position:50% 30%}
+html[data-m2] .m2-promo--own::after{display:none}
+html[data-m2] .m2-own-row{position:absolute;left:0;right:0;bottom:0;height:52px;padding:0 10px 0 14px;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,#0a0d12cc,#0a0d12f2);border-top:1px solid #ffffff1f}
+html[data-m2] .m2-own-row b{flex:1;min-width:0;max-width:none;font-size:15.5px;line-height:1.15}
+html[data-m2] .m2-cta{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 14px;border-radius:12px;background:#c8ff55;color:#14200a;font:800 13px Inter,system-ui,sans-serif}
+/* notifications sheet */
+html[data-m2] .m2-notes{display:grid;gap:8px;align-content:start}
+html[data-m2] .m2-note{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:16px;background:#ffffff0d;border:1px solid #ffffff1f;color:#f2f4f7}
+html[data-m2] .m2-note b{font-size:15px}
+html[data-m2] .m2-note small{color:#9aa6b4;font-size:12.5px}
+html[data-m2] .m2-notes .m2-muted{padding:10px 2px}
+/* search window: compact top sheet instead of a full screen with a big intro */
+@layer gs-glass-lab {
+html[data-m2] body .gs-search-overlay:not(#a):not(#b){align-items:flex-start!important;justify-content:center!important;padding:10px 10px 0!important}
+html[data-m2] body .gs-search-overlay .gs-search-surface:not(#a):not(#b){height:auto!important;max-height:calc(var(--gs-search-height,100dvh) - 24px)!important;border-radius:20px!important;background:#0c1017f2!important;border:1px solid #ffffff2e!important}
+html[data-m2] body .gs-search-overlay .gs-search-intro:not(#a):not(#b){position:absolute!important;top:6px;right:6px;z-index:3;padding:0!important;min-height:0!important;background:none!important;border:0!important}
+html[data-m2] body .gs-search-overlay .gs-search-intro>div:first-child{display:none!important}
+html[data-m2] body .gs-search-overlay .gs-search-input-row:not(#a):not(#b){padding:10px 56px 10px 14px!important;min-height:56px}
+html[data-m2] body .gs-search-overlay .gs-search-close{width:44px;height:44px}
+html[data-m2] body .gs-search-overlay .gs-search-results{max-height:60dvh}
+}
+/* bottom bar is more solid and the content never ends under it */
+html[data-m2] body .gs-mobile-nav.m2-nav:not(#a){background:#0b0f15eb;-webkit-backdrop-filter:blur(26px);backdrop-filter:blur(26px)}
+html[data-m2] body .gs-page-main:not(#a){padding-bottom:calc(120px + env(safe-area-inset-bottom))!important}
+/* favourite in lists a little smaller */
+html[data-m2] body .gs-row-line [data-favorite]:not(#a):not(#b){width:36px!important;height:36px!important;min-width:36px}
+/* cabinet: denser cards (owner: «слишком прозрачный», the «очередь» window is the reference tone) */
+html[data-m2] .m2-card{background-color:rgba(16,20,27,var(--acc-glass,.88));background-image:linear-gradient(180deg,#ffffff0d,#ffffff02 50%)}
+html[data-m2] body .gs-account-card:not(#a):not(#b):not(#c){background-color:rgba(16,20,27,var(--acc-glass,.88))!important}
+html[data-m2] body .gs-admin-premium:not(#a):not(#b):not(#c){background-color:rgba(16,20,27,var(--acc-glass,.88))!important}
+html[data-m2] body .gs-account-hero:not(#a):not(#b):not(#c){background-color:rgba(16,20,27,var(--acc-glass,.88))!important}
+
+/* home rhythm (owner 17.11): Серверы · Медиа · Кланы as a compact chip row under the search instead of an empty band; tighter blocks; shorter opening cards */
+html[data-m2] body .m2-home nav.gs-world-tabs:not(#a):not(#b){display:flex!important;gap:6px;margin:8px 14px 0!important;padding:0!important;height:40px;background:none!important;border:0!important;position:relative;z-index:2;visibility:visible!important;opacity:1!important}
+html[data-m2] body .m2-home nav.gs-world-tabs a:not(#a):not(#b){flex:1;min-height:40px!important;height:40px;justify-content:center;padding:0 8px!important;border-radius:999px!important;font-size:13.5px!important;color:#d7dee7!important;background-color:#0a0e1466!important;border:1px solid #ffffff29!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+html[data-m2] body .m2-home nav.gs-world-tabs a[aria-current="page"]:not(#a):not(#b){background:#c8ff55!important;border-color:#c8ff55!important;color:#14200a!important}
+html[data-m2] body .m2-home .m2-track{padding-top:8px}
+html[data-m2] body .l2a details.chronicle-picker:not(#a):not(#b){margin-top:10px!important}
+html[data-m2] body .l2a details.chronicle-picker .gs-inline-summary:not(#a):not(#b){min-height:52px!important;padding-block:6px!important}
+html[data-m2] body .l2a details.chronicle-picker .gs-inline-title:not(#a):not(#b){font-size:19px!important;line-height:1.1!important}
+html[data-m2] body .gs-opening-wrapper:not(#a):not(#b){height:166px!important;min-height:0!important}
+html[data-m2] body .gs-opening-wrapper>.gs-opening-card:not(#a):not(#b){height:166px!important;min-height:0!important}
+html[data-m2] body .gs-opening-wrapper .gs-opening-art:not(#a):not(#b){height:calc(100% - 58px)!important;object-fit:cover}
+html[data-m2] body .gs-opening-wrapper .gs-opening-favorite:not(#a):not(#b){width:40px!important;height:40px!important}
+html[data-m2] body .gs-shelf-opening .gsb-strip:not(#a):not(#b){height:48px!important;min-height:0!important}
+html[data-m2] body .gs-shelf-opening .gsb-inner:not(#a):not(#b){padding-top:6px!important}
+html[data-m2] body .gs-shelf-opening .gsb-head:not(#a){display:none!important}
+html[data-m2] body .gsb-more:not(#a):not(#b){padding:10px 0 0!important}
+html[data-m2] body .gsb-more .l2-all:not(#a):not(#b){display:flex!important;align-items:center;justify-content:center;width:100%;min-height:44px;border-radius:14px;background:#ffffff0d;border:1px solid #ffffff24;color:#c8ff55;font-weight:700}
+/* the opening cards: their height lives in the priority layer, so the override has to live there too */
+@layer gs-glass-lab {
+html[data-m2] body .gs-opening-wrapper:not(#a):not(#b){height:166px!important;min-height:0!important}
+html[data-m2] body .gs-opening-wrapper>.gs-opening-card:not(#a):not(#b){height:166px!important;min-height:0!important}
+html[data-m2] body .gs-opening-wrapper .gs-opening-art:not(#a):not(#b){height:calc(100% - 58px)!important;object-fit:cover}
+html[data-m2] body .gs-opening-wrapper .gs-opening-favorite:not(#a):not(#b){width:40px!important;height:40px!important}
+html[data-m2] body .gs-shelf-opening .gsb-strip:not(#a):not(#b){height:48px!important;min-height:0!important}
+html[data-m2] body .gs-shelf-opening .gsb-inner:not(#a):not(#b){padding-top:6px!important}
+html[data-m2] body .gsb-more:not(#a):not(#b){padding:10px 0 0!important}
+}
+@layer gs-glass-lab {
+html[data-m2] body .gs-opening-wrapper:not(#a):not(#b):not(#c){height:172px!important}
+html[data-m2] body .gs-opening-wrapper>.gs-opening-card:not(#a):not(#b):not(#c){height:172px!important;min-height:0!important;padding:108px 14px 12px!important}
+html[data-m2] body .gs-opening-wrapper .gs-opening-art:not(#a):not(#b):not(#c){inset:0 0 56px 0!important;height:calc(100% - 56px)!important}
+}
+html[data-m2] .m2-sheet{background-color:#0c1017f2}
+
+/* ===== round 3 ===== */
+/* owners card: the picture fills the whole cell to the walls, the title and a small button sit on it (no black strip) */
+html[data-m2] .m2-promo--own .m2-promo-bg{height:100%;bottom:auto;object-position:50% 28%}
+html[data-m2] .m2-promo--own::after{display:block;background:linear-gradient(0deg,#05080fe6 0%,#05080f99 28%,#0000 62%)}
+html[data-m2] .m2-own-row{height:auto;padding:0 10px 10px 14px;background:none;border:0}
+html[data-m2] .m2-own-row b{font-size:15.5px}
+html[data-m2] .m2-cta{min-height:32px;padding:0 12px;border-radius:10px;font-size:12.5px}
+/* the vote button is coloured like the others (gold support, lime play, violet vote) */
+html[data-m2] .m2-btn.dark.vote{background:linear-gradient(140deg,#cbb6ff,#8f6bff);color:#1a0c33;border:0}
+/* back button on the server page for phones that have no system «назад» */
+html[data-m2] .m2-back2{flex:none;min-height:36px;padding:0 12px;margin-right:8px;border-radius:999px;background:#0a0e14a6;border:1px solid #ffffff2e;color:#f2f4f7;font:700 13px Inter,system-ui,sans-serif;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+/* server tabs: the same glass chips as on the home */
+html[data-m2] body .gs-server-profile .gs-server-tabs:not(#a):not(#b):not(#c){background:none!important;border:0!important;padding:0!important;gap:6px!important;width:100%;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html[data-m2] body .gs-server-profile .gs-server-tabs a:not(#a):not(#b):not(#c){flex:1;justify-content:center;min-height:40px!important;height:40px;border-radius:999px!important;padding:0 8px!important;font-size:13.5px!important;color:#d7dee7!important;background-color:#0a0e1466!important;border:1px solid #ffffff29!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+html[data-m2] body .gs-server-profile .gs-server-tabs a[aria-current="page"]:not(#a):not(#b):not(#c){background:#c8ff55!important;border-color:#c8ff55!important;color:#14200a!important}
+/* cabinet: a dark veil over the picture, so nothing reads as «too transparent» */
+/* the cabinet picture + a flat veil, strength --acc-veil (default .45, set per page by the admin panel «Вид»); replaces the built-in three-step gradient */
+@layer gs-glass-lab {
+html[data-m2] body .gs-account-layout:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f)::before{background:linear-gradient(rgba(5,8,14,var(--acc-veil,.45)),rgba(5,8,14,var(--acc-veil,.45))),var(--account-world-art,url('/media/worlds/lineage-2/account-castle-m-1080.webp')) var(--account-world-focus,50% 38%)/cover no-repeat!important}
+html[data-m2][data-wbg] body .gs-account-layout:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f)::before{background:linear-gradient(rgba(5,8,14,var(--acc-veil,.45)),rgba(5,8,14,var(--acc-veil,.45)))!important}
+}
+/* favourites in the header: a heart with a small counter */
+html[data-m2] .m2-fav-head svg{color:#ff7a8a}
+html[data-m2] .m2-fav-head em{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#ff5d6c;color:#fff;font:700 10.5px/18px Inter,system-ui,sans-serif;font-style:normal;text-align:center}
+/* four shortcut tiles fit any phone width */
+html[data-m2] .m2-shortcuts{grid-auto-columns:minmax(66px,1fr);gap:8px}
+
+/* cabinet: no glass frame around the admin panel — the cards inside are glass already (owner 17.11: «зачем двойное стекло») */
+@layer gs-glass-lab {
+html[data-m2] body .gs-admin-premium:not(#a):not(#b):not(#c):not(#d):not(#e){background:none!important;background-color:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-radius:0!important}
+}
+/* the statistics card of the owner already is a card: no second frame around it; plain surfaces of the admin panel get a denser tone */
+html[data-m2] .m2-card.m2-stats{padding:0;background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+
+/* language switch: in the world sheet (everybody, no sign-in needed) and in the cabinet list */
+html[data-m2] .m2-lang,html[data-m2] .m2-lang-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;color:#eef2f6;font-size:14.5px}
+html[data-m2] .m2-lang{margin-top:12px;padding:6px 14px;border-radius:16px;background:#ffffff0d;border:1px solid #ffffff1f}
+html[data-m2] .m2-lang .gs-lang-switch,html[data-m2] .m2-lang-row .gs-lang-switch{background:#0a0e1466}
+html[data-m2] .m2-lang-row{border-top:1px solid #ffffff12}
+html[data-m2] .m2-head-on .m2-head{padding-bottom:6px}
+
+/* ===== cabinet: ONE glass material (owner 17.11: «везде разная тонировка»).
+   Level 1 = a card (dense dark glass), level 2 = a tile inside a card (light veil). Everything the admin panel, the wallet and the owner screens draw as a box falls into one of the two. ===== */
+@layer gs-glass-lab {
+html[data-m2] body .gs-account-page :is(.gs-account-card,.gs-pay-switch,.gs-fold,.gs-account-wallet,.surface,section[class*="rounded"],div[class*="rounded-xl"][class*="border"],div[class*="rounded-2xl"][class*="border"],div[class*="rounded-lg"][class*="border"],div[class*="rounded-[2"][class*="border"]):not([class*="border-danger"]):not([class*="border-warn"]):not(.gs-dossier-row):not(.gs-coins-vault-banner):not(.gs-coins-glow):not(#a):not(#b):not(#c):not(#d){background-color:rgba(16,20,27,var(--acc-glass,.88))!important;background-image:linear-gradient(180deg,#ffffff0d,#ffffff02 55%)!important;border:1px solid #ffffff24!important;border-radius:18px!important;box-shadow:inset 0 1px 0 #ffffff1a!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html[data-m2] body .gs-account-page :is(.gs-account-card,.gs-pay-switch,.gs-fold,.gs-account-wallet,.surface,section[class*="rounded"],div[class*="rounded-xl"][class*="border"],div[class*="rounded-2xl"][class*="border"],div[class*="rounded-lg"][class*="border"],div[class*="rounded-[2"][class*="border"]) :is(.gs-account-card,.gs-pay-switch,.gs-fold,.gs-account-wallet,.surface,section[class*="rounded"],div[class*="rounded-xl"][class*="border"],div[class*="rounded-2xl"][class*="border"],div[class*="rounded-lg"][class*="border"],div[class*="rounded-[2"][class*="border"],.gs-dossier-row,.gs-coins-vault-banner,summary,li):not([class*="border-danger"]):not([class*="border-warn"]):not(.gs-coins-glow):not(#a):not(#b):not(#c):not(#d){background-color:transparent!important;background-image:none!important;border:1px solid #ffffff1f!important;border-radius:14px!important;box-shadow:none!important}
+html[data-m2] body .gs-account-page :is(.gs-account-action,.gs-account-soft-btn,.gs-smoke-btn,.gs-account-personal>summary):not(.gs-smoke-btn--primary):not(#a):not(#b):not(#c):not(#d){background-color:rgba(16,20,27,var(--acc-glass,.88))!important;background-image:linear-gradient(180deg,#ffffff0d,#ffffff02 55%)!important;border:1px solid #ffffff24!important;border-radius:14px!important;color:#f2f4f7!important;box-shadow:inset 0 1px 0 #ffffff1a!important}
+html[data-m2] body .gs-account-page .gs-admin-groups:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){background:none!important;background-color:transparent!important;border:0!important}
+html[data-m2] body .gs-account-page [class*="border-danger"]:not(#a):not(#b){border-radius:16px!important}
+}
+
+/* role chips of the staff: wrap into rows (all visible, fully rounded) instead of a row cut by the screen edge */
+@layer gs-glass-lab {
+html[data-m2] body .gs-view-as-buttons:not(#a):not(#b):not(#c){flex-wrap:wrap!important;overflow:visible!important;margin:0!important;padding:0!important;gap:6px!important}
+html[data-m2] body .gs-view-as-btn:not(#a):not(#b):not(#c){background-color:rgba(16,20,27,var(--acc-glass,.88))!important;border:1px solid #ffffff29!important;border-radius:999px!important}
+html[data-m2] body .gs-view-as-btn.is-active:not(#a):not(#b):not(#c){background:#c8ff55!important;border-color:#c8ff55!important;color:#14200a!important}
+}
+@layer gs-glass-lab {
+/* the frame around the role chips goes: the chips themselves are the glass */
+html[data-m2] body .gs-view-as-bar:not(#a):not(#b):not(#c):not(#d):not(#e){background:none!important;background-color:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+/* outline buttons of the cabinet: the same card material as every other box */
+html[data-m2] body .gs-account-page .gs-button-outline:not(#a):not(#b):not(#c):not(#d){background-color:rgba(16,20,27,var(--acc-glass,.88))!important;background-image:linear-gradient(180deg,#ffffff0d,#ffffff02 55%)!important;border:1px solid #ffffff24!important;border-radius:14px!important;color:#f2f4f7!important}
+}
+/* ===== cabinet: ONE layer of glass (owner 17.11: «не регулирует все окна»).
+   Every dark box that stands on the page takes the slider glass; anything inside such a box (buttons, inputs, switches, small panels)
+   is see-through with a hairline, so the slider never stacks two layers and no box keeps its own fixed tint. ===== */
+@layer gs-glass-lab {
+html[data-m2] body .gs-account-page :is(.gs-demo-control,.gs-admin-groups>button:not([aria-pressed="true"]),.gs-admin-tab:not(.is-active),.gs-notify-tg,.m2-back,.m2-btn.dark,.gs-lang-switch,button[class*="bg-white/"],div[class*="bg-black/"],div[class*="bg-white/"][class*="rounded"]):not(#a):not(#b):not(#c):not(#d){background-color:rgba(16,20,27,var(--acc-glass,.88))!important;background-image:none!important;border:1px solid #ffffff24!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html[data-m2] body .gs-account-page :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),textarea,select):not(#a):not(#b):not(#c):not(#d){background-color:rgba(16,20,27,var(--acc-glass,.88))!important;background-image:none!important;border:1px solid #ffffff2e!important}
+html[data-m2] body .gs-account-page :is(.gs-demo-control,.m2-card,.gs-account-card,.gs-pay-switch,.gs-fold,.gs-account-wallet,.surface,.gs-notify-tg,section[class*="rounded"],div[class*="rounded-xl"][class*="border"],div[class*="rounded-2xl"][class*="border"],div[class*="rounded-lg"][class*="border"],div[class*="rounded-[2"][class*="border"]) :is(.gs-demo-control button,.gs-account-action,.gs-account-soft-btn,.gs-smoke-btn:not(.gs-smoke-btn--primary),.gs-button-outline,.gs-account-personal>summary,.gs-notify-tg,.m2-back,.m2-btn.dark,.gs-lang-switch,button[class*="bg-white/"],div[class*="bg-black/"],div[class*="bg-white/"][class*="rounded"],input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),textarea,select):not(#a):not(#b):not(#c):not(#d):not(#e){background-color:transparent!important;background-image:none!important;border:1px solid #ffffff24!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+
+/* «Стекло табличек» (owner 17.11: «не затемнять фон, но затемнить таблички»): the «Вид» slider sets --page-glass on every page kind.
+   GlassLab surfaces read it inside their own paint (surfaces.ts); the plaques painted by plain CSS follow here. The cabinet has its own --acc-glass. */
+@layer gs-glass-lab {
+html[data-page-glass] body main :is(.gs-row,.m2-card,section.owner.glass,.surface,.gs-panel):not(.gs-account-page *):not([data-glass-surface]):not(#a):not(#b):not(#c){background-color:rgba(16,20,27,var(--page-glass))!important}
+html[data-page-glass] body :is(.m2-chip,.m2-search,.m2-gbar,.chronicle-picker):not(.gs-account-page *):not(#a):not(#b):not(#c):not(#d){background-color:rgba(16,20,27,var(--page-glass))!important}
+}
+/* the GameScout cover of an opening without its own banner: the logo sits in the free band under the date and the heart, not behind them (owner 17.11) */
+@layer gs-glass-lab {
+html[data-m2] body .gs-opening-art[src*="gs-openings-cover"]:not(#a):not(#b):not(#c):not(#d){object-position:50% 16%!important}
+}
+/* admin: the «Управление» head and the section navigation stand on the picture as glass cards too (owner 18.11), their buttons inside are see-through */
+@layer gs-glass-lab {
+html[data-m2] body .gs-account-page :is(.gs-admin-title,.gs-admin-navigation):not(#a):not(#b):not(#c):not(#d):not(#e){background-color:rgba(16,20,27,var(--acc-glass,.88))!important;background-image:linear-gradient(180deg,#ffffff0d,#ffffff02 55%)!important;border:1px solid #ffffff24!important;border-radius:18px!important;box-shadow:inset 0 1px 0 #ffffff1a!important;padding:12px!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html[data-m2] body .gs-account-page .gs-admin-navigation .gs-admin-subnav:not(#a):not(#b):not(#c):not(#d){margin-top:8px!important;padding-top:10px!important;border-top:1px solid #ffffff14!important}
+html[data-m2] body .gs-account-page :is(.gs-admin-title,.gs-admin-navigation) :is(button,a):not([aria-pressed="true"]):not(.is-active):not([aria-current]):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){background-color:transparent!important;background-image:none!important;border:1px solid #ffffff24!important;box-shadow:none!important}
+}
+/* phone: no backdrop blur inside the page (scroll lag, owner 18.11). The bottom bar, the header and the sheets keep theirs: they are few and stay on top */
+@layer gs-glass-lab {
+html[data-m2] body main :not(.gs-sheet):not(.gs-sheet *):not(dialog):not(dialog *):not(.gs-qv):not(.gs-qv *):not(.gs-search-overlay):not(.gs-search-overlay *):not(#a):not(#b){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+
+/* support sheet in two steps (owner 18.11: «лаконично, просто, понятно»): 1 the amount, 2 the payment; no stack of blocks, no neighbour list */
+.gs-support-back-amount{display:none}
+html[data-m2] body .gs-support-back-amount:not(#a){display:inline-flex;align-items:center;min-height:44px;margin:0 0 10px;padding:0 16px;border-radius:999px;border:1px solid #ffffff2e;background:rgba(16,20,27,.6);color:#f2f4f7;font:600 14px/1 system-ui,sans-serif}
+@layer gs-glass-lab {
+html[data-m2] body .gs-support-studio.is-paying :is(.gs-support-form,.gs-support-preview,.gs-support-preview-notice):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){display:none!important}
+html[data-m2] body .gs-support-studio:not(.is-paying) :is(.gs-support-neighbors-body,.gs-support-estimate-note):not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){display:none!important}
+}
+html[data-m2] body .gs-topup-refund summary{color:#aebbc7}
+
+/* «1 МЕСТО» / «2 МЕСТО»: a dark pill under the label, so it reads on every picture, the bright Minecraft castle included (owner 18.11) */
+html[data-m2] .m2-champ-lbl,html[data-m2] .m2-place-lbl{padding:5px 10px;border-radius:999px;background:#0a0d12cc;border:1px solid #ffffff26;color:#ffe9b3!important;text-shadow:0 1px 2px #000}
+html[data-m2] .m2-champ-lbl{left:84px;top:26px}
+html[data-m2] .m2-place-lbl{left:62px;top:18px}
+html[data-m2] body .gsb-plaque .gsb-place-lbl,html[data-m2] body .l2a .gsb .gsb-plaque [class*="place"]:is(span,small):not(#a):not(#b){text-shadow:0 1px 2px #000}
+
+/* «Добавить клан / медиа / семью» and the Серверы–Медиа tabs: solid enough to read over any picture (owner 18.11) */
+html[data-m2] body a[href*="/add-group"]:not(.m2-btn):not(.m2-cta):not(#a):not(#b),html[data-m2] body .gs-groups-add:not(#a):not(#b){background:#0f141bf0!important;border:1px solid #ffffff3d!important;color:#f2f4f7!important;font-weight:600}
+html[data-m2] body [role="tablist"] [role="tab"][aria-selected="false"]:not(#a):not(#b):not(#c){background-color:#0f141be6!important;border-color:#ffffff30!important}
+
+/* breadcrumbs of a server page: one line, the server name is shortened instead of the chain breaking (owner 18.11: «криво цепочка») */
+html[data-m2] body .gs-crumbs:not(#a):not(#b){flex:1 1 0;min-width:0;flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden}
+html[data-m2] body .gs-crumbs:not(#a)>:is(a,svg){flex:none}
+html[data-m2] body .gs-crumbs:not(#a)>span{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html[data-m2] body .gs-crumbs:not(#a)>a{padding:8px 0}
+
+/* search on the phone: one compact sheet, the field and the close cross in ONE row (owner 18.11: «крестик накладывается на поиск, окно большое, нелепое») */
+@layer gs-glass-lab {
+html[data-m2] body .gs-search-overlay .gs-search-surface:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){display:grid!important;grid-template-columns:minmax(0,1fr) 56px;grid-template-rows:auto minmax(0,1fr);height:auto!important;max-height:min(480px,calc(var(--gs-search-height,100dvh) - 24px))!important}
+html[data-m2] body .gs-search-overlay .gs-search-intro:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){position:static!important;grid-column:2;grid-row:1;align-self:center;justify-self:center;padding:8px 0 !important;margin:0!important}
+html[data-m2] body .gs-search-overlay .gs-search-input-row:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){grid-column:1;grid-row:1;margin:8px 0 8px 10px!important;padding:2px 10px 2px 12px!important;min-height:48px}
+html[data-m2] body .gs-search-overlay .gs-search-results:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){grid-column:1 / -1;grid-row:2;max-height:none!important;min-height:0;overflow-y:auto}
+html[data-m2] body .gs-search-overlay .gs-search-surface>*:not(.gs-search-intro):not(.gs-search-input-row):not(.gs-search-results){display:none!important}
+}

@@ -1,0 +1,114 @@
+/* World page tweaks (owner 15.11.2026), kept outside the bundle. Layer gs-glass-lab = the first layer, so these !important rules win over the site's other layers.
+   1) «О серверах … / Как выбрать сервер» gets the same matte glass as the «Твой сервер в GameScout» panel (same gradient, edge, shadow, blur as .l2a .owner).
+   2) The «Добавить сервер» button inside that panel is a frosted ghost button instead of a dark solid one that clashed with the glass. */
+@layer gs-glass-lab {
+  html body details.gs-world-guide:not(#a):not(#b):not(#c):not(#d) {
+    background: linear-gradient(150deg, rgba(255,255,255,.12), rgba(255,255,255,.043)) !important;
+    border-color: rgba(255,255,255,.23) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 12px 32px -24px rgba(0,0,0,.55) !important;
+    -webkit-backdrop-filter: blur(5px) saturate(1.1) !important;
+    backdrop-filter: blur(5px) saturate(1.1) !important;
+  }
+  html body .l2a section.owner .outline-btn:not(#a):not(#b):not(#c):not(#d) {
+    background: linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.07)) !important;
+    border-color: rgba(255,255,255,.34) !important;
+    color: #f7f8fa !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.18) !important;
+    font-weight: 500;
+  }
+  html body .l2a section.owner .outline-btn:not(#a):not(#b):not(#c):not(#d):is(:hover, :focus-visible) {
+    background: linear-gradient(150deg, rgba(255,255,255,.26), rgba(255,255,255,.12)) !important;
+    border-color: rgba(255,255,255,.55) !important;
+  }
+  /* 3b) The section that wraps both (section.discovery--inline) had its own glass and merged them into one slab: it is now fully transparent. */
+  html body .l2a section.discovery:not(#a):not(#b):not(#c):not(#d) { background: none !important; border-color: transparent !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  /* 3) The search field and «Хроники» read as two separate panels: a clear gap between them (was 14 px, they looked merged). */
+  html body .l2a details.chronicle-picker:not(#a):not(#b):not(#c):not(#d) { margin-top: 26px !important; }
+  /* 4) A picked chronicle / mode must be obvious (owner 15.11.2026): when the list is not on «Все», the pill is lime with a tick (the lime panel edge is set in matte.js, the lab paints the border inline).
+     «Все серверы» link has aria-current only while nothing is picked, so :has() tells the two states apart with no change in the app code. */
+  html body .l2a details.chronicle-picker:not(:has(> .gs-inline-reset[aria-current="page"])) .gs-inline-current:not(#a):not(#b):not(#c):not(#d) {
+    background: #c8ff55 !important; color: #14200a !important; border-color: #c8ff55 !important; font-weight: 700 !important;
+    box-shadow: 0 0 0 3px rgba(200,255,85,.18) !important;
+  }
+  html body .l2a details.chronicle-picker:not(:has(> .gs-inline-reset[aria-current="page"])) .gs-inline-current:not(#a):not(#b):not(#c):not(#d)::before { content: "✓ "; }
+  /* 6) Server page background by place (owner 15.11.2026: «фон серверов внутри карточки»): the Lineage II server in place 1 gets the waterfalls,
+     place 2 the day tower, place 3 the sunset behind the whole page. The page reads --profile-art / --profile-art-mobile (set inline from the old scene). */
+  html body .gs-server-profile:is([data-theme="lineage2"], [data-theme^="l2-"])[data-profile-place="1"] .gs-server-bg:not(#a):not(#b):not(#c):not(#d) { --profile-art: url('/media/l2test/falls-1536.webp') !important; --profile-art-mobile: url('/media/l2test/falls-768.webp') !important; }
+  html body .gs-server-profile:is([data-theme="lineage2"], [data-theme^="l2-"])[data-profile-place="2"] .gs-server-bg:not(#a):not(#b):not(#c):not(#d) { --profile-art: url('/media/l2test/tower2-1536.webp') !important; --profile-art-mobile: url('/media/l2test/tower2-768.webp') !important; }
+  html body .gs-server-profile:is([data-theme="lineage2"], [data-theme^="l2-"])[data-profile-place="3"] .gs-server-bg:not(#a):not(#b):not(#c):not(#d) { --profile-art: url('/media/l2test/sunset-1536.webp') !important; --profile-art-mobile: url('/media/l2test/sunset-768.webp') !important; }
+  /* 7) «Все серверы» in the open chronicle / mode list was a plain underlined line, so nobody saw how to go back to everything (owner 15.11.2026).
+     Now it is a clear pill button, with an arrow while a chronicle is picked and a tick + lime when «Все» is already shown. */
+  html body .l2a details.chronicle-picker > .gs-inline-reset:not(#a):not(#b):not(#c):not(#d) {
+    display: inline-flex !important; align-items: center; gap: 8px; min-height: 44px; margin: 4px 20px 12px !important; padding: 0 20px !important;
+    border: 1px solid rgba(255,255,255,.4) !important; border-radius: 999px !important; text-decoration: none !important; font-weight: 600; font-size: 14px;
+    background: linear-gradient(150deg, rgba(255,255,255,.18), rgba(255,255,255,.07)) !important; color: #f7f8fa !important;
+  }
+  html body .l2a details.chronicle-picker:not([open]) > .gs-inline-reset:not(#a):not(#b):not(#c):not(#d) { display: none !important; }
+  html body .l2a details.chronicle-picker > .gs-inline-reset:not([aria-current="page"])::before { content: "←"; font-weight: 700; }
+  html body .l2a details.chronicle-picker > .gs-inline-reset[aria-current="page"]:not(#a):not(#b):not(#c):not(#d) { background: #c8ff55 !important; border-color: #c8ff55 !important; color: #14200a !important; }
+  html body .l2a details.chronicle-picker > .gs-inline-reset[aria-current="page"]::before { content: "✓"; font-weight: 700; }
+  html body .l2a details.chronicle-picker > .gs-inline-reset:not([aria-current="page"]):is(:hover, :focus-visible):not(#a):not(#b):not(#c):not(#d) { background: linear-gradient(150deg, rgba(255,255,255,.3), rgba(255,255,255,.14)) !important; border-color: rgba(255,255,255,.7) !important; }
+  /* 8) Reload flash (owner 15.11.2026): on world pages without the L2 «scene» (clans, media tabs) the fixed backdrop painted its own dark tower until the
+     rainbow video arrived. With the rainbow chosen the backdrop itself now shows the rainbow picture, so the video only fades in over the same image. */
+  html[data-l2bg="rainbow"] body .gs-world-backdrop.gs-world-backdrop--elf-sunset:not(#a):not(#b):not(#c):not(#d) { background-image: url('/media/l2test/rainbow-1536.webp') !important; }
+}
+@media (max-width: 600px) {
+  @layer gs-glass-lab {
+    html body .l2a details.chronicle-picker:not(#a):not(#b):not(#c):not(#d) { margin-top: 18px !important; }
+  }
+}
+
+/* 9. Chronicle / mode pages on phones keep the world's background (owner 17.11: «фон пропадает» after picking Interlude).
+   Lineage 2: the same dark tower as the world home; Minecraft / GTA RP: their own portrait art. */
+@media (max-width: 767px) {
+  html body .l2a.l2a--chronicle .scene:not(#a):not(#b) { background: var(--bg, #0b0d11) !important; }
+  html body .l2a.l2a--chronicle .scene:not(#a):not(#b)::before { background-image: var(--art-mobile, var(--art)) !important; background-position: 50% 0 !important; background-size: 100% auto !important; background-repeat: no-repeat !important; opacity: .9 !important; }
+  html body .l2a.l2a--lineage2.l2a--chronicle .scene:not(#a):not(#b)::before { background-image: url('/media/worlds/lineage-2/bg-rainbow-p.webp') !important; }
+  html body .l2a.l2a--chronicle .scene:not(#a):not(#b)::after { background: linear-gradient(180deg, #06101b66 0%, #06101b33 32%, var(--bg) 95%), linear-gradient(90deg, #06101baa, #06101b33 76%) !important; }
+}
+
+/* 10. The «Вид» picker on phones (admin): the picked picture covers the world page and the inner pages' backdrop. */
+@media (max-width: 767px) {
+  html[data-wbg] body .l2a .scene:not(#a):not(#b):not(#c):not(#d)::before { background-image: var(--wbg-p) !important; background-size: cover !important; background-position: 50% 30% !important; background-repeat: no-repeat !important; opacity: .92 !important; }
+  html[data-wbg] body .gs-world-backdrop:not(#a):not(#b):not(#c):not(#d) { background-image: var(--wbg-p) !important; background-size: cover !important; background-position: 50% 30% !important; }
+  html[data-m2] body .gs-wbg:not(#a) { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* 11. Lineage II on phones (owner 17.11): the main picture is the rainbow (9:16) on the world pages, inner pages and the cabinet.
+   An admin pick («Вид») has more :not() and still wins. */
+@media (max-width: 767px) {
+  html body .l2a.l2a--lineage2 .scene:not(#a):not(#b)::before { background-image: url('/media/worlds/lineage-2/bg-rainbow-p.webp') !important; background-size: cover !important; background-position: 50% 20% !important; background-repeat: no-repeat !important; opacity: .95 !important; }
+  html[data-world='lineage2']:not([data-wbg]) body .gs-world-backdrop:not(#a):not(#b) { background-image: url('/media/worlds/lineage-2/bg-rainbow-p.webp') !important; background-size: cover !important; background-position: 50% 30% !important; background-repeat: no-repeat !important; }
+  /* the cabinet shows the main phone picture of its world (the layout reads --account-world-art, React sets it inline: !important beats that) */
+  html[data-world='lineage2']:not([data-wbg]) body .gs-account-layout { --account-world-art: url('/media/worlds/lineage-2/bg-rainbow-p.webp') !important; --account-world-focus: 50% 30% !important; }
+  html[data-world='minecraft']:not([data-wbg]) body .gs-account-layout { --account-world-art: url('/media/worlds/minecraft/bg-cave-p.webp') !important; --account-world-focus: 50% 40% !important; }
+  html[data-world='gtarp']:not([data-wbg]) body .gs-account-layout { --account-world-art: url('/media/worlds/gta-rp/bg-race-p.webp') !important; --account-world-focus: 50% 40% !important; }
+}
+
+/* 12. Tint of the pictures (admin panel «Вид», slider 40–140 %): brightness on the picture layers of every page */
+html[data-wbg-tint] body .l2a .scene:not(#a):not(#b),
+html[data-wbg-tint] body .gs-world-backdrop:not(#a):not(#b),
+html[data-wbg-tint] body .gs-server-bg:not(#a):not(#b) { filter: brightness(var(--wbg-bright, 1)) !important; }
+.gs-wbg-tint { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; padding: 8px 10px; border-radius: 12px; background: rgb(255 255 255/.05); color: #e8ecf0; font-size: 13px; }
+.gs-wbg-tint input { grid-column: 1 / -1; width: 100%; accent-color: #c8ff55; min-height: 32px; }
+.gs-wbg-tint button { min-height: 32px; padding: 0 12px; border-radius: 10px; border: 1px solid rgb(255 255 255/.2); background: rgb(255 255 255/.06); color: #e8ecf0; font-size: 12.5px; }
+.gs-wbg-mine { margin: 0; padding: 8px 10px; border-radius: 12px; background: rgb(200 255 85/.08); border: 1px solid rgb(200 255 85/.3); color: #e8f5cf; font: 600 12.5px/1.35 system-ui, sans-serif; }
+
+/* the «Вид» button never floats over a dialog or a sheet (owner 18.11: «тыщу окон поверх других») */
+html.gs-dialog-open .gs-wbg, html:has(dialog[open]) .gs-wbg, html:has(.gs-qv) .gs-wbg, html:has(.gs-search-overlay) .gs-wbg { display: none !important; }
+
+/* ===== world page, desktop: a compact head (owner 19.11: «сверху супер много пустого места»).
+   One band instead of five rows: crumb on top, title + slogan in one row, tagline under it, the counters on the right at the bottom of the band.
+   Boards start at about a third of the screen instead of two thirds. Phone and tablet keep their own head. ===== */
+@media (min-width: 1024px) {
+@layer gs-glass-lab {
+html body .l2a .hero.gs-hero:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){min-height:0!important;padding:0!important}
+html body .l2a .hero.gs-hero .hero-copy:not(#a):not(#b):not(#c):not(#d):not(#e):not(#f){display:grid!important;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"crumb crumb crumb" "title edition metrics" "desc desc metrics";column-gap:20px;row-gap:2px;align-items:end;width:100%!important;max-width:none!important;padding:10px 0 14px!important}
+html body .l2a .hero.gs-hero .hero-copy>.breadcrumb:not(#a):not(#b):not(#c):not(#d){grid-area:crumb;margin:0 0 4px!important}
+html body .l2a .hero.gs-hero .hero-copy>.edition:not(#a):not(#b):not(#c):not(#d){grid-area:edition;margin:0 0 10px!important;align-self:end}
+html body .l2a .hero.gs-hero .hero-copy>h1:not(#a):not(#b):not(#c):not(#d){grid-area:title;margin:0!important;font-size:clamp(46px,4.2vw,60px)!important;line-height:1!important}
+html body .l2a .hero.gs-hero .hero-copy>p:not(#a):not(#b):not(#c):not(#d){grid-area:desc;margin:4px 0 0!important;max-width:760px!important;display:block!important}
+html body .l2a .hero.gs-hero .hero-copy>.metrics:not(#a):not(#b):not(#c):not(#d){grid-area:metrics;margin:0!important;align-self:end;justify-self:end}
+html body .l2a .hero.gs-hero .hero-note:not(#a):not(#b):not(#c):not(#d){display:none!important}
+}
+}
