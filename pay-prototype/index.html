@@ -126,6 +126,12 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .split-note svg{width:18px;height:18px;flex:none;color:var(--signal)}
 .chip.own{border-style:dashed;border-color:rgb(255 255 255 / .24)}
 .chip.own[aria-pressed=true]{border-style:solid}
+.own-coins{display:flex;align-items:center;margin-bottom:2px}
+.own-coins .gsc{width:26px;height:26px}
+.own-coins .gsc+.gsc{margin-left:-10px;transform:translateY(-4px)}
+.own-box{flex-direction:column;align-items:flex-start;padding:14px;border-radius:var(--r-lg);border:1px dashed var(--lime-line);background:var(--lime-soft)}
+.own-box .stepper input{width:120px}
+.own-label{font-weight:700;font-size:15px}
 .own-ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--lime-soft);color:var(--lime);box-shadow:inset 0 0 0 1px var(--lime-line)}
 .own-ic svg{width:17px;height:17px}
 .own-t{font:700 14px/1.2 var(--display);color:var(--ink-50);margin-top:4px}
@@ -289,6 +295,9 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .receipt dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:14px}
 .receipt dt{color:var(--ink-300)}
 .receipt dd{margin:0;text-align:right;font-weight:500}
+.card-tabs{margin:0 auto}
+.card-tabs button{min-height:40px;padding:8px 14px;font-size:13.5px}
+.card-tabs button[aria-pressed=true]{background:var(--lime);color:var(--lime-ink);font-weight:700}
 .cardform{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
 .cardform label{display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--ink-300)}
 .cardform label.full{grid-column:1/-1}
@@ -403,7 +412,7 @@ if (framed) document.getElementById('pbar').remove();
 
 const PRICE = 50;
 const SUPPORT_CHIPS = [5, 10, 25, 50, 100];
-const PACKS = [{c:50,rub:2500,gift:5},{c:100,rub:5000,gift:20,badge:'Оптимально'},{c:500,rub:25000,gift:150,badge:'Выгоднее всего'}];
+const PACKS = [{c:50,rub:2500,gift:5},{c:100,rub:5000,gift:20,badge:'Популярный'},{c:500,rub:25000,gift:150,badge:'Выгоднее всего'}];
 const bonus = p => p.gift;
 const giftFor = c => (PACKS.find(p => p.c === c) || {gift: 0}).gift;
 const SERVER = {name:'Северный Ветер x10', game:'Lineage 2', letter:'С', coins:6};
@@ -476,7 +485,7 @@ function supportCalc() {
     const fromBal = Math.max(0, n - pk.c - pk.gift);
     return {n, pk, pool, fromBal, need: pk.c, buy: pk.c, rubTotal: pk.rub, gift: pk.gift, balanceAfter: pool - n, belowMin: false, m};
   }
-  const n = S.tile === 'up1' ? nextUp : S.tile === 'top' ? toTop : S.amount;
+  const n = S.tile === 'up1' ? nextUp : S.tile === 'top' ? toTop : (S.ownTyped ? S.amount : 0);
   const fromBal = S.useBalance ? Math.min(S.balance, n) : 0;
   const need = n - fromBal;
   return {n, pk: null, fromBal, need, buy: need, rubTotal: priceFor(need), gift: 0, balanceAfter: S.balance - fromBal, belowMin: need > 0 && m && m.min && need < m.min, m};
@@ -560,12 +569,12 @@ function renderSupport() {
   const eff = n => { const e = effectLabel(n); return `<span class="e ${e.cls}">${e.cls === 'top' ? ic.crown + ' ' : ''}${e.t}</span>`; };
   const tiles = [
     tileBtn('up1', '+1 место', nextUp, nextUp * PRICE, '', '', `<span class="e up">#${curPlace} → #${curPlace - 1}</span>`),
-    tileBtn('top', 'Топ-1', toTop, toTop * PRICE, '', '<span class="badge">Сразу в топ-1</span>', `<span class="e top">${ic.crown} лидер +1</span>`),
+    tileBtn('top', 'Сразу в топ-1', toTop, toTop * PRICE, '', '', `<span class="e top">${ic.crown} лидер +1</span>`),
     ...PACKS.map(pk => tileBtn(pk.c, 'Пакет', pk.c, pk.rub, `<span class="cg num">${ic.gift}+${pk.gift}<span class="sr"> Coins в подарок</span></span>`,
-      pk.c === 500 ? '<span class="badge green">Выгоднее всего</span>' : '', `<span class="e">всего ${pk.c + pk.gift}</span>`)),
+      pk.c === 500 ? '<span class="badge green">Выгоднее всего</span>' : pk.c === 100 ? '<span class="badge">Популярный</span>' : '', `<span class="e">всего ${pk.c + pk.gift}</span>`)),
     S.tile === 'custom'
-      ? `<button type="button" class="chip own" aria-pressed="true" data-tile="custom"><span class="k">Своя</span><span class="c num">${coinSvg}${S.amount}</span><span class="p num">${rub(priceFor(S.amount))}</span>${eff(S.amount)}</button>`
-      : `<button type="button" class="chip own" aria-pressed="false" data-tile="custom"><span class="own-ic">${ic.edit}</span><span class="own-t">Своя сумма</span><span class="e">от 1 Coin</span></button>`
+      ? `<button type="button" class="chip own" aria-pressed="true" data-tile="custom"><span class="own-coins">${coinSvg}${coinSvg}</span><span class="own-t">Своя сумма</span><span class="e up">впишите ниже ↓</span></button>`
+      : `<button type="button" class="chip own" aria-pressed="false" data-tile="custom"><span class="own-coins">${coinSvg}${coinSvg}</span><span class="own-t">Своя сумма</span><span class="e">от 1 Coin</span></button>`
   ].join('');
 
   const split = k.pk ? `<div class="split" aria-label="Как распределить Coins">
@@ -600,11 +609,12 @@ function renderSupport() {
     <div class="co-main">
       <section class="sec" aria-labelledby="s1"><h2 id="s1"><span class="step">1</span>Выберите поддержку</h2>
         <div class="chips">${tiles}</div>
-        <div class="custom${S.tile === 'custom' ? ' on' : ''}">
+        <div class="custom own-box${S.tile === 'custom' ? ' on' : ''}">
+          <label class="own-label" for="own-amount">Сколько Coins отдать серверу?</label>
           <div class="stepper"><button type="button" data-act="dec" aria-label="Меньше"${S.amount <= 1 ? ' disabled' : ''}>−</button>
-            <input type="number" inputmode="numeric" min="1" max="10000" value="${S.amount}" aria-label="Количество Coins" data-act="amount">
+            <input id="own-amount" type="number" inputmode="numeric" min="1" max="10000" placeholder="0" value="${S.ownTyped ? S.amount : ''}" aria-label="Количество Coins" data-act="amount">
             <button type="button" data-act="inc" aria-label="Больше"${S.amount >= 10000 ? ' disabled' : ''}>+</button></div>
-          <span class="hint num">= ${rub(priceFor(S.amount))}</span>
+          <span class="hint num">${S.ownTyped ? '= ' + rub(priceFor(S.amount)) + ' · ' + effectLabel(S.amount).t : 'от 1 до 10 000'}</span>
         </div>
         ${split}
       </section>
@@ -728,8 +738,18 @@ function showQr() {
     <button type="button" class="link" data-act="back">Изменить способ оплаты</button></div>`);
   timer = setInterval(() => { left--; const el = document.getElementById('tm'); if (el) el.textContent = `Код действует ${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')} · страница обновится сама`; }, 1000);
 }
-function showCard() {
-  showState(`<h2>Данные карты</h2><p>Форма ЮKassa. Мы не видим и не храним данные карты.</p>
+function showCard(mode) {
+  mode = mode || (isPhone() ? 'bank' : 'form');
+  const tabs = `<div class="seg card-tabs" role="tablist" aria-label="Как оплатить картой">
+      <button type="button" role="tab" aria-pressed="${mode === 'bank'}" data-act="card-bank">В приложении банка</button>
+      <button type="button" role="tab" aria-pressed="${mode === 'form'}" data-act="card-form">Ввести номер карты</button></div>`;
+  if (mode === 'bank') {
+    const banks = [['СберБанк','#21a038','С','#fff'],['Т-Банк','#ffdd2d','Т','#111'],['ВТБ','#0a2896','ВТБ','#fff'],['Альфа-Банк','#ef3124','А','#fff'],['Газпромбанк','#2c4ea2','Г','#fff'],['Другой банк','#3a4150','…','#fff']];
+    return showState(`<h2>Оплата картой</h2>${tabs}<p>Нажмите свой банк — откроется его приложение с готовым платежом на ${amountText()}. Ничего вводить не нужно.</p>
+      <div class="banks">${banks.map(([n, c, l, t]) => `<button type="button" class="bank" data-act="bank"><i style="background:${c};color:${t}">${l}</i>${n}</button>`).join('')}</div>
+      <div class="acts"><button type="button" class="link" data-act="back">Изменить способ оплаты</button></div>`);
+  }
+  showState(`<h2>Оплата картой</h2>${tabs}<p>Форма ЮKassa. Мы не видим и не храним данные карты.</p>
     <form class="cardform" data-form="card" autocomplete="off">
       <label class="full">Номер карты<input inputmode="numeric" placeholder="0000 0000 0000 0000" aria-label="Номер карты (имитация)"></label>
       <label>Срок<input inputmode="numeric" placeholder="ММ/ГГ"></label>
@@ -790,8 +810,8 @@ co.addEventListener('click', e => {
   if (t.dataset.method) { S.method = t.dataset.method; return render(); }
   if (t.dataset.pack) { S.pack = +t.dataset.pack; S.packCustom = false; return render(); }
   switch (act) {
-    case 'dec': S.amount = Math.max(1, S.amount - 1); return render();
-    case 'inc': S.amount = Math.min(10000, S.amount + 1); return render();
+    case 'dec': S.amount = S.ownTyped ? Math.max(1, S.amount - 1) : 1; S.ownTyped = true; return render();
+    case 'inc': S.amount = S.ownTyped ? Math.min(10000, S.amount + 1) : 1; S.ownTyped = true; return render();
     case 'sdec': S.serverAmt = supportCalc().n - 1; return render();
     case 'sinc': S.serverAmt = supportCalc().n + 1; return render();
     case 'stop': S.serverAmt = toTop; return render();
@@ -805,6 +825,8 @@ co.addEventListener('click', e => {
     case 'pay': return startPay();
     case 'bank': return showWaiting('Подтвердите в приложении банка', `Платёж на ${amountText()} уже в приложении. После подтверждения вернём вас сюда — ничего нажимать не нужно.`, 'Открыть приложение ещё раз');
     case 'sim': return finish();
+    case 'card-bank': return showCard('bank');
+    case 'card-form': return showCard('form');
     case 'retry': return startPay();
     case 'back': case 'close': return render();
     case 'tosupport': S.screen = 'support'; return render();
@@ -818,7 +840,7 @@ co.addEventListener('change', e => {
   if (t.dataset.act === 'amount' || t.dataset.act === 'pamount') {
     const v = Math.round(+t.value);
     const ok = Number.isFinite(v) ? Math.min(10000, Math.max(1, v)) : 1;
-    if (t.dataset.act === 'amount') S.amount = ok; else S.packAmount = ok;
+    if (t.dataset.act === 'amount') { S.amount = ok; S.ownTyped = true; } else S.packAmount = ok;
     render();
   }
 });
