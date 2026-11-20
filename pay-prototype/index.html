@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#05060a">
+<title>Оплата GameScout — прототип</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a;--ink-900:#0c0e13;--ink-850:#101319;--ink-800:#14171f;--ink-750:#191d26;--ink-700:#1f242f;--ink-600:#2a303d;--ink-500:#3a4150;
+  --ink-400:#5a6375;--ink-300:#838da1;--ink-200:#b4bccb;--ink-100:#dde2ec;--ink-50:#f4f6fa;
+  --lime:#c8ff55;--lime-ink:#11160a;--lime-soft:rgb(200 255 85 / .12);--lime-line:rgb(200 255 85 / .55);
+  --gold:#e3b95e;--gold-soft:rgb(227 185 94 / .14);--signal:#2ee0a6;--danger:#ff7a88;--danger-soft:rgb(240 71 94 / .14);
+  --glass:rgb(20 23 31 / .78);--line:rgb(255 255 255 / .08);--line-2:rgb(255 255 255 / .14);
+  --r-sm:10px;--r-md:14px;--r-lg:20px;--r-xl:26px;
+  --sans:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--display:'Inter Tight','Inter',ui-sans-serif,system-ui,sans-serif;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink-50);font:15px/1.45 var(--sans);
+  background-image:radial-gradient(900px 500px at 15% -10%,rgb(200 255 85 / .07),transparent 60%),radial-gradient(800px 600px at 110% 10%,rgb(124 107 245 / .08),transparent 60%);
+  background-attachment:fixed;overflow-x:hidden}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- prototype control bar (not part of the product) ---------- */
+.pbar{position:relative;z-index:30;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px 16px;
+  background:rgb(124 107 245 / .10);border-bottom:1px dashed rgb(154 140 255 / .45);font-size:12.5px;color:var(--ink-200)}
+.pbar b{color:#d6cfff;font-weight:600;letter-spacing:.02em}
+.pbar .grp{display:flex;align-items:center;gap:6px}
+.pbar .grp>span{color:var(--ink-300)}
+.seg{display:inline-flex;background:rgb(0 0 0 / .35);border:1px solid var(--line-2);border-radius:999px;padding:2px}
+.seg button{border:0;background:none;border-radius:999px;padding:5px 10px;min-height:30px;font-size:12.5px;color:var(--ink-200)}
+.seg button[aria-pressed=true]{background:#d6cfff;color:#151129;font-weight:600}
+.pbar .toggle{margin-left:auto;border:1px solid var(--line-2);background:none;border-radius:999px;padding:5px 12px;min-height:30px;font-size:12.5px;color:#d6cfff}
+.pbar .more{display:contents}
+@media (max-width:719px){
+  .pbar{padding:8px 16px}
+  .pbar .more{display:none;width:100%}
+  .pbar.open .more{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%}
+}
+@media (min-width:720px){.pbar .toggle{display:none}}
+
+/* ---------- stage ---------- */
+.stage{display:flex;justify-content:center;padding:28px 24px 48px}
+.phone-frame{display:none}
+body.as-phone .stage{padding-top:20px}
+body.as-phone .co{display:none}
+body.as-phone .phone-frame{display:block;width:390px;height:844px;border-radius:44px;border:10px solid #1b1e26;box-shadow:0 30px 80px rgb(0 0 0 / .6);overflow:hidden;background:var(--bg)}
+.phone-frame iframe{width:100%;height:100%;border:0;display:block}
+
+/* ---------- checkout ---------- */
+.co{width:min(1060px,100%);background:var(--glass);border:1px solid var(--line-2);border-radius:var(--r-xl);
+  box-shadow:0 40px 120px rgb(0 0 0 / .55),inset 0 1px 0 rgb(255 255 255 / .05);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow:clip}
+.co-head{display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid var(--line)}
+.logo{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font:800 20px/1 var(--display);color:#0b0d12;
+  background:linear-gradient(140deg,#9be7ff,#6b7cff);box-shadow:inset 0 0 0 1px rgb(255 255 255 / .25)}
+.logo.wallet{background:linear-gradient(140deg,#ffe29a,#d9a441)}
+.co-head .t{min-width:0;flex:1}
+.co-head small{display:block;color:var(--ink-300);font-size:12.5px}
+.co-head h1{margin:2px 0 0;font:700 19px/1.2 var(--display);overflow-wrap:anywhere}
+.x{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);background:rgb(255 255 255 / .04);display:grid;place-items:center}
+.x svg{width:18px;height:18px}
+
+.co-body{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.9fr)}
+.co-main{padding:22px;display:flex;flex-direction:column;gap:22px;min-width:0}
+.co-side{padding:22px;border-left:1px solid var(--line);background:rgb(0 0 0 / .18)}
+.co-side .sticky{position:sticky;top:22px;display:flex;flex-direction:column;gap:16px}
+
+.sec h2{margin:0 0 12px;font:600 13px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-300);display:flex;align-items:center;gap:8px}
+.sec h2 .step{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--ink-700);color:var(--ink-100);font-size:12px;letter-spacing:0}
+
+/* amount chips */
+.chips{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.chip{position:relative;min-height:84px;border-radius:var(--r-md);border:1px solid var(--line-2);background:rgb(255 255 255 / .03);
+  padding:10px 8px 9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:border-color .15s,background .15s,transform .1s}
+.chip:hover{border-color:rgb(255 255 255 / .28)}
+.chip:active{transform:scale(.98)}
+.chip .c{font:800 22px/1 var(--display);display:flex;align-items:center;gap:5px}
+.chip .c svg{width:16px;height:16px}
+.chip .p{font-size:12.5px;color:var(--ink-200)}
+.chip .e{font-size:11.5px;color:var(--ink-300);margin-top:2px}
+.chip .e.up{color:var(--signal)}
+.chip .e.top{color:var(--gold)}
+.chip[aria-pressed=true]{border-color:var(--lime);background:var(--lime-soft);box-shadow:inset 0 0 0 1px var(--lime)}
+.chip .badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--gold);color:#1d1404}
+.chip.own .c{font-size:16px}
+
+.custom{display:none;margin-top:12px;align-items:center;gap:10px;flex-wrap:wrap}
+.custom.on{display:flex}
+.stepper{display:flex;align-items:center;border:1px solid var(--line-2);border-radius:var(--r-md);background:rgb(0 0 0 / .25);overflow:hidden}
+.stepper button{width:48px;height:48px;border:0;background:none;font-size:22px;color:var(--ink-100)}
+.stepper button:disabled{opacity:.3;cursor:default}
+.stepper input{width:88px;height:48px;border:0;background:none;text-align:center;font:700 20px var(--display);-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.custom .hint{font-size:13px;color:var(--ink-300)}
+.ghost{border:1px solid var(--line-2);background:rgb(255 255 255 / .04);border-radius:999px;padding:0 14px;min-height:40px;font-size:13.5px;display:inline-flex;align-items:center;gap:6px}
+.ghost.gold{border-color:rgb(227 185 94 / .5);color:var(--gold);background:var(--gold-soft)}
+.err{color:var(--danger);font-size:13px;width:100%}
+
+/* rank preview */
+.rank{border:1px solid var(--line);border-radius:var(--r-lg);background:rgb(255 255 255 / .025);padding:14px 14px 10px}
+.rank-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.rank-top .big{font:800 26px/1 var(--display);display:flex;align-items:center;gap:8px}
+.rank-top .big .from{color:var(--ink-400)}
+.rank-top .big .arrow{color:var(--ink-400);font-size:18px}
+.rank-top .big .to{color:var(--lime)}
+.rank-top .what{font-size:13px;color:var(--ink-200);line-height:1.35}
+.ladder{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.ladder li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:8px;padding:7px 10px;border-radius:10px;font-size:13.5px;color:var(--ink-200);transition:background .25s}
+.ladder li .pl{font:700 13px var(--display);color:var(--ink-400)}
+.ladder li .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ladder li .cs{font-weight:600;color:var(--ink-100)}
+.ladder li.me{background:var(--lime-soft);color:var(--ink-50);box-shadow:inset 0 0 0 1px var(--lime-line)}
+.ladder li.me .pl{color:var(--lime)}
+.ladder li.passed .nm{color:var(--ink-400);text-decoration:line-through;text-decoration-color:rgb(255 255 255 / .2)}
+.ladder .gap{text-align:center;color:var(--ink-500);font-size:12px;padding:0;letter-spacing:.3em}
+
+/* payment */
+.balance-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-md);border:1px solid var(--line-2);background:rgb(255 255 255 / .03);margin-bottom:12px}
+.balance-row .bi{width:36px;height:36px;border-radius:10px;background:var(--gold-soft);display:grid;place-items:center;flex:none}
+.balance-row .bi svg{width:20px;height:20px}
+.balance-row .bt{flex:1;min-width:0}
+.balance-row .bt strong{display:block;font-weight:600}
+.balance-row .bt span{font-size:12.5px;color:var(--ink-300)}
+.switch{position:relative;width:52px;height:32px;flex:none;border-radius:999px;border:0;background:var(--ink-600);transition:background .15s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;transition:transform .15s}
+.switch[aria-checked=true]{background:var(--lime)}
+.switch[aria-checked=true]::after{transform:translateX(20px);background:var(--lime-ink)}
+
+.covered{display:flex;gap:10px;align-items:center;padding:14px;border-radius:var(--r-md);background:rgb(46 224 166 / .08);border:1px solid rgb(46 224 166 / .3);color:#bff5e2;font-size:14px}
+.covered svg{width:20px;height:20px;flex:none;color:var(--signal)}
+
+.methods{display:flex;flex-direction:column;gap:8px}
+.m{display:flex;align-items:center;gap:12px;width:100%;text-align:left;min-height:60px;padding:10px 14px;border-radius:var(--r-md);border:1px solid var(--line-2);background:rgb(255 255 255 / .03);transition:border-color .15s,background .15s}
+.m:hover{border-color:rgb(255 255 255 / .26)}
+.m[aria-checked=true]{border-color:var(--lime);background:var(--lime-soft);box-shadow:inset 0 0 0 1px var(--lime)}
+.m .ic{width:38px;height:38px;border-radius:10px;flex:none;display:grid;place-items:center;font:800 11px/1 var(--display);color:#fff}
+.m .mt{flex:1;min-width:0}
+.m .mt strong{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:600}
+.m .mt span{display:block;font-size:12.5px;color:var(--ink-300)}
+.tag{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--lime);color:var(--lime-ink);letter-spacing:.01em}
+.m .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--ink-500);flex:none;display:grid;place-items:center}
+.m[aria-checked=true] .dot{border-color:var(--lime)}
+.m[aria-checked=true] .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--lime)}
+.m[disabled]{opacity:.45;cursor:not-allowed}
+.more-btn{border:0;background:none;color:var(--ink-200);font-size:13.5px;padding:10px 4px;min-height:44px;display:inline-flex;align-items:center;gap:6px}
+.more-btn svg{width:16px;height:16px;transition:transform .15s}
+.more-btn[aria-expanded=true] svg{transform:rotate(180deg)}
+.more-list{display:none;flex-direction:column;gap:8px}
+.more-list.on{display:flex}
+
+.upsell{display:flex;gap:12px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:var(--r-md);border:1px dashed rgb(227 185 94 / .45);background:var(--gold-soft);cursor:pointer}
+.upsell input{appearance:none;-webkit-appearance:none;margin:2px 0 0;width:22px;height:22px;border-radius:6px;border:2px solid var(--gold);flex:none;display:grid;place-items:center;cursor:pointer}
+.upsell input:checked{background:var(--gold)}
+.upsell input:checked::after{content:"";width:6px;height:11px;border:solid #1d1404;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.upsell strong{display:block;font-weight:600;color:#f6deaa}
+.upsell span{font-size:12.5px;color:var(--ink-200)}
+
+/* summary + pay */
+.sum{border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 16px;background:rgb(255 255 255 / .02)}
+.sum h3{margin:0 0 8px;font:600 13px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-300)}
+.sum dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:7px 12px;font-size:14px}
+.sum dt{color:var(--ink-300)}
+.sum dd{margin:0;text-align:right;font-weight:500}
+.sum .total{border-top:1px solid var(--line);padding-top:10px;margin-top:4px}
+.sum dt.total{color:var(--ink-100);font-weight:600;font-size:16px;align-self:end}
+.sum dd.total{font:800 22px/1.1 var(--display);color:var(--ink-50)}
+.notes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--ink-300)}
+.notes li{display:flex;gap:8px}
+.notes svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--ink-400)}
+.pay{width:100%;min-height:56px;border:0;border-radius:16px;background:var(--lime);color:var(--lime-ink);font:700 17px var(--display);
+  display:flex;align-items:center;justify-content:center;gap:10px;padding:0 18px;box-shadow:0 10px 30px rgb(200 255 85 / .18);transition:filter .15s,transform .1s}
+.pay:hover{filter:brightness(1.05)}
+.pay:active{transform:scale(.99)}
+.pay:disabled{background:var(--ink-600);color:var(--ink-300);box-shadow:none;cursor:not-allowed}
+.pay svg{width:20px;height:20px}
+.legal{font-size:12px;color:var(--ink-400);text-align:center;margin:0}
+.legal a{color:var(--ink-200)}
+.paybar-line{display:none}
+
+/* states */
+.state{padding:34px 22px 30px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;max-width:520px;margin:0 auto}
+.state h2{margin:0;font:800 24px/1.2 var(--display)}
+.state p{margin:0;color:var(--ink-200)}
+.state .acts{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:6px}
+.state .sec-btn{min-height:50px;border-radius:14px;border:1px solid var(--line-2);background:rgb(255 255 255 / .04);font-weight:600}
+.state .link{border:0;background:none;color:var(--ink-200);text-decoration:underline;min-height:44px}
+.spin{width:56px;height:56px;border-radius:50%;border:4px solid var(--ink-600);border-top-color:var(--lime);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.okmark{width:76px;height:76px;border-radius:50%;background:var(--lime);display:grid;place-items:center;color:var(--lime-ink);animation:pop .35s cubic-bezier(.2,1.4,.4,1)}
+.okmark svg{width:40px;height:40px}
+.failmark{width:76px;height:76px;border-radius:50%;background:var(--danger-soft);border:1px solid rgb(255 122 136 / .5);display:grid;place-items:center;color:var(--danger)}
+.failmark svg{width:36px;height:36px}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+.qr{background:#fff;border-radius:18px;padding:14px;width:220px;height:220px}
+.qr svg{width:100%;height:100%;display:block}
+.timer{font-size:13px;color:var(--ink-300)}
+.banks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%}
+.bank{min-height:56px;border-radius:14px;border:1px solid var(--line-2);background:rgb(255 255 255 / .04);display:flex;align-items:center;gap:10px;padding:0 12px;font-weight:600;text-align:left}
+.bank i{width:28px;height:28px;border-radius:8px;flex:none}
+.receipt{width:100%;border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 16px;text-align:left;background:rgb(255 255 255 / .02)}
+.receipt dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:14px}
+.receipt dt{color:var(--ink-300)}
+.receipt dd{margin:0;text-align:right;font-weight:500}
+.cardform{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
+.cardform label{display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--ink-300)}
+.cardform label.full{grid-column:1/-1}
+.cardform input{height:50px;border-radius:12px;border:1px solid var(--line-2);background:rgb(0 0 0 / .3);padding:0 14px;font-size:16px;color:var(--ink-50)}
+.secure{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-400)}
+.secure svg{width:14px;height:14px}
+
+/* wallet packs */
+.packs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pack{position:relative;text-align:left;border-radius:var(--r-lg);border:1px solid var(--line-2);background:rgb(255 255 255 / .03);padding:16px;display:flex;flex-direction:column;gap:6px;min-height:132px}
+.pack[aria-pressed=true]{border-color:var(--lime);background:var(--lime-soft);box-shadow:inset 0 0 0 1px var(--lime)}
+.pack .c{font:800 28px/1 var(--display);display:flex;align-items:center;gap:8px}
+.pack .c svg{width:22px;height:22px}
+.pack .p{font:700 17px var(--display)}
+.pack .u{font-size:12.5px;color:var(--ink-300)}
+.pack .save{align-self:flex-start;font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:999px;background:rgb(46 224 166 / .14);color:var(--signal)}
+.pack .badge{position:absolute;top:-10px;right:12px;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--gold);color:#1d1404}
+.pack.own{justify-content:center}
+.balance-hero{display:flex;align-items:center;gap:14px;padding:16px;border-radius:var(--r-lg);background:linear-gradient(135deg,rgb(227 185 94 / .16),rgb(227 185 94 / .04));border:1px solid rgb(227 185 94 / .3)}
+.balance-hero svg{width:40px;height:40px;flex:none}
+.balance-hero small{display:block;color:var(--ink-200);font-size:12.5px}
+.balance-hero strong{font:800 28px/1.1 var(--display)}
+
+/* ---------- tablet ---------- */
+@media (max-width:959px){
+  .co-body{grid-template-columns:minmax(0,1fr)}
+  .co-side{border-left:0;border-top:1px solid var(--line)}
+  .co-side .sticky{position:static}
+  .chips{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+/* ---------- phone ---------- */
+@media (max-width:719px){
+  .stage{padding:0}
+  .co{border-radius:0;border-left:0;border-right:0;border-top:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent;min-height:calc(100vh - 46px)}
+  .co-head{position:sticky;top:0;z-index:5;padding:12px 16px;background:rgb(8 9 13 / .92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .logo{width:40px;height:40px;border-radius:12px;font-size:17px}
+  .co-head h1{font-size:17px}
+  .co-main{padding:16px;gap:20px}
+  .co-side{padding:16px 16px calc(150px + var(--safe-b));background:none}
+  .co-side .paywrap{position:fixed;left:0;right:0;bottom:0;z-index:10;padding:10px 16px calc(12px + var(--safe-b));
+    background:rgb(8 9 13 / .94);border-top:1px solid var(--line-2);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 -16px 30px rgb(0 0 0 / .45);display:flex;flex-direction:column;gap:6px}
+  .paybar-line{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--ink-300);padding:0 2px}
+  .paybar-line b{color:var(--ink-100);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chip{min-height:78px}
+  .chip .c{font-size:20px}
+  .packs{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .pack{min-height:118px;padding:14px}
+  .pack .c{font-size:24px}
+  .state{padding:28px 16px calc(28px + var(--safe-b))}
+}
+@media (max-width:359px){
+  .chip .e{font-size:10.5px}
+  .chip .p{font-size:11.5px}
+  .co-head{gap:10px}
+  .m{padding:10px 12px;gap:10px}
+  .m .ic{width:34px;height:34px}
+}
+@media (max-height:480px) and (orientation:landscape){
+  .co-side .paywrap{position:fixed;left:0;right:0;bottom:0;z-index:10;padding:8px max(16px,env(safe-area-inset-right)) calc(8px + var(--safe-b)) max(16px,env(safe-area-inset-left));
+    background:rgb(8 9 13 / .94);border-top:1px solid var(--line-2);display:flex;flex-direction:row;align-items:center;gap:14px}
+  .co-side .paywrap .paybar-line{display:flex;flex-direction:column;flex:1;min-width:0}
+  .co-side .paywrap .legal{display:none}
+  .co-side .paywrap .pay{width:auto;min-width:240px;min-height:48px}
+  .co{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgb(16 19 25 / .97)}
+  .co-side{padding-bottom:84px}
+  .co-head{position:static}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="pbar" id="pbar" aria-label="Панель прототипа">
+  <b>Прототип · деньги не списываются</b>
+  <button class="toggle" type="button" aria-expanded="false" aria-controls="pmore" id="ptoggle">Сценарий</button>
+  <div class="more" id="pmore">
+    <div class="grp"><span>Экран</span><div class="seg" data-k="screen"><button data-v="support">Поддержка</button><button data-v="wallet">Кошелёк</button></div></div>
+    <div class="grp"><span>Баланс</span><div class="seg" data-k="balance"><button data-v="0">0</button><button data-v="8">8</button><button data-v="60">60</button></div></div>
+    <div class="grp"><span>Итог</span><div class="seg" data-k="outcome"><button data-v="ok">Успех</button><button data-v="fail">Ошибка</button></div></div>
+    <div class="grp" id="viewgrp"><span>Вид</span><div class="seg" data-k="view"><button data-v="auto">Как есть</button><button data-v="phone">Телефон</button></div></div>
+  </div>
+</div>
+
+<main class="stage">
+  <section class="co" id="co" aria-live="polite"></section>
+  <div class="phone-frame" id="pframe"></div>
+</main>
+
+<script>
+(() => {
+'use strict';
+const qs = new URLSearchParams(location.search);
+const framed = qs.get('frame') === '1';
+const S = {
+  screen: qs.get('screen') || 'support',
+  balance: +(qs.get('balance') ?? 0),
+  outcome: qs.get('outcome') || 'ok',
+  view: 'auto',
+  amount: 11, custom: false, useBalance: true, method: 'sbp', showMore: false, upsell: false,
+  pack: 100, packCustom: false, packAmount: 20,
+  state: 'form'
+};
+if (framed) document.getElementById('pbar').remove();
+
+const PRICE = 50;
+const SUPPORT_CHIPS = [3, 6, 11, 21, 40];
+const PACKS = [{c:50,rub:2350},{c:100,rub:4400,badge:'Популярный'},{c:500,rub:20000,badge:'Выгоднее всего'}];
+const SERVER = {name:'Северный Ветер x10', game:'Lineage 2', letter:'С', coins:6};
+const PEERS = [
+  {name:'Dragon Gate x50', coins:24},{name:'Imperium PvP', coins:15},{name:'Aurora Classic', coins:12},
+  {name:'Old School x3', coins:9},{name:SERVER.name, coins:6, me:true},{name:'Legacy Interlude', coins:5},
+  {name:'Freya x100', coins:3},{name:'Gracia Final', coins:2}
+];
+const METHODS = [
+  {id:'sbp', name:'СБП', sub:'Через приложение банка · мгновенно', tag:'Без комиссии', color:'linear-gradient(135deg,#5b57d1,#1fa463)', glyph:'СБП'},
+  {id:'card', name:'Банковская карта', sub:'Мир, Visa, Mastercard', color:'linear-gradient(135deg,#3a4150,#1f242f)', glyph:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h4"/></svg>'},
+  {id:'sberpay', name:'SberPay', sub:'В приложении СберБанк Онлайн', color:'#21a038', glyph:'SBER'},
+  {id:'tpay', name:'T-Pay', sub:'В приложении Т-Банка', color:'#ffdd2d;color:#111', glyph:'T'},
+  {id:'yoomoney', name:'ЮMoney', sub:'Кошелёк ЮMoney', color:'#8b3ffd', glyph:'Ю'}
+];
+const MORE = [
+  {id:'cryptobot', name:'Telegram · CryptoBot', sub:'Криптовалюта в Telegram · от 10 Coins', color:'#229ed9', glyph:'TG', min:10},
+  {id:'usdt', name:'USDT', sub:'Перевод TRC20 с кошелька или биржи · от 10 Coins', color:'#26a17b', glyph:'₮', min:10}
+];
+const ALL = [...METHODS, ...MORE];
+
+const coinSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe7a3"/><stop offset="1" stop-color="#c9922f"/></linearGradient></defs><circle cx="12" cy="12" r="10.5" fill="url(#cg)"/><circle cx="12" cy="12" r="7.6" fill="none" stroke="#8a5f17" stroke-opacity=".55" stroke-width="1.2"/><text x="12" y="15.3" text-anchor="middle" font-family="Inter Tight,Arial" font-weight="800" font-size="8.2" fill="#6b4710">GS</text></svg>';
+const ic = {
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16.5 9"/></svg>',
+  chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+  bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 14h6l-1 7 8-11h-6l1-7z"/></svg>',
+  crown:'<svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5L3 7z"/></svg>',
+  fail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>'
+};
+const rub = n => n.toLocaleString('ru-RU').replace(/ /g,' ') + ' ₽';
+const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
+const coinsWord = n => n + ' ' + plural(n, 'Coin', 'Coins', 'Coins');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+const isPhone = () => matchMedia('(max-width:719px)').matches;
+const until = () => { const d = new Date(Date.now() + 30 * 864e5); return d.toLocaleDateString('ru-RU', {day:'numeric', month:'long'}); };
+
+/* --- ranking maths --- */
+function placeWith(add) {
+  const mine = SERVER.coins + add;
+  const others = PEERS.filter(p => !p.me);
+  return others.filter(p => p.coins >= mine).length + 1; // a tie keeps the one who got there first above us
+}
+const curPlace = placeWith(0);
+const toTop = Math.max(...PEERS.filter(p=>!p.me).map(p=>p.coins)) - SERVER.coins + 1;
+function effectLabel(n) {
+  const p = placeWith(n);
+  if (p === 1) return {t:'топ-1', cls:'top'};
+  if (p < curPlace) return {t:'#' + curPlace + ' → #' + p, cls:'up'};
+  return {t:'держит #' + p, cls:''};
+}
+
+/* --- money maths --- */
+function supportCalc() {
+  const n = S.amount;
+  const fromBal = S.useBalance ? Math.min(S.balance, n) : 0;
+  const need = n - fromBal;
+  const cheapestPack = PACKS.find(p => p.c >= need);
+  const upsellOn = S.upsell && need > 0 && cheapestPack;
+  const buy = upsellOn ? cheapestPack.c : need;
+  const rubTotal = upsellOn ? cheapestPack.rub : need * PRICE;
+  const m = ALL.find(x => x.id === S.method);
+  const belowMin = need > 0 && m && m.min && buy < m.min;
+  return {n, fromBal, need, buy, rubTotal, leftover: upsellOn ? cheapestPack.c - need : 0, pack: cheapestPack, upsellOn, belowMin, m};
+}
+function walletCalc() {
+  const c = S.packCustom ? S.packAmount : S.pack;
+  const pack = PACKS.find(p => p.c === c);
+  const rubTotal = pack ? pack.rub : c * PRICE;
+  const m = ALL.find(x => x.id === S.method);
+  return {c, rubTotal, full: c * PRICE, pack, m, belowMin: m && m.min && c < m.min};
+}
+
+/* --- rendering --- */
+const co = document.getElementById('co');
+function head(sub, title, wallet) {
+  return `<header class="co-head">
+    <div class="logo${wallet ? ' wallet' : ''}" aria-hidden="true">${wallet ? coinSvg.replace('viewBox','style="width:30px;height:30px" viewBox') : SERVER.letter}</div>
+    <div class="t"><small>${sub}</small><h1>${title}</h1></div>
+    <button class="x" type="button" aria-label="Закрыть" data-act="close">${ic.x}</button>
+  </header>`;
+}
+function methodBtn(m, disabledReason) {
+  const on = S.method === m.id;
+  const style = m.color.includes(';') ? 'background:' + m.color : 'background:' + m.color;
+  return `<button type="button" role="radio" class="m" aria-checked="${on}" data-method="${m.id}"${disabledReason ? ' disabled' : ''}>
+    <span class="ic" style="${style}">${m.glyph}</span>
+    <span class="mt"><strong>${m.name}${m.tag ? ` <span class="tag">${m.tag}</span>` : ''}</strong><span>${disabledReason || m.sub}</span></span>
+    <span class="dot" aria-hidden="true"></span></button>`;
+}
+function methodsBlock(amountCoins) {
+  const moreOpen = S.showMore || MORE.some(m => m.id === S.method);
+  return `<div class="methods" role="radiogroup" aria-label="Способ оплаты">
+      ${METHODS.map(m => methodBtn(m)).join('')}
+    </div>
+    <button type="button" class="more-btn" data-act="more" aria-expanded="${moreOpen}">${moreOpen ? 'Скрыть' : 'Криптовалюта и Telegram'} ${ic.chev}</button>
+    <div class="more-list${moreOpen ? ' on' : ''}" role="radiogroup" aria-label="Другие способы">
+      ${MORE.map(m => methodBtn(m)).join('')}
+    </div>`;
+}
+function notes(list) {
+  return `<ul class="notes">${list.map(([i, t]) => `<li>${ic[i]}<span>${t}</span></li>`).join('')}</ul>`;
+}
+
+function renderSupport() {
+  const k = supportCalc();
+  const newPlace = placeWith(k.n);
+  const passed = PEERS.filter(p => !p.me && p.coins < SERVER.coins + k.n && p.coins >= SERVER.coins).map(p => p.name);
+  // the ladder: everyone around the new place
+  const rows = PEERS.map(p => p.me ? {...p, coins: SERVER.coins + k.n} : {...p});
+  rows.sort((a, b) => b.coins - a.coins || (a.me ? 1 : b.me ? -1 : 0));
+  const meIdx = rows.findIndex(r => r.me);
+  const from = Math.max(0, Math.min(meIdx - 2, rows.length - 5)), shown = rows.slice(from, from + 5);
+  const ladder = (from > 0 ? `<li class="gap" aria-hidden="true">···</li>` : '') + shown.map(r => {
+    const pl = rows.indexOf(r) + 1;
+    return `<li class="${r.me ? 'me' : passed.includes(r.name) ? 'passed' : ''}"><span class="pl">#${pl}</span><span class="nm">${esc(r.name)}</span><span class="cs num">${r.coins}</span></li>`;
+  }).join('');
+  const what = newPlace === 1 ? 'Сервер станет первым в поддержке ' + SERVER.game
+    : newPlace < curPlace ? `Обгоните ${passed.length === 1 ? esc(passed[0]) : passed.length + ' ' + plural(passed.length,'сервер','сервера','серверов')}`
+    : `Место сохранится. Чтобы подняться, нужно ${coinsWord(Math.min(...PEERS.filter(p => !p.me && p.coins >= SERVER.coins + k.n).map(p => p.coins)) - SERVER.coins + 1)}`;
+
+  const chips = SUPPORT_CHIPS.map(n => {
+    const e = effectLabel(n); const on = !S.custom && S.amount === n;
+    return `<button type="button" class="chip" aria-pressed="${on}" data-amount="${n}">
+      ${n === 11 ? '<span class="badge">Чаще выбирают</span>' : ''}
+      <span class="c num">${coinSvg}${n}</span><span class="p num">${rub(n * PRICE)}</span><span class="e ${e.cls}">${e.cls === 'top' ? ic.crown + ' ' : ''}${e.t}</span></button>`;
+  }).join('') + `<button type="button" class="chip own" aria-pressed="${S.custom}" data-act="custom"><span class="c">Своё</span><span class="p">1–10 000</span><span class="e">любое число</span></button>`;
+
+  const payLabel = k.need === 0 ? `Поддержать за ${coinsWord(k.n)}` : `Оплатить ${rub(k.rubTotal)}`;
+  const balRow = S.balance > 0 ? `<div class="balance-row">
+      <span class="bi">${coinSvg}</span>
+      <span class="bt"><strong>Списать с баланса</strong><span>На балансе ${coinsWord(S.balance)}${S.useBalance && k.fromBal ? ` · спишем ${k.fromBal}` : ''}</span></span>
+      <button type="button" class="switch" role="switch" aria-checked="${S.useBalance}" aria-label="Списать Coins с баланса" data-act="usebal"></button>
+    </div>` : '';
+  const payBody = k.need === 0
+    ? `<div class="covered">${ic.ok}<span>Хватает Coins на балансе — платить не нужно. Останется ${coinsWord(S.balance - k.n)}.</span></div>`
+    : `${methodsBlock()}${k.pack && k.need >= 6 ? `<label class="upsell"><input type="checkbox" data-act="upsell"${k.upsellOn ? ' checked' : ''}>
+        <span><strong>Купить про запас: ${k.pack.c} Coins за ${rub(k.pack.rub)}</strong>
+        <span>${Math.round(k.pack.rub / k.pack.c)} ₽ за Coin вместо ${PRICE}. ${k.need} уйдут серверу, ${k.pack.c - k.need} останутся на балансе.</span></span></label>` : ''}
+        ${k.belowMin ? `<p class="err" role="status">${k.m.name}: минимум ${k.m.min} Coins. Выберите СБП или карту — у них нет минимума.</p>` : ''}`;
+
+  co.innerHTML = head('Поддержка сервера · ' + SERVER.game + ' · сейчас #' + curPlace, esc(SERVER.name)) + `
+  <div class="co-body">
+    <div class="co-main">
+      <section class="sec" aria-labelledby="s1"><h2 id="s1"><span class="step">1</span>Сколько Coins отдать серверу</h2>
+        <div class="chips">${chips}</div>
+        <div class="custom${S.custom ? ' on' : ''}">
+          <div class="stepper"><button type="button" data-act="dec" aria-label="Меньше"${S.amount <= 1 ? ' disabled' : ''}>−</button>
+            <input type="number" inputmode="numeric" min="1" max="10000" value="${S.amount}" aria-label="Количество Coins" data-act="amount">
+            <button type="button" data-act="inc" aria-label="Больше"${S.amount >= 10000 ? ' disabled' : ''}>+</button></div>
+          <span class="hint num">= ${rub(S.amount * PRICE)}</span>
+          ${placeWith(S.amount) > 1 ? `<button type="button" class="ghost gold" data-act="totop">${ic.crown} В топ-1: ${toTop}</button>` : ''}
+        </div>
+      </section>
+      <section class="rank" aria-label="Прогноз места">
+        <div class="rank-top"><div class="big num"><span class="from">#${curPlace}</span><span class="arrow">→</span><span class="to">#${newPlace}</span></div>
+          <div class="what">${what}<br><span style="color:var(--ink-400)">Прогноз по текущему рейтингу</span></div></div>
+        <ol class="ladder">${ladder}</ol>
+      </section>
+      <section class="sec" aria-labelledby="s2"><h2 id="s2"><span class="step">2</span>${k.need === 0 ? 'Оплата' : 'Как оплатить'}</h2>
+        ${balRow}${payBody}
+      </section>
+    </div>
+    <aside class="co-side"><div class="sticky">
+      <div class="sum"><h3>Итого</h3><dl>
+        <dt>Серверу</dt><dd class="num">${coinsWord(k.n)}</dd>
+        ${k.fromBal ? `<dt>С баланса</dt><dd class="num">−${k.fromBal}</dd>` : ''}
+        ${k.need ? `<dt>${k.upsellOn ? 'Покупаем пакет' : 'Докупаем'}</dt><dd class="num">${k.upsellOn ? coinsWord(k.buy) : k.need + ' × ' + PRICE + ' ₽'}</dd>` : ''}
+        ${k.leftover ? `<dt>Останется на балансе</dt><dd class="num">${coinsWord(k.leftover + (S.balance - k.fromBal))}</dd>` : ''}
+        <div class="total" style="display:contents"><dt class="total">К оплате</dt><dd class="total num">${k.need ? rub(k.rubTotal) : '0 ₽'}</dd></div>
+      </dl></div>
+      ${notes([
+        ['bolt', k.need ? 'После оплаты Coins сразу уйдут серверу — второй раз подтверждать не нужно.' : 'Coins спишутся с баланса сразу.'],
+        ['clock', 'Поддержка действует 30 дней — до ' + until() + '.'],
+        ['info', 'Coins нельзя вывести или передать. Чек придёт на почту.']
+      ])}
+      <div class="paywrap">
+        <div class="paybar-line"><span>${coinsWord(k.n)} → #${newPlace}</span><b>${k.need ? (k.m ? k.m.name : '') : 'с баланса'}</b></div>
+        <button type="button" class="pay" data-act="pay"${k.belowMin || !(k.n >= 1 && k.n <= 10000) ? ' disabled' : ''}>${k.need ? ic.lock : ic.bolt}<span class="num">${payLabel}</span></button>
+        <p class="legal">Нажимая, вы принимаете <a href="#" onclick="return false">оферту</a></p>
+      </div>
+    </div></aside>
+  </div>`;
+}
+
+function renderWallet() {
+  const k = walletCalc();
+  const packs = PACKS.map(p => {
+    const on = !S.packCustom && S.pack === p.c, save = p.c * PRICE - p.rub;
+    return `<button type="button" class="pack" aria-pressed="${on}" data-pack="${p.c}">${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
+      <span class="c num">${coinSvg}${p.c}</span><span class="p num">${rub(p.rub)}</span>
+      <span class="u num">${Math.round(p.rub / p.c)} ₽ за Coin</span><span class="save num">−${rub(save)}</span></button>`;
+  }).join('') + `<button type="button" class="pack own" aria-pressed="${S.packCustom}" data-act="packcustom"><span class="c">Своё</span><span class="u">${PRICE} ₽ за Coin, без скидки</span></button>`;
+  co.innerHTML = head('Мои Coins', 'Пополнить баланс', true) + `
+  <div class="co-body">
+    <div class="co-main">
+      <div class="balance-hero">${coinSvg}<div><small>Сейчас на балансе</small><strong class="num">${coinsWord(S.balance)}</strong></div></div>
+      <section class="sec" aria-labelledby="w1"><h2 id="w1"><span class="step">1</span>Сколько Coins купить</h2>
+        <div class="packs">${packs}</div>
+        <div class="custom${S.packCustom ? ' on' : ''}">
+          <div class="stepper"><button type="button" data-act="pdec" aria-label="Меньше"${S.packAmount <= 1 ? ' disabled' : ''}>−</button>
+            <input type="number" inputmode="numeric" min="1" max="10000" value="${S.packAmount}" aria-label="Количество Coins" data-act="pamount">
+            <button type="button" data-act="pinc" aria-label="Больше">+</button></div>
+          <span class="hint num">= ${rub(k.rubTotal)}</span>
+        </div>
+      </section>
+      <section class="sec" aria-labelledby="w2"><h2 id="w2"><span class="step">2</span>Как оплатить</h2>${methodsBlock()}
+        ${k.belowMin ? `<p class="err" role="status">${k.m.name}: минимум ${k.m.min} Coins.</p>` : ''}</section>
+    </div>
+    <aside class="co-side"><div class="sticky">
+      <div class="sum"><h3>Итого</h3><dl>
+        <dt>Покупка</dt><dd class="num">${coinsWord(k.c)}</dd>
+        ${k.pack ? `<dt>Скидка пакета</dt><dd class="num" style="color:var(--signal)">−${rub(k.full - k.rubTotal)}</dd>` : ''}
+        <dt>Станет на балансе</dt><dd class="num">${coinsWord(S.balance + k.c)}</dd>
+        <div style="display:contents"><dt class="total">К оплате</dt><dd class="total num">${rub(k.rubTotal)}</dd></div>
+      </dl></div>
+      ${notes([['bolt', 'Coins зачислятся сразу после оплаты.'], ['info', 'Coins не сгорают на балансе. Вывести или передать их нельзя. Чек придёт на почту.']])}
+      <div class="paywrap">
+        <div class="paybar-line"><span>+${coinsWord(k.c)}</span><b>${k.m ? k.m.name : ''}</b></div>
+        <button type="button" class="pay" data-act="pay"${k.belowMin || !(k.c >= 1 && k.c <= 10000) ? ' disabled' : ''}>${ic.lock}<span class="num">Оплатить ${rub(k.rubTotal)}</span></button>
+        <p class="legal">Нажимая, вы принимаете <a href="#" onclick="return false">оферту</a></p>
+      </div>
+    </div></aside>
+  </div>`;
+}
+
+/* --- payment states --- */
+let timer = null;
+function clearTimers() { if (timer) { clearInterval(timer); clearTimeout(timer); timer = null; } }
+function qrSvg() {
+  let seed = 7, r = () => (seed = (seed * 16807) % 2147483647) / 2147483647, cells = '';
+  const N = 29, finder = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7" fill="#000"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" fill="#000"/>`;
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const inF = (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9);
+    if (!inF && r() > .52) cells += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+  }
+  return `<svg viewBox="0 0 ${N} ${N}" shape-rendering="crispEdges" role="img" aria-label="QR-код СБП (имитация)"><g fill="#000">${cells}</g>${finder(0,0)}${finder(N-7,0)}${finder(0,N-7)}</svg>`;
+}
+function amountText() { return S.screen === 'support' ? rub(supportCalc().rubTotal) : rub(walletCalc().rubTotal); }
+function headNow() { return S.screen === 'support' ? head('Поддержка сервера · ' + SERVER.game, esc(SERVER.name)) : head('Мои Coins', 'Пополнить баланс', true); }
+function showState(html) { clearTimers(); co.innerHTML = headNow() + `<div class="state">${html}</div>`; co.scrollIntoView({block:'start'}); window.scrollTo(0, 0); const h = co.querySelector('.state h2'); if (h) { h.tabIndex = -1; h.focus({preventScroll:true}); } }
+function finish() { S.outcome === 'fail' ? showFail() : showSuccess(); }
+
+function startPay() {
+  const sup = S.screen === 'support' ? supportCalc() : null;
+  if (sup && sup.need === 0) {
+    showState(`<div class="spin" aria-hidden="true"></div><h2>Отправляем Coins…</h2><p>Секунду.</p>`);
+    timer = setTimeout(finish, 900); return;
+  }
+  const m = S.method;
+  if (m === 'sbp') return isPhone() ? showBanks() : showQr();
+  if (m === 'card') return showCard();
+  if (m === 'cryptobot') return showWaiting('Откройте счёт в Telegram', 'Мы открыли CryptoBot в Telegram. Оплатите счёт и вернитесь — проверим сами.', 'Открыть Telegram ещё раз');
+  if (m === 'usdt') return showWaiting('Переведите USDT', 'Ровно 6.42 USDT в сети TRC20 на адрес TQ4n…8hFz. Ждём перевод до 30 минут — проверяем сами.', 'Скопировать адрес');
+  return showWaiting('Подтвердите в приложении', `Открыли ${ALL.find(x => x.id === m).name}. Подтвердите оплату ${amountText()} — вернём вас сюда автоматически.`, 'Открыть приложение ещё раз');
+}
+function showBanks() {
+  const banks = [['СберБанк','#21a038'],['Т-Банк','#ffdd2d'],['ВТБ','#0a2896'],['Альфа-Банк','#ef3124'],['Газпромбанк','#2c4ea2'],['Другой банк','#3a4150']];
+  showState(`<h2>Выберите банк</h2><p>Откроем его приложение с готовым платежом на ${amountText()}.</p>
+    <div class="banks">${banks.map(([n, c]) => `<button type="button" class="bank" data-act="bank"><i style="background:${c}"></i>${n}</button>`).join('')}</div>
+    <div class="acts"><button type="button" class="link" data-act="back">Изменить способ оплаты</button></div>`);
+}
+function showQr() {
+  let left = 15 * 60;
+  showState(`<h2>Отсканируйте QR-код</h2><p>Камерой телефона или в приложении банка. Сумма ${amountText()} уже внутри.</p>
+    <div class="qr">${qrSvg()}</div>
+    <p class="timer num" id="tm">Код действует 15:00 · страница обновится сама</p>
+    <div class="acts"><button type="button" class="sec-btn" data-act="sim">Сымитировать оплату</button>
+    <button type="button" class="link" data-act="back">Изменить способ оплаты</button></div>`);
+  timer = setInterval(() => { left--; const el = document.getElementById('tm'); if (el) el.textContent = `Код действует ${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')} · страница обновится сама`; }, 1000);
+}
+function showCard() {
+  showState(`<h2>Данные карты</h2><p>Форма ЮKassa. Мы не видим и не храним данные карты.</p>
+    <form class="cardform" data-form="card" autocomplete="off">
+      <label class="full">Номер карты<input inputmode="numeric" placeholder="0000 0000 0000 0000" aria-label="Номер карты (имитация)"></label>
+      <label>Срок<input inputmode="numeric" placeholder="ММ/ГГ"></label>
+      <label>CVC<input inputmode="numeric" placeholder="•••"></label>
+    </form>
+    <div class="acts"><button type="button" class="pay" data-act="sim">${ic.lock}<span class="num">Оплатить ${amountText()}</span></button>
+      <span class="secure" style="justify-content:center">${ic.lock} Защищено ЮKassa · 3-D Secure</span>
+      <button type="button" class="link" data-act="back">Изменить способ оплаты</button></div>`);
+}
+function showWaiting(title, text, again) {
+  showState(`<div class="spin" aria-hidden="true"></div><h2>${title}</h2><p>${text}</p>
+    <div class="acts"><button type="button" class="sec-btn" data-act="sim">${again}</button>
+    <button type="button" class="link" data-act="back">Изменить способ оплаты</button></div>`);
+  timer = setTimeout(finish, 3200);
+}
+function showSuccess() {
+  if (S.screen === 'support') {
+    const k = supportCalc(), p = placeWith(k.n);
+    const left = S.balance - k.fromBal + k.leftover;
+    showState(`<div class="okmark">${ic.check}</div><h2>${p < curPlace ? `${esc(SERVER.name)} теперь #${p}` : 'Поддержка учтена'}</h2>
+      <p>Спасибо! Вы отдали серверу ${coinsWord(k.n)}.</p>
+      <div class="receipt"><dl>
+        <dt>Место в поддержке</dt><dd class="num">#${curPlace} → #${p}</dd>
+        <dt>Действует до</dt><dd>${until()}</dd>
+        ${k.need ? `<dt>Оплачено</dt><dd class="num">${rub(k.rubTotal)}</dd>` : ''}
+        <dt>На балансе</dt><dd class="num">${coinsWord(left)}</dd>
+      </dl></div>
+      ${k.need ? '<p style="font-size:13px;color:var(--ink-300)">Чек отправили на почту.</p>' : ''}
+      <div class="acts"><button type="button" class="pay" data-act="close">Готово</button>
+      <button type="button" class="sec-btn" data-act="share">Позвать игроков поддержать</button></div>`);
+  } else {
+    const k = walletCalc();
+    showState(`<div class="okmark">${ic.check}</div><h2>+${coinsWord(k.c)}</h2><p>Coins уже на балансе: теперь ${coinsWord(S.balance + k.c)}. Чек отправили на почту.</p>
+      <div class="acts"><button type="button" class="pay" data-act="tosupport">Поддержать сервер</button>
+      <button type="button" class="sec-btn" data-act="close">Готово</button></div>`);
+  }
+}
+function showFail() {
+  showState(`<div class="failmark">${ic.fail}</div><h2>Оплата не прошла</h2>
+    <p>Деньги не списаны. Банк отклонил платёж или вышло время. Попробуйте ещё раз или выберите другой способ.</p>
+    <div class="acts"><button type="button" class="pay" data-act="retry">Попробовать ещё раз</button>
+    <button type="button" class="sec-btn" data-act="back">Другой способ оплаты</button>
+    <button type="button" class="link" data-act="help">Написать в поддержку</button></div>`);
+}
+
+function render() {
+  clearTimers();
+  S.state = 'form';
+  S.screen === 'support' ? renderSupport() : renderWallet();
+  document.querySelectorAll('.seg').forEach(seg => seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(S[seg.dataset.k])))));
+}
+
+/* --- events --- */
+co.addEventListener('click', e => {
+  const t = e.target.closest('button,[data-act=upsell]'); if (!t) return;
+  const act = t.dataset.act;
+  if (t.dataset.amount) { S.amount = +t.dataset.amount; S.custom = false; return render(); }
+  if (t.dataset.method) { S.method = t.dataset.method; return render(); }
+  if (t.dataset.pack) { S.pack = +t.dataset.pack; S.packCustom = false; return render(); }
+  switch (act) {
+    case 'custom': S.custom = true; render(); co.querySelector('[data-act=amount]')?.select(); return;
+    case 'dec': S.amount = Math.max(1, S.amount - 1); return render();
+    case 'inc': S.amount = Math.min(10000, S.amount + 1); return render();
+    case 'totop': S.amount = toTop; return render();
+    case 'usebal': S.useBalance = !S.useBalance; return render();
+    case 'more': S.showMore = !S.showMore; return render();
+    case 'packcustom': S.packCustom = true; render(); co.querySelector('[data-act=pamount]')?.select(); return;
+    case 'pdec': S.packAmount = Math.max(1, S.packAmount - 1); return render();
+    case 'pinc': S.packAmount = Math.min(10000, S.packAmount + 1); return render();
+    case 'pay': return startPay();
+    case 'bank': return showWaiting('Подтвердите в приложении банка', `Платёж на ${amountText()} уже в приложении. После подтверждения вернём вас сюда — ничего нажимать не нужно.`, 'Открыть приложение ещё раз');
+    case 'sim': return finish();
+    case 'retry': return startPay();
+    case 'back': case 'close': return render();
+    case 'tosupport': S.screen = 'support'; return render();
+    case 'share': t.textContent = 'Ссылка скопирована'; return;
+    case 'help': t.textContent = 'Откроется чат поддержки'; return;
+  }
+});
+co.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset.act === 'upsell') { S.upsell = t.checked; render(); }
+  if (t.dataset.act === 'amount' || t.dataset.act === 'pamount') {
+    const v = Math.round(+t.value);
+    const ok = Number.isFinite(v) ? Math.min(10000, Math.max(1, v)) : 1;
+    if (t.dataset.act === 'amount') S.amount = ok; else S.packAmount = ok;
+    render();
+  }
+});
+co.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.target.dataset.act === 'amount' || e.target.dataset.act === 'pamount')) e.target.blur(); });
+
+document.querySelectorAll('.seg').forEach(seg => seg.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const k = seg.dataset.k, v = b.dataset.v;
+  if (k === 'balance') { S.balance = +v; S.useBalance = true; }
+  else S[k] = v;
+  if (k === 'view') return applyView();
+  render(); applyView();
+}));
+const tog = document.getElementById('ptoggle');
+tog && tog.addEventListener('click', () => { const bar = document.getElementById('pbar'); const open = !bar.classList.contains('open'); bar.classList.toggle('open', open); tog.setAttribute('aria-expanded', String(open)); });
+
+function applyView() {
+  const phone = S.view === 'phone' && !isPhone();
+  document.body.classList.toggle('as-phone', phone);
+  const box = document.getElementById('pframe');
+  if (phone) box.innerHTML = `<iframe title="Прототип на телефоне" src="?frame=1&screen=${S.screen}&balance=${S.balance}&outcome=${S.outcome}"></iframe>`;
+  else box.innerHTML = '';
+  document.querySelectorAll('.seg[data-k=view] button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.view)));
+}
+if (isPhone()) document.getElementById('viewgrp')?.remove();
+render();
+})();
+</script>
+</body>
+</html>
