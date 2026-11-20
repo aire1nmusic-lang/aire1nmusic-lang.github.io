@@ -264,7 +264,7 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .timer{font-size:13px;color:var(--ink-300)}
 .banks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%}
 .bank{min-height:56px;border-radius:14px;border:1px solid var(--line-2);background:rgb(255 255 255 / .04);display:flex;align-items:center;gap:10px;padding:0 12px;font-weight:600;text-align:left}
-.bank i{width:28px;height:28px;border-radius:8px;flex:none}
+.bank i{width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;font:800 11px/1 var(--display);font-style:normal;box-shadow:inset 0 0 0 1px rgb(255 255 255 / .12)}
 .receipt{width:100%;border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 16px;text-align:left;background:rgb(255 255 255 / .02)}
 .receipt dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:14px}
 .receipt dt{color:var(--ink-300)}
@@ -496,7 +496,7 @@ function methodsBlock(amountCoins) {
 function offerCard(k) {
   const best = k.offers[k.offers.length - 1], p = k.pick, rest = p.c - k.need;
   const tiles = k.offers.map(o => `<button type="button" class="otile" aria-pressed="${o === p}" data-offer="${o.c}">
-      ${o === best && k.offers.length > 1 ? '<span class="obadge">Больше подарок</span>' : ''}
+      ${o === best && k.offers.length > 1 ? '<span class="obadge">Лучший подарок</span>' : ''}
       <span class="ot-c">${coinSvg}<b class="num">${o.c}</b></span>
       <span class="ot-gift num">+${bonus(o)} в подарок</span>
       <span class="ot-tot num">Получите ${o.c + bonus(o)} Coins</span>
@@ -535,7 +535,7 @@ function renderSupport() {
     const e = effectLabel(n); const on = !S.custom && S.amount === n;
     const g = giftFor(n);
     return `<button type="button" class="chip" aria-pressed="${on}" data-amount="${n}">
-      ${n === firstTop ? '<span class="badge">Сразу в топ-1</span>' : n === 100 ? '<span class="badge green">Больше подарок</span>' : ''}
+      ${n === firstTop ? '<span class="badge">Сразу в топ-1</span>' : n === 100 ? '<span class="badge green">Лучший подарок</span>' : ''}
       <span class="c num">${coinSvg}${n}</span><span class="p num">${rub(priceFor(n))}</span>${g ? `<span class="cg num" title="в подарок">${ic.gift}+${g}<span class="sr"> Coins в подарок</span></span>` : ''}<span class="e ${e.cls}">${e.cls === 'top' ? ic.crown + ' ' : ''}${e.t}</span></button>`;
   }).join('') + (S.custom
     ? `<button type="button" class="chip own" aria-pressed="true" data-act="custom"><span class="c num">${coinSvg}${S.amount}</span><span class="p num">${rub(priceFor(S.amount))}</span><span class="e">своя сумма</span></button>`
@@ -671,9 +671,9 @@ function startPay() {
   return showWaiting('Подтвердите в приложении', `Открыли ${ALL.find(x => x.id === m).name}. Подтвердите оплату ${amountText()} — вернём вас сюда автоматически.`, 'Открыть приложение ещё раз');
 }
 function showBanks() {
-  const banks = [['СберБанк','#21a038'],['Т-Банк','#ffdd2d'],['ВТБ','#0a2896'],['Альфа-Банк','#ef3124'],['Газпромбанк','#2c4ea2'],['Другой банк','#3a4150']];
+  const banks = [['СберБанк','#21a038','С','#fff'],['Т-Банк','#ffdd2d','Т','#111'],['ВТБ','#0a2896','ВТБ','#fff'],['Альфа-Банк','#ef3124','А','#fff'],['Газпромбанк','#2c4ea2','Г','#fff'],['Другой банк','#3a4150','СБП','#fff']];
   showState(`<h2>Выберите банк</h2><p>Откроем его приложение с готовым платежом на ${amountText()}.</p>
-    <div class="banks">${banks.map(([n, c]) => `<button type="button" class="bank" data-act="bank"><i style="background:${c}"></i>${n}</button>`).join('')}</div>
+    <div class="banks">${banks.map(([n, c, l, t]) => `<button type="button" class="bank" data-act="bank"><i style="background:${c};color:${t}">${l}</i>${n}</button>`).join('')}</div>
     <div class="acts"><button type="button" class="link" data-act="back">Изменить способ оплаты</button></div>`);
 }
 function showQr() {
