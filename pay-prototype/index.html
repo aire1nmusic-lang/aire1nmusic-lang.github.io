@@ -99,7 +99,18 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .chip[aria-pressed=true]{border-color:var(--lime);background:var(--lime-soft);box-shadow:inset 0 0 0 1px var(--lime)}
 .chip .badge.green{background:var(--signal);color:#04261a}
 .chip .badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--gold);color:#1d1404}
-.chip.own .c{font-size:16px}
+.chip.own{border-style:dashed;border-color:rgb(255 255 255 / .24)}
+.chip.own[aria-pressed=true]{border-style:solid}
+.own-ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--lime-soft);color:var(--lime);box-shadow:inset 0 0 0 1px var(--lime-line)}
+.own-ic svg{width:17px;height:17px}
+.own-t{font:700 14px/1.2 var(--display);color:var(--ink-50);margin-top:4px}
+.pack.own{align-items:flex-start;border-style:dashed;border-color:rgb(255 255 255 / .24)}
+.pack.own[aria-pressed=true]{border-style:solid}
+.pack.own .own-t{font-size:17px}
+.chip .cg{display:inline-flex;align-items:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--signal)}
+.chip .cg svg{width:12px;height:12px}
+.pack .save{display:inline-flex;align-items:center;gap:5px}
+.pack .save svg{width:14px;height:14px}
 
 .custom{display:none;margin-top:12px;align-items:center;gap:10px;flex-wrap:wrap}
 .custom.on{display:flex}
@@ -226,6 +237,7 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .legal{font-size:12px;color:var(--ink-400);text-align:center;margin:0}
 .legal a{color:var(--ink-200)}
 .paybar-line{display:none}
+.paywrap .pay+.legal{margin-top:14px}
 
 /* states */
 .state{padding:34px 22px 30px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;max-width:520px;margin:0 auto}
@@ -293,6 +305,7 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
   .co-side .paywrap{position:fixed;left:0;right:0;bottom:0;z-index:10;padding:10px 16px calc(12px + var(--safe-b));
     background:rgb(8 9 13 / .94);border-top:1px solid var(--line-2);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     box-shadow:0 -16px 30px rgb(0 0 0 / .45);display:flex;flex-direction:column;gap:6px}
+  .co-side .paywrap .pay+.legal{margin-top:6px}
   .paybar-line{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--ink-300);padding:0 2px}
   .paybar-line b{color:var(--ink-100);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .chip{min-height:78px}
@@ -303,6 +316,8 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
   .state{padding:28px 16px calc(28px + var(--safe-b))}
 }
 @media (max-width:359px){
+  .pack .save{font-size:11px;white-space:nowrap;padding:3px 6px}
+  .pack{padding:12px}
   .otile{padding:10px}
   .ot-c{font-size:24px}
   .ot-c .gsc{width:28px;height:28px}
@@ -362,8 +377,9 @@ if (framed) document.getElementById('pbar').remove();
 
 const PRICE = 50;
 const SUPPORT_CHIPS = [5, 10, 25, 50, 100];
-const PACKS = [{c:50,rub:2350},{c:100,rub:4400,badge:'Оптимально'},{c:500,rub:20000,badge:'Лучшая цена'}];
-const bonus = p => p.c - Math.round(p.rub / 50);
+const PACKS = [{c:50,rub:2500,gift:5},{c:100,rub:5000,gift:20,badge:'Оптимально'},{c:500,rub:25000,gift:150,badge:'Больше всего подарков'}];
+const bonus = p => p.gift;
+const giftFor = c => (PACKS.find(p => p.c === c) || {gift: 0}).gift;
 const SERVER = {name:'Северный Ветер x10', game:'Lineage 2', letter:'С', coins:6};
 const PEERS = [
   {name:'Dragon Gate x50', coins:24},{name:'Imperium PvP', coins:15},{name:'Aurora Classic', coins:12},
@@ -382,7 +398,7 @@ const MORE = [
   {id:'usdt', name:'USDT', sub:'Перевод TRC20 с кошелька или биржи · от 10 Coins', color:'#26a17b', glyph:'₮', min:10}
 ];
 const ALL = [...METHODS, ...MORE];
-const priceFor = c => (PACKS.find(p => p.c === c) || {rub: c * PRICE}).rub;
+const priceFor = c => c * PRICE;
 
 const COIN = 'data:image/webp;base64,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';
 const coinSvg = '<img class="gsc" src="' + COIN + '" alt="" aria-hidden="true" decoding="async">';
@@ -397,6 +413,7 @@ const ic = {
   bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 14h6l-1 7 8-11h-6l1-7z"/></svg>',
   crown:'<svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5L3 7z"/></svg>',
   gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v9H5v-9M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>',
   fail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>'
 };
 const rub = n => n.toLocaleString('ru-RU').replace(/ /g,' ') + ' ₽';
@@ -433,14 +450,15 @@ function supportCalc() {
   const rubTotal = upsellOn ? pick.rub : priceFor(need);
   const m = ALL.find(x => x.id === S.method);
   const belowMin = need > 0 && m && m.min && buy < m.min;
-  return {n, fromBal, need, buy, rubTotal, leftover: upsellOn ? pick.c - need : 0, offers, pick, upsellOn, belowMin, m};
+  const gift = need > 0 ? giftFor(buy) : 0;
+  return {n, fromBal, need, buy, rubTotal, gift, leftover: (upsellOn ? pick.c - need : 0) + gift, offers, pick, upsellOn, belowMin, m};
 }
 function walletCalc() {
   const c = S.packCustom ? S.packAmount : S.pack;
   const pack = PACKS.find(p => p.c === c);
   const rubTotal = pack ? pack.rub : c * PRICE;
   const m = ALL.find(x => x.id === S.method);
-  return {c, rubTotal, full: c * PRICE, pack, m, belowMin: m && m.min && c < m.min};
+  return {c, rubTotal, gift: pack ? pack.gift : 0, pack, m, belowMin: m && m.min && c < m.min};
 }
 
 /* --- rendering --- */
@@ -475,12 +493,12 @@ function offerCard(k) {
       ${o === best && k.offers.length > 1 ? '<span class="obadge">Больше подарок</span>' : ''}
       <span class="ot-c">${coinSvg}<b class="num">${o.c}</b></span>
       <span class="ot-gift num">+${bonus(o)} в подарок</span>
-      <span class="ot-p num"><b>${rub(o.rub)}</b><s>${rub(o.c * PRICE)}</s></span></button>`).join('');
+      <span class="ot-p num"><b>${rub(o.rub)}</b></span></button>`).join('');
   return `<section class="offer${k.upsellOn ? ' on' : ''}" aria-label="Coins с запасом">
     <span class="offer-glow" aria-hidden="true"></span>
     <div class="offer-top"><span class="offer-kick">${ic.gift}Coins в подарок</span><span class="offer-sub">если взять с запасом</span></div>
     <div class="otiles">${tiles}</div>
-    <p class="offer-split num"><span><i class="d1"></i>${k.need} — серверу сейчас</span><span><i class="d2"></i>${rest} — на баланс, не сгорают</span></p>
+    <p class="offer-split num"><span><i class="d1"></i>${k.need} — серверу сейчас</span><span><i class="d2"></i>${rest} + ${bonus(p)} в подарок — на баланс</span></p>
     <button type="button" class="offer-cta" data-act="upsell">${k.upsellOn ? ic.check + `<span>Добавлено ${p.c} Coins</span><small>убрать</small>` : ic.gift + `<span>Взять ${p.c} Coins · +${bonus(p)} в подарок</span>`}</button>
   </section>`;
 }
@@ -508,11 +526,13 @@ function renderSupport() {
   const firstTop = SUPPORT_CHIPS.find(c => placeWith(c) === 1);
   const chips = SUPPORT_CHIPS.map(n => {
     const e = effectLabel(n); const on = !S.custom && S.amount === n;
-    const price = priceFor(n), full = n * PRICE;
+    const g = giftFor(n);
     return `<button type="button" class="chip" aria-pressed="${on}" data-amount="${n}">
-      ${n === firstTop ? '<span class="badge">Сразу в топ-1</span>' : n === 100 ? '<span class="badge green">Лучшая цена</span>' : ''}
-      <span class="c num">${coinSvg}${n}</span><span class="p num">${price < full ? `<s>${rub(full)}</s>` : ''}${rub(price)}</span><span class="e ${e.cls}">${e.cls === 'top' ? ic.crown + ' ' : ''}${e.t}</span></button>`;
-  }).join('') + `<button type="button" class="chip own" aria-pressed="${S.custom}" data-act="custom"><span class="c">Своё</span><span class="p">1–10 000</span><span class="e">любое число</span></button>`;
+      ${n === firstTop ? '<span class="badge">Сразу в топ-1</span>' : n === 100 ? '<span class="badge green">Больше подарок</span>' : ''}
+      <span class="c num">${coinSvg}${n}</span><span class="p num">${rub(priceFor(n))}</span>${g ? `<span class="cg num" title="в подарок">${ic.gift}+${g}<span class="sr"> Coins в подарок</span></span>` : ''}<span class="e ${e.cls}">${e.cls === 'top' ? ic.crown + ' ' : ''}${e.t}</span></button>`;
+  }).join('') + (S.custom
+    ? `<button type="button" class="chip own" aria-pressed="true" data-act="custom"><span class="c num">${coinSvg}${S.amount}</span><span class="p num">${rub(priceFor(S.amount))}</span><span class="e">своя сумма</span></button>`
+    : `<button type="button" class="chip own" aria-pressed="false" data-act="custom"><span class="own-ic">${ic.edit}</span><span class="own-t">Своя сумма</span><span class="e">от 1 Coin</span></button>`);
 
   const payLabel = k.need === 0 ? `Поддержать за ${coinsWord(k.n)}` : `Оплатить ${rub(k.rubTotal)}`;
   const balRow = S.balance > 0 ? `<div class="balance-row">
@@ -552,6 +572,7 @@ function renderSupport() {
         <dt>Серверу</dt><dd class="num">${coinsWord(k.n)}</dd>
         ${k.fromBal ? `<dt>С баланса</dt><dd class="num">−${k.fromBal}</dd>` : ''}
         ${k.need ? `<dt>${k.upsellOn ? 'Покупаем пакет' : 'Докупаем'}</dt><dd class="num">${coinsWord(k.buy)}</dd>` : ''}
+        ${k.gift ? `<dt>Подарок на баланс</dt><dd class="num" style="color:var(--signal)">+${coinsWord(k.gift)}</dd>` : ''}
         ${k.leftover ? `<dt>Останется на балансе</dt><dd class="num">${coinsWord(k.leftover + (S.balance - k.fromBal))}</dd>` : ''}
         <div class="total" style="display:contents"><dt class="total">К оплате</dt><dd class="total num">${k.need ? rub(k.rubTotal) : '0 ₽'}</dd></div>
       </dl></div>
@@ -572,11 +593,13 @@ function renderSupport() {
 function renderWallet() {
   const k = walletCalc();
   const packs = PACKS.map(p => {
-    const on = !S.packCustom && S.pack === p.c, save = p.c * PRICE - p.rub;
+    const on = !S.packCustom && S.pack === p.c;
     return `<button type="button" class="pack" aria-pressed="${on}" data-pack="${p.c}">${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
       <span class="c num">${coinSvg}${p.c}</span><span class="p num">${rub(p.rub)}</span>
-      <span class="u num">${Math.round(p.rub / p.c)} ₽ за Coin</span><span class="save num">+${bonus(p)} в подарок</span></button>`;
-  }).join('') + `<button type="button" class="pack own" aria-pressed="${S.packCustom}" data-act="packcustom"><span class="c">Своё</span><span class="u">Любое количество, от 1 Coin</span></button>`;
+      <span class="save num">${ic.gift}+${bonus(p)} в подарок</span><span class="u num">Всего ${p.c + p.gift} Coins</span></button>`;
+  }).join('') + (S.packCustom
+    ? `<button type="button" class="pack own" aria-pressed="true" data-act="packcustom"><span class="c num">${coinSvg}${S.packAmount}</span><span class="p num">${rub(S.packAmount * PRICE)}</span><span class="u">своя сумма</span></button>`
+    : `<button type="button" class="pack own" aria-pressed="false" data-act="packcustom"><span class="own-ic">${ic.edit}</span><span class="own-t">Своя сумма</span><span class="u">от 1 Coin</span></button>`);
   co.innerHTML = head('Мои Coins', 'Пополнить баланс', true) + `
   <div class="co-body">
     <div class="co-main">
@@ -596,13 +619,13 @@ function renderWallet() {
     <aside class="co-side"><div class="sticky">
       <div class="sum"><h3>Итого</h3><dl>
         <dt>Покупка</dt><dd class="num">${coinsWord(k.c)}</dd>
-        ${k.pack ? `<dt>Скидка пакета</dt><dd class="num" style="color:var(--signal)">−${rub(k.full - k.rubTotal)}</dd>` : ''}
-        <dt>Станет на балансе</dt><dd class="num">${coinsWord(S.balance + k.c)}</dd>
+        ${k.gift ? `<dt>Подарок</dt><dd class="num" style="color:var(--signal)">+${coinsWord(k.gift)}</dd>` : ''}
+        <dt>Станет на балансе</dt><dd class="num">${coinsWord(S.balance + k.c + k.gift)}</dd>
         <div style="display:contents"><dt class="total">К оплате</dt><dd class="total num">${rub(k.rubTotal)}</dd></div>
       </dl></div>
       ${notes([['bolt', 'Coins зачислятся сразу после оплаты.'], ['info', 'Coins не сгорают на балансе. Вывести или передать их нельзя. Чек придёт на почту.']])}
       <div class="paywrap">
-        <div class="paybar-line"><span>+${coinsWord(k.c)}</span><b>${k.m ? k.m.name : ''}</b></div>
+        <div class="paybar-line"><span>+${coinsWord(k.c + k.gift)}</span><b>${k.m ? k.m.name : ''}</b></div>
         <button type="button" class="pay" data-act="pay"${k.belowMin || !(k.c >= 1 && k.c <= 10000) ? ' disabled' : ''}>${ic.lock}<span class="num">Оплатить ${rub(k.rubTotal)}</span></button>
         <p class="legal">Нажимая, вы принимаете <a href="#" onclick="return false">оферту</a></p>
       </div>
@@ -689,7 +712,7 @@ function showSuccess() {
       <button type="button" class="sec-btn" data-act="share">Позвать игроков поддержать</button></div>`);
   } else {
     const k = walletCalc();
-    showState(`<div class="okmark">${ic.check}</div><h2>+${coinsWord(k.c)}</h2><p>Coins уже на балансе: теперь ${coinsWord(S.balance + k.c)}. Чек отправили на почту.</p>
+    showState(`<div class="okmark">${ic.check}</div><h2>+${coinsWord(k.c + k.gift)}</h2><p>${k.gift ? `${k.c} + ${k.gift} в подарок. ` : ''}Coins уже на балансе: теперь ${coinsWord(S.balance + k.c + k.gift)}. Чек отправили на почту.</p>
       <div class="acts"><button type="button" class="pay" data-act="tosupport">Поддержать сервер</button>
       <button type="button" class="sec-btn" data-act="close">Готово</button></div>`);
   }
