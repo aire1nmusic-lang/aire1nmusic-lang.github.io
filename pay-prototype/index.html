@@ -49,7 +49,7 @@ button{cursor:pointer}
   .pbar .more{display:none;width:100%}
   .pbar.open .more{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%}
 }
-@media (min-width:720px){.pbar .toggle{display:none}}
+@media (min-width:720px){.pbar .toggle{display:none}.pbar{position:sticky;top:0;background:rgb(24 20 46 / .92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}}
 @media (max-width:719px){.pbar .dev{display:none}}
 
 /* ---------- stage ---------- */
@@ -88,13 +88,16 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .chip:hover{border-color:rgb(255 255 255 / .28)}
 .chip:active{transform:scale(.98)}
 .chip .c{font:800 22px/1 var(--display);display:flex;align-items:center;gap:5px}
-.chip .c svg{width:16px;height:16px}
+.gsc{display:inline-block;flex:none;object-fit:contain;filter:drop-shadow(0 2px 5px rgb(0 0 0 / .5))}
+.chip .c .gsc{width:24px;height:24px}
+.logo .gsc{width:34px;height:34px}
 .chip .p{font-size:12.5px;color:var(--ink-200);display:flex;flex-direction:column;align-items:center;line-height:1.2}
 .chip .p s{font-size:11px;color:var(--ink-400);text-decoration-color:rgb(255 122 136 / .7)}
 .chip .e{font-size:11.5px;color:var(--ink-300);margin-top:2px}
 .chip .e.up{color:var(--signal)}
 .chip .e.top{color:var(--gold)}
 .chip[aria-pressed=true]{border-color:var(--lime);background:var(--lime-soft);box-shadow:inset 0 0 0 1px var(--lime)}
+.chip .badge.green{background:var(--signal);color:#04261a}
 .chip .badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--gold);color:#1d1404}
 .chip.own .c{font-size:16px}
 
@@ -135,7 +138,7 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 /* payment */
 .balance-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-md);border:1px solid var(--line-2);background:rgb(255 255 255 / .03);margin-bottom:12px}
 .balance-row .bi{width:36px;height:36px;border-radius:10px;background:var(--gold-soft);display:grid;place-items:center;flex:none}
-.balance-row .bi svg{width:20px;height:20px}
+.balance-row .bi .gsc{width:28px;height:28px}
 .balance-row .bt{flex:1;min-width:0}
 .balance-row .bt strong{display:block;font-weight:600}
 .balance-row .bt span{font-size:12.5px;color:var(--ink-300)}
@@ -155,7 +158,8 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .m .mt{flex:1;min-width:0}
 .m .mt strong{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:600}
 .m .mt span{display:block;font-size:12.5px;color:var(--ink-300)}
-.tag{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--lime);color:var(--lime-ink);letter-spacing:.01em}
+.m .mt .tag{display:inline-block;color:#04261a;font-size:11px;line-height:1.3}
+.tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--signal);color:#04261a;letter-spacing:.01em;box-shadow:0 0 0 1px rgb(46 224 166 / .4),0 2px 8px rgb(46 224 166 / .25)}
 .m .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--ink-500);flex:none;display:grid;place-items:center}
 .m[aria-checked=true] .dot{border-color:var(--lime)}
 .m[aria-checked=true] .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--lime)}
@@ -163,33 +167,42 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .mdiv{display:flex;align-items:center;gap:10px;margin:14px 2px 8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400)}
 .mdiv::after{content:"";flex:1;height:1px;background:var(--line)}
 
-.offer{position:relative;overflow:hidden;width:100%;text-align:left;display:flex;flex-direction:column;gap:12px;margin:0 0 14px;padding:16px;border-radius:var(--r-lg);
-  border:1px solid rgb(227 185 94 / .55);background:linear-gradient(135deg,rgb(227 185 94 / .22),rgb(227 185 94 / .05) 55%,rgb(124 107 245 / .08));
-  box-shadow:0 12px 40px rgb(227 185 94 / .10),inset 0 1px 0 rgb(255 255 255 / .08);transition:transform .12s,box-shadow .2s}
-.offer:hover{box-shadow:0 14px 48px rgb(227 185 94 / .18),inset 0 1px 0 rgb(255 255 255 / .1)}
-.offer:active{transform:scale(.99)}
-.offer[aria-pressed=true]{border-color:var(--lime);box-shadow:0 0 0 1px var(--lime),0 12px 40px rgb(200 255 85 / .14)}
-.offer-glow{position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgb(255 236 180 / .16) 50%,transparent 65%);transform:translateX(-100%);animation:shine 3.6s ease-in-out infinite;pointer-events:none}
+.offer{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;margin:0 0 14px;padding:16px;border-radius:var(--r-lg);
+  border:1px solid rgb(227 185 94 / .55);background:radial-gradient(120% 90% at 0% 0%,rgb(227 185 94 / .26),transparent 60%),linear-gradient(160deg,#1d1a12,#12141b 70%);
+  box-shadow:0 14px 44px rgb(227 185 94 / .12),inset 0 1px 0 rgb(255 255 255 / .08)}
+.offer.on{border-color:var(--lime);box-shadow:0 0 0 1px var(--lime),0 14px 44px rgb(200 255 85 / .14)}
+.offer-glow{position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgb(255 236 180 / .13) 50%,transparent 65%);transform:translateX(-100%);animation:shine 3.6s ease-in-out infinite;pointer-events:none}
 @keyframes shine{0%,55%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-.offer-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.offer-kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#f6deaa}
-.offer-pct{font:800 15px var(--display);padding:4px 10px;border-radius:999px;background:var(--signal);color:#052a1d}
-.offer-main{display:flex;align-items:center;gap:16px}
-.offer-coin{display:flex;align-items:center;gap:8px;font:800 40px/1 var(--display);color:#fff4d6}
-.offer-coin svg{width:38px;height:38px;filter:drop-shadow(0 4px 10px rgb(227 185 94 / .45))}
-.offer-price{display:flex;flex-direction:column;gap:1px;min-width:0}
-.offer-price s{font-size:13px;color:var(--ink-300);text-decoration-color:rgb(255 122 136 / .8)}
-.offer-price b{font:800 22px/1.1 var(--display);color:#fff}
-.offer-price em{font-style:normal;font-size:12.5px;color:var(--signal)}
-.offer-bar{height:8px;border-radius:999px;background:rgb(227 185 94 / .35);overflow:hidden}
-.offer-bar i{display:block;height:100%;border-radius:999px;background:var(--lime)}
-.offer-legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:var(--ink-200)}
-.offer-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
-.offer-legend .d1{background:var(--lime)}
-.offer-legend .d2{background:rgb(227 185 94 / .8)}
-.offer-cta{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border-radius:12px;font:700 15px var(--display);background:var(--gold);color:#1d1404}
-.offer-cta svg{width:18px;height:18px}
-.offer[aria-pressed=true] .offer-cta{background:var(--lime);color:var(--lime-ink)}
+.offer-top{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px}
+.offer-kick{display:inline-flex;align-items:center;gap:8px;font:800 18px/1.2 var(--display);color:#ffe7ad}
+.offer-kick svg{width:20px;height:20px;color:var(--gold)}
+.offer-sub{font-size:13px;color:var(--ink-300)}
+.otiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px}
+.otile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:12px;border-radius:14px;text-align:left;
+  border:1px solid rgb(227 185 94 / .3);background:rgb(0 0 0 / .28);transition:border-color .15s,transform .1s,background .15s}
+.otile:hover{border-color:rgb(227 185 94 / .6)}
+.otile:active{transform:scale(.98)}
+.otile[aria-pressed=true]{border-color:var(--gold);background:rgb(227 185 94 / .12);box-shadow:inset 0 0 0 1px var(--gold)}
+.obadge{position:absolute;top:-9px;right:10px;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--gold);color:#1d1404}
+.ot-c{display:flex;align-items:center;gap:8px;font:800 30px/1 var(--display);color:#fff4d6}
+.ot-c .gsc{width:36px;height:36px}
+.ot-gift{font:800 16px/1.2 var(--display);color:var(--signal)}
+.ot-p{display:flex;align-items:baseline;gap:8px;font-size:14px}
+.ot-p b{font-weight:700;color:#fff}
+.ot-p s{font-size:12px;color:var(--ink-400);text-decoration-color:rgb(255 122 136 / .8)}
+.offer-split{margin:0;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:var(--ink-200)}
+.offer-split i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.offer-split .d1{background:var(--lime)}
+.offer-split .d2{background:var(--gold)}
+.offer-cta{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 16px;border:0;border-radius:14px;
+  font:800 16px var(--display);color:#2a1a02;background:linear-gradient(180deg,#ffe9a8 0%,#f2c357 45%,#d89a2b 100%);
+  box-shadow:inset 0 1px 0 rgb(255 255 255 / .7),inset 0 -2px 0 rgb(120 70 0 / .35),0 4px 0 #8a5a12,0 10px 24px rgb(227 185 94 / .35);
+  text-shadow:0 1px 0 rgb(255 240 200 / .6);transition:transform .08s,box-shadow .08s,filter .15s}
+.offer-cta:hover{filter:brightness(1.06)}
+.offer-cta:active{transform:translateY(3px);box-shadow:inset 0 1px 0 rgb(255 255 255 / .6),0 1px 0 #8a5a12,0 4px 12px rgb(227 185 94 / .3)}
+.offer-cta svg{width:20px;height:20px}
+.offer-cta small{font:600 12.5px var(--sans);opacity:.7;text-decoration:underline}
+.offer.on .offer-cta{color:var(--lime-ink);text-shadow:none;background:linear-gradient(180deg,#e4ff9a,#c8ff55 50%,#a6e03a);box-shadow:inset 0 1px 0 rgb(255 255 255 / .6),0 4px 0 #6c9a1c,0 10px 24px rgb(200 255 85 / .25)}
 
 /* summary + pay */
 .sum{border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 16px;background:rgb(255 255 255 / .02)}
@@ -203,10 +216,11 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .notes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--ink-300)}
 .notes li{display:flex;gap:8px}
 .notes svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--ink-400)}
-.pay{width:100%;min-height:56px;border:0;border-radius:16px;background:var(--lime);color:var(--lime-ink);font:700 17px var(--display);
+.pay{width:100%;min-height:56px;border:0;border-radius:16px;background:linear-gradient(180deg,#e4ff9a,#c8ff55 50%,#aee83f);color:var(--lime-ink);font:800 17px var(--display);
   display:flex;align-items:center;justify-content:center;gap:10px;padding:0 18px;box-shadow:0 10px 30px rgb(200 255 85 / .18);transition:filter .15s,transform .1s}
 .pay:hover{filter:brightness(1.05)}
-.pay:active{transform:scale(.99)}
+.pay:active{transform:translateY(2px)}
+.pay:not(:disabled){box-shadow:inset 0 1px 0 rgb(255 255 255 / .65),0 4px 0 #6c9a1c,0 12px 30px rgb(200 255 85 / .2)!important}
 .pay:disabled{background:var(--ink-600);color:var(--ink-300);box-shadow:none;cursor:not-allowed}
 .pay svg{width:20px;height:20px}
 .legal{font-size:12px;color:var(--ink-400);text-align:center;margin:0}
@@ -249,14 +263,14 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 .pack{position:relative;text-align:left;border-radius:var(--r-lg);border:1px solid var(--line-2);background:rgb(255 255 255 / .03);padding:16px;display:flex;flex-direction:column;gap:6px;min-height:132px}
 .pack[aria-pressed=true]{border-color:var(--lime);background:var(--lime-soft);box-shadow:inset 0 0 0 1px var(--lime)}
 .pack .c{font:800 28px/1 var(--display);display:flex;align-items:center;gap:8px}
-.pack .c svg{width:22px;height:22px}
+.pack .c .gsc{width:32px;height:32px}
 .pack .p{font:700 17px var(--display)}
 .pack .u{font-size:12.5px;color:var(--ink-300)}
-.pack .save{align-self:flex-start;font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:999px;background:rgb(46 224 166 / .14);color:var(--signal)}
+.pack .save{align-self:flex-start;font-size:12.5px;font-weight:800;padding:3px 8px;border-radius:999px;background:rgb(46 224 166 / .14);color:var(--signal)}
 .pack .badge{position:absolute;top:-10px;right:12px;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--gold);color:#1d1404}
 .pack.own{justify-content:center}
 .balance-hero{display:flex;align-items:center;gap:14px;padding:16px;border-radius:var(--r-lg);background:linear-gradient(135deg,rgb(227 185 94 / .16),rgb(227 185 94 / .04));border:1px solid rgb(227 185 94 / .3)}
-.balance-hero svg{width:40px;height:40px;flex:none}
+.balance-hero .gsc{width:52px;height:52px}
 .balance-hero small{display:block;color:var(--ink-200);font-size:12.5px}
 .balance-hero strong{font:800 28px/1.1 var(--display)}
 
@@ -289,6 +303,11 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
   .state{padding:28px 16px calc(28px + var(--safe-b))}
 }
 @media (max-width:359px){
+  .otile{padding:10px}
+  .ot-c{font-size:24px}
+  .ot-c .gsc{width:28px;height:28px}
+  .ot-gift{font-size:14px}
+  .ot-p{flex-direction:column;gap:0}
   .chip .e{font-size:10.5px}
   .chip .p{font-size:11.5px}
   .co-head{gap:10px}
@@ -343,8 +362,8 @@ if (framed) document.getElementById('pbar').remove();
 
 const PRICE = 50;
 const SUPPORT_CHIPS = [5, 10, 25, 50, 100];
-const CHIP_BADGE = {10:'Популярный', 100:'Выгоднее всего'};
-const PACKS = [{c:50,rub:2350},{c:100,rub:4400,badge:'Популярный'},{c:500,rub:20000,badge:'Выгоднее всего'}];
+const PACKS = [{c:50,rub:2350},{c:100,rub:4400,badge:'Оптимально'},{c:500,rub:20000,badge:'Лучшая цена'}];
+const bonus = p => p.c - Math.round(p.rub / 50);
 const SERVER = {name:'Северный Ветер x10', game:'Lineage 2', letter:'С', coins:6};
 const PEERS = [
   {name:'Dragon Gate x50', coins:24},{name:'Imperium PvP', coins:15},{name:'Aurora Classic', coins:12},
@@ -365,7 +384,8 @@ const MORE = [
 const ALL = [...METHODS, ...MORE];
 const priceFor = c => (PACKS.find(p => p.c === c) || {rub: c * PRICE}).rub;
 
-const coinSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe7a3"/><stop offset="1" stop-color="#c9922f"/></linearGradient></defs><circle cx="12" cy="12" r="10.5" fill="url(#cg)"/><circle cx="12" cy="12" r="7.6" fill="none" stroke="#8a5f17" stroke-opacity=".55" stroke-width="1.2"/><text x="12" y="15.3" text-anchor="middle" font-family="Inter Tight,Arial" font-weight="800" font-size="8.2" fill="#6b4710">GS</text></svg>';
+const COIN = 'data:image/webp;base64,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';
+const coinSvg = '<img class="gsc" src="' + COIN + '" alt="" aria-hidden="true" decoding="async">';
 const ic = {
   x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
@@ -376,6 +396,7 @@ const ic = {
   info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
   bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 14h6l-1 7 8-11h-6l1-7z"/></svg>',
   crown:'<svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5L3 7z"/></svg>',
+  gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v9H5v-9M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>',
   fail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>'
 };
 const rub = n => n.toLocaleString('ru-RU').replace(/ /g,' ') + ' ₽';
@@ -405,13 +426,14 @@ function supportCalc() {
   const n = S.amount;
   const fromBal = S.useBalance ? Math.min(S.balance, n) : 0;
   const need = n - fromBal;
-  const cheapestPack = PACKS.find(p => p.c > need);
-  const upsellOn = S.upsell && need > 0 && cheapestPack;
-  const buy = upsellOn ? cheapestPack.c : need;
-  const rubTotal = upsellOn ? cheapestPack.rub : priceFor(need);
+  const offers = need >= 5 ? PACKS.filter(p => p.c > need && p.c <= 100) : [];
+  const pick = offers.find(p => p.c === S.offerPick) || offers[offers.length - 1];
+  const upsellOn = !!(S.upsell && pick);
+  const buy = upsellOn ? pick.c : need;
+  const rubTotal = upsellOn ? pick.rub : priceFor(need);
   const m = ALL.find(x => x.id === S.method);
   const belowMin = need > 0 && m && m.min && buy < m.min;
-  return {n, fromBal, need, buy, rubTotal, leftover: upsellOn ? cheapestPack.c - need : 0, pack: cheapestPack, upsellOn, belowMin, m};
+  return {n, fromBal, need, buy, rubTotal, leftover: upsellOn ? pick.c - need : 0, offers, pick, upsellOn, belowMin, m};
 }
 function walletCalc() {
   const c = S.packCustom ? S.packAmount : S.pack;
@@ -448,19 +470,19 @@ function methodsBlock(amountCoins) {
     </div>`;
 }
 function offerCard(k) {
-  const p = k.pack, full = p.c * PRICE, save = full - p.rub, pct = Math.round(save / full * 100), rest = p.c - k.need;
-  const share = Math.max(8, Math.round(k.need / p.c * 100));
-  return `<button type="button" class="offer" aria-pressed="${!!k.upsellOn}" data-act="upsell">
+  const best = k.offers[k.offers.length - 1], p = k.pick, rest = p.c - k.need;
+  const tiles = k.offers.map(o => `<button type="button" class="otile" aria-pressed="${o === p}" data-offer="${o.c}">
+      ${o === best && k.offers.length > 1 ? '<span class="obadge">Больше подарок</span>' : ''}
+      <span class="ot-c">${coinSvg}<b class="num">${o.c}</b></span>
+      <span class="ot-gift num">+${bonus(o)} в подарок</span>
+      <span class="ot-p num"><b>${rub(o.rub)}</b><s>${rub(o.c * PRICE)}</s></span></button>`).join('');
+  return `<section class="offer${k.upsellOn ? ' on' : ''}" aria-label="Coins с запасом">
     <span class="offer-glow" aria-hidden="true"></span>
-    <span class="offer-top"><span class="offer-kick">Выгоднее с запасом</span><span class="offer-pct num">−${pct}%</span></span>
-    <span class="offer-main">
-      <span class="offer-coin">${coinSvg}<b class="num">${p.c}</b></span>
-      <span class="offer-price"><s class="num">${rub(full)}</s><b class="num">${rub(p.rub)}</b><em class="num">Выгода ${rub(save)} · ${Math.round(p.rub / p.c)} ₽ за Coin</em></span>
-    </span>
-    <span class="offer-bar" aria-hidden="true"><i style="width:${share}%"></i></span>
-    <span class="offer-legend"><span><i class="d1"></i>${k.need} — серверу сейчас</span><span><i class="d2"></i>${rest} — на баланс, не сгорают</span></span>
-    <span class="offer-cta">${k.upsellOn ? ic.check + ' Пакет добавлен' : 'Взять пакет ' + p.c + ' Coins'}</span>
-  </button>`;
+    <div class="offer-top"><span class="offer-kick">${ic.gift}Coins в подарок</span><span class="offer-sub">если взять с запасом</span></div>
+    <div class="otiles">${tiles}</div>
+    <p class="offer-split num"><span><i class="d1"></i>${k.need} — серверу сейчас</span><span><i class="d2"></i>${rest} — на баланс, не сгорают</span></p>
+    <button type="button" class="offer-cta" data-act="upsell">${k.upsellOn ? ic.check + `<span>Добавлено ${p.c} Coins</span><small>убрать</small>` : ic.gift + `<span>Взять ${p.c} Coins · +${bonus(p)} в подарок</span>`}</button>
+  </section>`;
 }
 function notes(list) {
   return `<ul class="notes">${list.map(([i, t]) => `<li>${ic[i]}<span>${t}</span></li>`).join('')}</ul>`;
@@ -483,11 +505,12 @@ function renderSupport() {
     : newPlace < curPlace ? `Обгоните ${passed.length === 1 ? esc(passed[0]) : passed.length + ' ' + plural(passed.length,'сервер','сервера','серверов')}`
     : `Место сохранится. Чтобы подняться, нужно ${coinsWord(Math.min(...PEERS.filter(p => !p.me && p.coins >= SERVER.coins + k.n).map(p => p.coins)) - SERVER.coins + 1)}`;
 
+  const firstTop = SUPPORT_CHIPS.find(c => placeWith(c) === 1);
   const chips = SUPPORT_CHIPS.map(n => {
     const e = effectLabel(n); const on = !S.custom && S.amount === n;
     const price = priceFor(n), full = n * PRICE;
     return `<button type="button" class="chip" aria-pressed="${on}" data-amount="${n}">
-      ${CHIP_BADGE[n] ? `<span class="badge">${CHIP_BADGE[n]}</span>` : ''}
+      ${n === firstTop ? '<span class="badge">Сразу в топ-1</span>' : n === 100 ? '<span class="badge green">Лучшая цена</span>' : ''}
       <span class="c num">${coinSvg}${n}</span><span class="p num">${price < full ? `<s>${rub(full)}</s>` : ''}${rub(price)}</span><span class="e ${e.cls}">${e.cls === 'top' ? ic.crown + ' ' : ''}${e.t}</span></button>`;
   }).join('') + `<button type="button" class="chip own" aria-pressed="${S.custom}" data-act="custom"><span class="c">Своё</span><span class="p">1–10 000</span><span class="e">любое число</span></button>`;
 
@@ -499,7 +522,7 @@ function renderSupport() {
     </div>` : '';
   const payBody = k.need === 0
     ? `<div class="covered">${ic.ok}<span>Хватает Coins на балансе — платить не нужно. Останется ${coinsWord(S.balance - k.n)}.</span></div>`
-    : `${k.pack && k.pack.c <= 100 && k.pack.c <= k.need * 5 ? offerCard(k) : ''}${methodsBlock()}
+    : `${k.offers.length ? offerCard(k) : ''}${methodsBlock()}
         ${k.belowMin ? `<p class="err" role="status">${k.m.name}: минимум ${k.m.min} Coins. Выберите СБП или карту — у них нет минимума.</p>` : ''}`;
 
   co.innerHTML = head('Поддержка сервера · ' + SERVER.game + ' · сейчас #' + curPlace, esc(SERVER.name)) + `
@@ -552,8 +575,8 @@ function renderWallet() {
     const on = !S.packCustom && S.pack === p.c, save = p.c * PRICE - p.rub;
     return `<button type="button" class="pack" aria-pressed="${on}" data-pack="${p.c}">${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
       <span class="c num">${coinSvg}${p.c}</span><span class="p num">${rub(p.rub)}</span>
-      <span class="u num">${Math.round(p.rub / p.c)} ₽ за Coin</span><span class="save num">−${rub(save)}</span></button>`;
-  }).join('') + `<button type="button" class="pack own" aria-pressed="${S.packCustom}" data-act="packcustom"><span class="c">Своё</span><span class="u">${PRICE} ₽ за Coin, без скидки</span></button>`;
+      <span class="u num">${Math.round(p.rub / p.c)} ₽ за Coin</span><span class="save num">+${bonus(p)} в подарок</span></button>`;
+  }).join('') + `<button type="button" class="pack own" aria-pressed="${S.packCustom}" data-act="packcustom"><span class="c">Своё</span><span class="u">Любое количество, от 1 Coin</span></button>`;
   co.innerHTML = head('Мои Coins', 'Пополнить баланс', true) + `
   <div class="co-body">
     <div class="co-main">
@@ -700,6 +723,7 @@ co.addEventListener('click', e => {
     case 'totop': S.amount = toTop; return render();
     case 'usebal': S.useBalance = !S.useBalance; return render();
     case 'upsell': S.upsell = !S.upsell; return render();
+    case undefined: if (t.dataset.offer) { S.offerPick = +t.dataset.offer; S.upsell = true; return render(); } return;
     case 'packcustom': S.packCustom = true; render(); co.querySelector('[data-act=pamount]')?.focus({preventScroll:true}); return;
     case 'pdec': S.packAmount = Math.max(1, S.packAmount - 1); return render();
     case 'pinc': S.packAmount = Math.min(10000, S.packAmount + 1); return render();
