@@ -55,6 +55,11 @@ button{cursor:pointer}
 /* ---------- stage ---------- */
 .stage{display:flex;justify-content:center;padding:28px 24px 48px}
 .phone-frame{display:none}
+.phone-wrap{display:none;flex-direction:column;align-items:center;gap:12px}
+body.as-phone .phone-wrap{display:flex}
+.pf-open{color:#d6cfff;font-size:13.5px;text-decoration:underline;padding:8px}
+.phone-frame{position:relative}
+.phone-frame .pf-load{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-300);font-size:14px}
 body.as-phone .stage{padding-top:20px}
 body.as-phone .co{display:none}
 body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh - 90px));border-radius:44px;border:10px solid #1b1e26;box-shadow:0 30px 80px rgb(0 0 0 / .6);overflow:hidden;background:var(--bg)}
@@ -357,7 +362,7 @@ body.as-phone .phone-frame{display:block;width:390px;height:min(844px,calc(100vh
 
 <main class="stage">
   <section class="co" id="co" aria-live="polite"></section>
-  <div class="phone-frame" id="pframe"></div>
+  <div class="phone-wrap"><div class="phone-frame" id="pframe"></div><a class="pf-open" id="pflink" target="_blank" rel="noopener">Не загрузилось? Открыть мобильную версию отдельно</a></div>
 </main>
 
 <script>
@@ -788,7 +793,9 @@ function applyView() {
   const phone = S.view === 'phone' && !isPhone();
   document.body.classList.toggle('as-phone', phone);
   const box = document.getElementById('pframe');
-  if (phone) box.innerHTML = `<iframe title="Прототип на телефоне" src="?frame=1&screen=${S.screen}&balance=${S.balance}&outcome=${S.outcome}"></iframe>`;
+  const url = `${location.pathname}?frame=1&screen=${S.screen}&balance=${S.balance}&outcome=${S.outcome}&t=${Date.now()}`;
+  document.getElementById('pflink').href = url;
+  if (phone) { box.innerHTML = `<div class="pf-load">Загружаем мобильную версию…</div><iframe title="Прототип на телефоне" loading="eager" src="${url}"></iframe>`; const fr = box.querySelector('iframe'); fr.style.position = 'relative'; fr.addEventListener('load', () => box.querySelector('.pf-load')?.remove()); }
   else box.innerHTML = '';
   document.querySelectorAll('.seg[data-k=view] button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.view)));
 }
