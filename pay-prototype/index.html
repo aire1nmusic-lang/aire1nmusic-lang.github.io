@@ -41,6 +41,7 @@ button{cursor:pointer}
 .seg{display:inline-flex;background:rgb(0 0 0 / .35);border:1px solid var(--line-2);border-radius:999px;padding:2px}
 .seg button{border:0;background:none;border-radius:999px;padding:5px 10px;min-height:30px;font-size:12.5px;color:var(--ink-200)}
 .seg button[aria-pressed=true]{background:#d6cfff;color:#151129;font-weight:600}
+.seg.big button{padding:7px 14px;min-height:36px;font-size:13.5px;font-weight:600}
 .pbar .toggle{margin-left:auto;border:1px solid var(--line-2);background:none;border-radius:999px;padding:5px 12px;min-height:30px;font-size:12.5px;color:#d6cfff}
 .pbar .more{display:contents}
 @media (max-width:719px){
@@ -49,6 +50,7 @@ button{cursor:pointer}
   .pbar.open .more{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%}
 }
 @media (min-width:720px){.pbar .toggle{display:none}}
+@media (max-width:719px){.pbar .dev{display:none}}
 
 /* ---------- stage ---------- */
 .stage{display:flex;justify-content:center;padding:28px 24px 48px}
@@ -87,7 +89,8 @@ body.as-phone .phone-frame{display:block;width:390px;height:844px;border-radius:
 .chip:active{transform:scale(.98)}
 .chip .c{font:800 22px/1 var(--display);display:flex;align-items:center;gap:5px}
 .chip .c svg{width:16px;height:16px}
-.chip .p{font-size:12.5px;color:var(--ink-200)}
+.chip .p{font-size:12.5px;color:var(--ink-200);display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.chip .p s{font-size:11px;color:var(--ink-400);text-decoration-color:rgb(255 122 136 / .7)}
 .chip .e{font-size:11.5px;color:var(--ink-300);margin-top:2px}
 .chip .e.up{color:var(--signal)}
 .chip .e.top{color:var(--gold)}
@@ -101,6 +104,10 @@ body.as-phone .phone-frame{display:block;width:390px;height:844px;border-radius:
 .stepper button{width:48px;height:48px;border:0;background:none;font-size:22px;color:var(--ink-100)}
 .stepper button:disabled{opacity:.3;cursor:default}
 .stepper input{width:88px;height:48px;border:0;background:none;text-align:center;font:700 20px var(--display);-moz-appearance:textfield}
+.stepper input:focus,.stepper input:focus-visible{outline:none}
+.stepper input::selection{background:rgb(200 255 85 / .3);color:#fff}
+.stepper:focus-within{border-color:var(--lime);box-shadow:0 0 0 3px rgb(200 255 85 / .14)}
+.stepper input{border-left:1px solid var(--line)!important;border-right:1px solid var(--line)!important}
 .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .custom .hint{font-size:13px;color:var(--ink-300)}
 .ghost{border:1px solid var(--line-2);background:rgb(255 255 255 / .04);border-radius:999px;padding:0 14px;min-height:40px;font-size:13.5px;display:inline-flex;align-items:center;gap:6px}
@@ -153,18 +160,36 @@ body.as-phone .phone-frame{display:block;width:390px;height:844px;border-radius:
 .m[aria-checked=true] .dot{border-color:var(--lime)}
 .m[aria-checked=true] .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--lime)}
 .m[disabled]{opacity:.45;cursor:not-allowed}
-.more-btn{border:0;background:none;color:var(--ink-200);font-size:13.5px;padding:10px 4px;min-height:44px;display:inline-flex;align-items:center;gap:6px}
-.more-btn svg{width:16px;height:16px;transition:transform .15s}
-.more-btn[aria-expanded=true] svg{transform:rotate(180deg)}
-.more-list{display:none;flex-direction:column;gap:8px}
-.more-list.on{display:flex}
+.mdiv{display:flex;align-items:center;gap:10px;margin:14px 2px 8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400)}
+.mdiv::after{content:"";flex:1;height:1px;background:var(--line)}
 
-.upsell{display:flex;gap:12px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:var(--r-md);border:1px dashed rgb(227 185 94 / .45);background:var(--gold-soft);cursor:pointer}
-.upsell input{appearance:none;-webkit-appearance:none;margin:2px 0 0;width:22px;height:22px;border-radius:6px;border:2px solid var(--gold);flex:none;display:grid;place-items:center;cursor:pointer}
-.upsell input:checked{background:var(--gold)}
-.upsell input:checked::after{content:"";width:6px;height:11px;border:solid #1d1404;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
-.upsell strong{display:block;font-weight:600;color:#f6deaa}
-.upsell span{font-size:12.5px;color:var(--ink-200)}
+.offer{position:relative;overflow:hidden;width:100%;text-align:left;display:flex;flex-direction:column;gap:12px;margin:0 0 14px;padding:16px;border-radius:var(--r-lg);
+  border:1px solid rgb(227 185 94 / .55);background:linear-gradient(135deg,rgb(227 185 94 / .22),rgb(227 185 94 / .05) 55%,rgb(124 107 245 / .08));
+  box-shadow:0 12px 40px rgb(227 185 94 / .10),inset 0 1px 0 rgb(255 255 255 / .08);transition:transform .12s,box-shadow .2s}
+.offer:hover{box-shadow:0 14px 48px rgb(227 185 94 / .18),inset 0 1px 0 rgb(255 255 255 / .1)}
+.offer:active{transform:scale(.99)}
+.offer[aria-pressed=true]{border-color:var(--lime);box-shadow:0 0 0 1px var(--lime),0 12px 40px rgb(200 255 85 / .14)}
+.offer-glow{position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgb(255 236 180 / .16) 50%,transparent 65%);transform:translateX(-100%);animation:shine 3.6s ease-in-out infinite;pointer-events:none}
+@keyframes shine{0%,55%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.offer-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.offer-kick{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#f6deaa}
+.offer-pct{font:800 15px var(--display);padding:4px 10px;border-radius:999px;background:var(--signal);color:#052a1d}
+.offer-main{display:flex;align-items:center;gap:16px}
+.offer-coin{display:flex;align-items:center;gap:8px;font:800 40px/1 var(--display);color:#fff4d6}
+.offer-coin svg{width:38px;height:38px;filter:drop-shadow(0 4px 10px rgb(227 185 94 / .45))}
+.offer-price{display:flex;flex-direction:column;gap:1px;min-width:0}
+.offer-price s{font-size:13px;color:var(--ink-300);text-decoration-color:rgb(255 122 136 / .8)}
+.offer-price b{font:800 22px/1.1 var(--display);color:#fff}
+.offer-price em{font-style:normal;font-size:12.5px;color:var(--signal)}
+.offer-bar{height:8px;border-radius:999px;background:rgb(227 185 94 / .35);overflow:hidden}
+.offer-bar i{display:block;height:100%;border-radius:999px;background:var(--lime)}
+.offer-legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:var(--ink-200)}
+.offer-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.offer-legend .d1{background:var(--lime)}
+.offer-legend .d2{background:rgb(227 185 94 / .8)}
+.offer-cta{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border-radius:12px;font:700 15px var(--display);background:var(--gold);color:#1d1404}
+.offer-cta svg{width:18px;height:18px}
+.offer[aria-pressed=true] .offer-cta{background:var(--lime);color:var(--lime-ink)}
 
 /* summary + pay */
 .sum{border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 16px;background:rgb(255 255 255 / .02)}
@@ -285,13 +310,13 @@ body.as-phone .phone-frame{display:block;width:390px;height:844px;border-radius:
 </head>
 <body>
 <div class="pbar" id="pbar" aria-label="Панель прототипа">
+  <div class="grp dev" id="viewgrp"><div class="seg big" data-k="view"><button data-v="auto">🖥 ПК</button><button data-v="phone">📱 Телефон</button></div></div>
   <b>Прототип · деньги не списываются</b>
   <button class="toggle" type="button" aria-expanded="false" aria-controls="pmore" id="ptoggle">Сценарий</button>
   <div class="more" id="pmore">
     <div class="grp"><span>Экран</span><div class="seg" data-k="screen"><button data-v="support">Поддержка</button><button data-v="wallet">Кошелёк</button></div></div>
     <div class="grp"><span>Баланс</span><div class="seg" data-k="balance"><button data-v="0">0</button><button data-v="8">8</button><button data-v="60">60</button></div></div>
     <div class="grp"><span>Итог</span><div class="seg" data-k="outcome"><button data-v="ok">Успех</button><button data-v="fail">Ошибка</button></div></div>
-    <div class="grp" id="viewgrp"><span>Вид</span><div class="seg" data-k="view"><button data-v="auto">Как есть</button><button data-v="phone">Телефон</button></div></div>
   </div>
 </div>
 
@@ -310,14 +335,15 @@ const S = {
   balance: +(qs.get('balance') ?? 0),
   outcome: qs.get('outcome') || 'ok',
   view: 'auto',
-  amount: 11, custom: false, useBalance: true, method: 'sbp', showMore: false, upsell: false,
+  amount: 10, custom: false, useBalance: true, method: 'sbp', showMore: false, upsell: false,
   pack: 100, packCustom: false, packAmount: 20,
   state: 'form'
 };
 if (framed) document.getElementById('pbar').remove();
 
 const PRICE = 50;
-const SUPPORT_CHIPS = [3, 6, 11, 21, 40];
+const SUPPORT_CHIPS = [5, 10, 25, 50, 100];
+const CHIP_BADGE = {10:'Популярный', 100:'Выгоднее всего'};
 const PACKS = [{c:50,rub:2350},{c:100,rub:4400,badge:'Популярный'},{c:500,rub:20000,badge:'Выгоднее всего'}];
 const SERVER = {name:'Северный Ветер x10', game:'Lineage 2', letter:'С', coins:6};
 const PEERS = [
@@ -337,6 +363,7 @@ const MORE = [
   {id:'usdt', name:'USDT', sub:'Перевод TRC20 с кошелька или биржи · от 10 Coins', color:'#26a17b', glyph:'₮', min:10}
 ];
 const ALL = [...METHODS, ...MORE];
+const priceFor = c => (PACKS.find(p => p.c === c) || {rub: c * PRICE}).rub;
 
 const coinSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe7a3"/><stop offset="1" stop-color="#c9922f"/></linearGradient></defs><circle cx="12" cy="12" r="10.5" fill="url(#cg)"/><circle cx="12" cy="12" r="7.6" fill="none" stroke="#8a5f17" stroke-opacity=".55" stroke-width="1.2"/><text x="12" y="15.3" text-anchor="middle" font-family="Inter Tight,Arial" font-weight="800" font-size="8.2" fill="#6b4710">GS</text></svg>';
 const ic = {
@@ -378,10 +405,10 @@ function supportCalc() {
   const n = S.amount;
   const fromBal = S.useBalance ? Math.min(S.balance, n) : 0;
   const need = n - fromBal;
-  const cheapestPack = PACKS.find(p => p.c >= need);
+  const cheapestPack = PACKS.find(p => p.c > need);
   const upsellOn = S.upsell && need > 0 && cheapestPack;
   const buy = upsellOn ? cheapestPack.c : need;
-  const rubTotal = upsellOn ? cheapestPack.rub : need * PRICE;
+  const rubTotal = upsellOn ? cheapestPack.rub : priceFor(need);
   const m = ALL.find(x => x.id === S.method);
   const belowMin = need > 0 && m && m.min && buy < m.min;
   return {n, fromBal, need, buy, rubTotal, leftover: upsellOn ? cheapestPack.c - need : 0, pack: cheapestPack, upsellOn, belowMin, m};
@@ -412,14 +439,28 @@ function methodBtn(m, disabledReason) {
     <span class="dot" aria-hidden="true"></span></button>`;
 }
 function methodsBlock(amountCoins) {
-  const moreOpen = S.showMore || MORE.some(m => m.id === S.method);
   return `<div class="methods" role="radiogroup" aria-label="Способ оплаты">
       ${METHODS.map(m => methodBtn(m)).join('')}
     </div>
-    <button type="button" class="more-btn" data-act="more" aria-expanded="${moreOpen}">${moreOpen ? 'Скрыть' : 'Криптовалюта и Telegram'} ${ic.chev}</button>
-    <div class="more-list${moreOpen ? ' on' : ''}" role="radiogroup" aria-label="Другие способы">
+    <p class="mdiv">Криптовалюта</p>
+    <div class="methods" role="radiogroup" aria-label="Криптовалюта">
       ${MORE.map(m => methodBtn(m)).join('')}
     </div>`;
+}
+function offerCard(k) {
+  const p = k.pack, full = p.c * PRICE, save = full - p.rub, pct = Math.round(save / full * 100), rest = p.c - k.need;
+  const share = Math.max(8, Math.round(k.need / p.c * 100));
+  return `<button type="button" class="offer" aria-pressed="${!!k.upsellOn}" data-act="upsell">
+    <span class="offer-glow" aria-hidden="true"></span>
+    <span class="offer-top"><span class="offer-kick">Выгоднее с запасом</span><span class="offer-pct num">−${pct}%</span></span>
+    <span class="offer-main">
+      <span class="offer-coin">${coinSvg}<b class="num">${p.c}</b></span>
+      <span class="offer-price"><s class="num">${rub(full)}</s><b class="num">${rub(p.rub)}</b><em class="num">Выгода ${rub(save)} · ${Math.round(p.rub / p.c)} ₽ за Coin</em></span>
+    </span>
+    <span class="offer-bar" aria-hidden="true"><i style="width:${share}%"></i></span>
+    <span class="offer-legend"><span><i class="d1"></i>${k.need} — серверу сейчас</span><span><i class="d2"></i>${rest} — на баланс, не сгорают</span></span>
+    <span class="offer-cta">${k.upsellOn ? ic.check + ' Пакет добавлен' : 'Взять пакет ' + p.c + ' Coins'}</span>
+  </button>`;
 }
 function notes(list) {
   return `<ul class="notes">${list.map(([i, t]) => `<li>${ic[i]}<span>${t}</span></li>`).join('')}</ul>`;
@@ -444,9 +485,10 @@ function renderSupport() {
 
   const chips = SUPPORT_CHIPS.map(n => {
     const e = effectLabel(n); const on = !S.custom && S.amount === n;
+    const price = priceFor(n), full = n * PRICE;
     return `<button type="button" class="chip" aria-pressed="${on}" data-amount="${n}">
-      ${n === 11 ? '<span class="badge">Чаще выбирают</span>' : ''}
-      <span class="c num">${coinSvg}${n}</span><span class="p num">${rub(n * PRICE)}</span><span class="e ${e.cls}">${e.cls === 'top' ? ic.crown + ' ' : ''}${e.t}</span></button>`;
+      ${CHIP_BADGE[n] ? `<span class="badge">${CHIP_BADGE[n]}</span>` : ''}
+      <span class="c num">${coinSvg}${n}</span><span class="p num">${price < full ? `<s>${rub(full)}</s>` : ''}${rub(price)}</span><span class="e ${e.cls}">${e.cls === 'top' ? ic.crown + ' ' : ''}${e.t}</span></button>`;
   }).join('') + `<button type="button" class="chip own" aria-pressed="${S.custom}" data-act="custom"><span class="c">Своё</span><span class="p">1–10 000</span><span class="e">любое число</span></button>`;
 
   const payLabel = k.need === 0 ? `Поддержать за ${coinsWord(k.n)}` : `Оплатить ${rub(k.rubTotal)}`;
@@ -457,9 +499,7 @@ function renderSupport() {
     </div>` : '';
   const payBody = k.need === 0
     ? `<div class="covered">${ic.ok}<span>Хватает Coins на балансе — платить не нужно. Останется ${coinsWord(S.balance - k.n)}.</span></div>`
-    : `${methodsBlock()}${k.pack && k.need >= 6 ? `<label class="upsell"><input type="checkbox" data-act="upsell"${k.upsellOn ? ' checked' : ''}>
-        <span><strong>Купить про запас: ${k.pack.c} Coins за ${rub(k.pack.rub)}</strong>
-        <span>${Math.round(k.pack.rub / k.pack.c)} ₽ за Coin вместо ${PRICE}. ${k.need} уйдут серверу, ${k.pack.c - k.need} останутся на балансе.</span></span></label>` : ''}
+    : `${k.pack && k.pack.c <= 100 && k.pack.c <= k.need * 5 ? offerCard(k) : ''}${methodsBlock()}
         ${k.belowMin ? `<p class="err" role="status">${k.m.name}: минимум ${k.m.min} Coins. Выберите СБП или карту — у них нет минимума.</p>` : ''}`;
 
   co.innerHTML = head('Поддержка сервера · ' + SERVER.game + ' · сейчас #' + curPlace, esc(SERVER.name)) + `
@@ -471,7 +511,7 @@ function renderSupport() {
           <div class="stepper"><button type="button" data-act="dec" aria-label="Меньше"${S.amount <= 1 ? ' disabled' : ''}>−</button>
             <input type="number" inputmode="numeric" min="1" max="10000" value="${S.amount}" aria-label="Количество Coins" data-act="amount">
             <button type="button" data-act="inc" aria-label="Больше"${S.amount >= 10000 ? ' disabled' : ''}>+</button></div>
-          <span class="hint num">= ${rub(S.amount * PRICE)}</span>
+          <span class="hint num">= ${rub(priceFor(S.amount))}</span>
           ${placeWith(S.amount) > 1 ? `<button type="button" class="ghost gold" data-act="totop">${ic.crown} В топ-1: ${toTop}</button>` : ''}
         </div>
       </section>
@@ -488,7 +528,7 @@ function renderSupport() {
       <div class="sum"><h3>Итого</h3><dl>
         <dt>Серверу</dt><dd class="num">${coinsWord(k.n)}</dd>
         ${k.fromBal ? `<dt>С баланса</dt><dd class="num">−${k.fromBal}</dd>` : ''}
-        ${k.need ? `<dt>${k.upsellOn ? 'Покупаем пакет' : 'Докупаем'}</dt><dd class="num">${k.upsellOn ? coinsWord(k.buy) : k.need + ' × ' + PRICE + ' ₽'}</dd>` : ''}
+        ${k.need ? `<dt>${k.upsellOn ? 'Покупаем пакет' : 'Докупаем'}</dt><dd class="num">${coinsWord(k.buy)}</dd>` : ''}
         ${k.leftover ? `<dt>Останется на балансе</dt><dd class="num">${coinsWord(k.leftover + (S.balance - k.fromBal))}</dd>` : ''}
         <div class="total" style="display:contents"><dt class="total">К оплате</dt><dd class="total num">${k.need ? rub(k.rubTotal) : '0 ₽'}</dd></div>
       </dl></div>
@@ -648,19 +688,19 @@ function render() {
 
 /* --- events --- */
 co.addEventListener('click', e => {
-  const t = e.target.closest('button,[data-act=upsell]'); if (!t) return;
+  const t = e.target.closest('button'); if (!t) return;
   const act = t.dataset.act;
   if (t.dataset.amount) { S.amount = +t.dataset.amount; S.custom = false; return render(); }
   if (t.dataset.method) { S.method = t.dataset.method; return render(); }
   if (t.dataset.pack) { S.pack = +t.dataset.pack; S.packCustom = false; return render(); }
   switch (act) {
-    case 'custom': S.custom = true; render(); co.querySelector('[data-act=amount]')?.select(); return;
+    case 'custom': S.custom = true; render(); co.querySelector('[data-act=amount]')?.focus({preventScroll:true}); return;
     case 'dec': S.amount = Math.max(1, S.amount - 1); return render();
     case 'inc': S.amount = Math.min(10000, S.amount + 1); return render();
     case 'totop': S.amount = toTop; return render();
     case 'usebal': S.useBalance = !S.useBalance; return render();
-    case 'more': S.showMore = !S.showMore; return render();
-    case 'packcustom': S.packCustom = true; render(); co.querySelector('[data-act=pamount]')?.select(); return;
+    case 'upsell': S.upsell = !S.upsell; return render();
+    case 'packcustom': S.packCustom = true; render(); co.querySelector('[data-act=pamount]')?.focus({preventScroll:true}); return;
     case 'pdec': S.packAmount = Math.max(1, S.packAmount - 1); return render();
     case 'pinc': S.packAmount = Math.min(10000, S.packAmount + 1); return render();
     case 'pay': return startPay();
@@ -675,7 +715,6 @@ co.addEventListener('click', e => {
 });
 co.addEventListener('change', e => {
   const t = e.target;
-  if (t.dataset.act === 'upsell') { S.upsell = t.checked; render(); }
   if (t.dataset.act === 'amount' || t.dataset.act === 'pamount') {
     const v = Math.round(+t.value);
     const ok = Number.isFinite(v) ? Math.min(10000, Math.max(1, v)) : 1;
@@ -704,7 +743,7 @@ function applyView() {
   else box.innerHTML = '';
   document.querySelectorAll('.seg[data-k=view] button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === S.view)));
 }
-if (isPhone()) document.getElementById('viewgrp')?.remove();
+window.addEventListener('resize', () => { if (isPhone() && S.view === 'phone') { S.view = 'auto'; applyView(); } });
 render();
 })();
 </script>
