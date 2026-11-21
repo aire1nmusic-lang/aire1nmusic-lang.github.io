@@ -44,7 +44,7 @@ h1{font:800 26px/1.15 var(--display);margin:0 0 6px}
 .badge.g{background:var(--lime);color:var(--lime-ink)}
 .big{font:800 30px/1 var(--display)}
 .dim{color:var(--ink-300);font-size:13px}
-.old{color:var(--ink-300);text-decoration:line-through;text-decoration-thickness:1.5px;font-size:14px}
+.old{color:#ff6b78;font-weight:700;text-decoration:line-through;text-decoration-color:#ff3b4e;text-decoration-thickness:2.5px;font-size:15px}
 .price{font:700 18px/1.1 var(--display)}
 .off{display:inline-block;border-radius:8px;padding:2px 8px;background:var(--lime);color:var(--lime-ink);font:800 13px/1.3 var(--display)}
 .save{color:var(--green);font-weight:600;font-size:13px}
@@ -181,12 +181,12 @@ const T={
 3:p=>{const x=m(p);return `<button type="button" class="tile" data-c="${p.c}" aria-pressed="${sel===p.c}">${badge(p)}
  <div class="band num">Выгода ${fmt(x.save)} ₽</div>
  <div class="big num">${img}${x.total}</div><div class="dim">${sub(p,x)}</div>
- <div class="price num" style="margin-top:8px">${fmt(x.pay)} ₽</div><div class="dim num">вместо ${fmt(x.worth)} ₽</div></button>`},
+ <div class="price num" style="margin-top:8px">${fmt(x.pay)} ₽</div><div class="num">вместо <span class="old">${fmt(x.worth)} ₽</span></div></button>`},
 4:p=>{const x=m(p);const gp=p.g?Math.round(p.g/x.total*100):Math.round(x.save/x.worth*100);return `<button type="button" class="row" data-c="${p.c}" aria-pressed="${sel===p.c}">${badge(p)}
- <div class="l">${img}<div><div class="big num">${x.total} Coins</div><div class="dim">${p.g?p.c+' ваших + '+p.g+' подарок':'обычная цена '+fmt(x.worth)+' ₽'}</div></div></div>
+ <div class="l">${img}<div><div class="big num">${x.total} Coins</div><div class="dim">${p.g?p.c+' ваших + '+p.g+' подарок':'обычная цена '}${p.g?'':`<span class="old" style="font-size:13px">${fmt(x.worth)} ₽</span>`}</div></div></div>
  <div class="r"><div class="price num">${fmt(x.pay)} ₽</div><div><span class="off">−${x.pct}%</span></div></div>
  <div class="meter" aria-hidden="true"><i class="pay" style="width:${100-gp}%"></i><i class="gift" style="width:${gp}%"></i></div>
- <div class="note num"><span>Вместо ${fmt(x.worth)} ₽</span><span class="save">экономия ${fmt(x.save)} ₽</span></div></button>`}};
+ <div class="note num"><span>Вместо <span class="old" style="font-size:13px">${fmt(x.worth)} ₽</span></span><span class="save">экономия ${fmt(x.save)} ₽</span></div></button>`}};
 function paint(){
   document.querySelectorAll('[data-v]').forEach(el=>{el.innerHTML=PACKS.map(T[el.dataset.v]).join('')});
   const p=PACKS.find(x=>x.c===sel),x=m(p);
@@ -219,7 +219,7 @@ function paintWin(){
 function setModel(k){MODEL=k;PACKS=k==='gift'?GIFT:SALE;if(!PACKS.some(x=>x.c===sel))sel=100;document.querySelectorAll('#segm button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===MODEL));
  document.getElementById('fact').innerHTML=k==='gift'?'<b>Модель «подарок».</b> Платите за 50 / 100 / 500 Coins по обычной цене 50 ₽ и получаете больше: 55 / 120 / 650.':'<b>Модель «скидка».</b> Покупаете ровно 50 / 100 / 500 Coins, цена ниже обычной: <span class="num">50 Coins за 2 350 ₽ (−6%)</span> · <span class="num">100 за 4 400 ₽ (−12%)</span> · <span class="num">500 за 20 000 ₽ (−20%)</span>. Обычная цена — 50 ₽ за Coin.';paint();paintWin()}
 document.addEventListener('click',e=>{const mm=e.target.closest('#segm button');if(mm){setModel(mm.dataset.m);return}const v=e.target.closest('#segv button');if(v){WV=+v.dataset.k;paintWin();return}const d=e.target.closest('#segd button');if(d){WD=d.dataset.d;paintWin()}});
-paintWin();
+paintWin();setModel('sale');
 </script>
 </body>
 </html>
