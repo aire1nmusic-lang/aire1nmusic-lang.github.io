@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#05060a">
+<title>Пакеты Coins — как показать выгоду (прототип)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--ink-900:#0c0e13;--ink-800:#14171f;--ink-700:#1f242f;--ink-600:#2a303d;--ink-400:#5a6375;--ink-300:#838da1;--ink-200:#b4bccb;--ink-100:#dde2ec;--ink-50:#f4f6fa;
+--lime:#c8ff55;--lime-ink:#11160a;--gold:#e3b95e;--green:#2ee0a6;--line:rgb(255 255 255 / .1);--line2:rgb(255 255 255 / .18);
+--sans:'Inter',ui-sans-serif,system-ui,sans-serif;--display:'Inter Tight','Inter',sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink-50);font:15px/1.45 var(--sans);overflow-x:hidden;
+background-image:radial-gradient(900px 500px at 15% -10%,rgb(200 255 85 / .07),transparent 60%),radial-gradient(800px 600px at 110% 10%,rgb(124 107 245 / .08),transparent 60%);background-attachment:fixed}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 80px}
+h1{font:800 26px/1.15 var(--display);margin:0 0 6px}
+.lead{color:var(--ink-200);margin:0 0 22px;max-width:760px}
+.fact{border:1px solid var(--line2);border-radius:16px;padding:14px 16px;background:rgb(20 23 31 / .7);color:var(--ink-200);margin-bottom:28px}
+.fact b{color:var(--ink-50)}
+.var{margin:0 0 44px}
+.var>header{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:12px}
+.var h2{font:700 19px/1.2 var(--display);margin:0}
+.var .tag{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--lime)}
+.var p.why{margin:0 0 14px;color:var(--ink-300);max-width:780px;font-size:14px}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 392px;gap:18px;align-items:start}
+@media(max-width:980px){.stage{grid-template-columns:1fr}}
+.box{border:1px solid var(--line);border-radius:22px;background:rgb(16 19 25 / .86);padding:16px}
+.box .cap{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-300);margin:0 0 12px}
+.phone{max-width:392px;width:100%;margin:0 auto}
+.packs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.packs.col{grid-template-columns:1fr}
+.coin{width:26px;height:26px;vertical-align:-6px;margin-right:4px}
+.tile{position:relative;text-align:center;border:1px solid var(--line2);border-radius:18px;background:var(--ink-800);padding:14px 8px 12px;transition:border-color .15s,transform .15s,background .15s}
+.tile[aria-pressed=true]{border-color:var(--lime);background:#16200f;box-shadow:0 0 0 1px var(--lime) inset}
+.tile:hover{transform:translateY(-1px)}
+.badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);white-space:nowrap;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700;background:var(--gold);color:#241a05}
+.badge.g{background:var(--lime);color:var(--lime-ink)}
+.big{font:800 30px/1 var(--display)}
+.dim{color:var(--ink-300);font-size:13px}
+.old{color:var(--ink-300);text-decoration:line-through;text-decoration-thickness:1.5px;font-size:14px}
+.price{font:700 18px/1.1 var(--display)}
+.off{display:inline-block;border-radius:8px;padding:2px 8px;background:var(--lime);color:var(--lime-ink);font:800 13px/1.3 var(--display)}
+.save{color:var(--green);font-weight:600;font-size:13px}
+/* V1 */
+.v1 .big{margin:2px 0 6px}
+.v1 .offrow{margin:6px 0 2px}
+/* V2 */
+.v2 .per{font:800 24px/1 var(--display);color:var(--lime)}
+.v2 .bar{height:6px;border-radius:99px;background:var(--ink-600);margin:9px 6px 6px;overflow:hidden}
+.v2 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--lime),var(--green))}
+/* V3 */
+.v3 .tile{padding-top:0;overflow:hidden}
+.v3 .band{margin:0 -8px 10px;padding:7px 4px;background:linear-gradient(90deg,rgb(46 224 166 / .22),rgb(200 255 85 / .2));color:var(--lime);font:800 14px/1.2 var(--display)}
+.v3 .tile[aria-pressed=true] .band{background:var(--lime);color:var(--lime-ink)}
+/* V4 rows */
+.rows{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;text-align:left;border:1px solid var(--line2);border-radius:18px;background:var(--ink-800);padding:12px 14px;position:relative}
+.row[aria-pressed=true]{border-color:var(--lime);background:#16200f;box-shadow:0 0 0 1px var(--lime) inset}
+.row .l{display:flex;align-items:center;gap:10px}
+.row .big{font-size:24px}
+.row .r{text-align:right}
+.row .meter{grid-column:1/-1;height:8px;border-radius:99px;background:var(--ink-600);overflow:hidden;display:flex}
+.row .meter i{display:block;height:100%}
+.row .meter .pay{background:var(--ink-200)}
+.row .meter .gift{background:linear-gradient(90deg,var(--lime),var(--green))}
+.row .note{grid-column:1/-1;display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-300)}
+.sum{margin-top:14px;border-top:1px solid var(--line);padding-top:12px;display:grid;gap:6px}
+.sum .line{display:flex;justify-content:space-between;gap:10px}
+.sum .t{font:800 20px/1.2 var(--display)}
+.buy{margin-top:12px;width:100%;min-height:52px;border:0;border-radius:16px;background:linear-gradient(180deg,#d6ff83,var(--lime));color:var(--lime-ink);font:800 16px/1 var(--display)}
+.pick{margin:26px 0 0;border:1px dashed var(--lime);border-radius:18px;padding:16px;background:rgb(200 255 85 / .05)}
+.pick b{color:var(--lime)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Пакеты Coins: как показать выгоду</h1>
+  <p class="lead">Сейчас «+150» непонятно: 500 Coins за 25 000 ₽, а сколько стоят 150, в голове не считается. Ниже четыре варианта, как показать выгоду сразу. Нажимай на плитки: ниже каждого варианта итог пересчитывается.</p>
+  <div class="fact"><b>Цифры одни и те же во всех вариантах</b> (обычная цена 50 ₽ за Coin; платите за пакет, получаете пакет и подарок):
+    <span class="num">50 → получите 55 за 2 500 ₽</span> · <span class="num">100 → 120 за 5 000 ₽</span> · <span class="num">500 → 650 за 25 000 ₽</span>.
+    Ничего не меняется в ядре: меняется только то, как это нарисовано.</div>
+
+  <section class="var v1" id="v1"><header><span class="tag">Вариант А</span><h2>Зачёркнутая цена и процент скидки</h2></header>
+    <p class="why">Как в магазинах: сверху сколько это стоило бы по обычной цене, рядом ваша цена и «−23%». Самое привычное и быстрее всего читается.</p>
+    <div class="stage"><div class="box"><p class="cap">Компьютер</p><div class="packs" data-v="1"></div></div>
+    <div class="box phone"><p class="cap">Телефон</p><div class="packs col" data-v="1"></div></div></div></section>
+
+  <section class="var v2" id="v2"><header><span class="tag">Вариант Б</span><h2>Цена за один Coin</h2></header>
+    <p class="why">Главное число — сколько стоит один Coin в пакете. Рядом полоска: чем меньше цена за Coin, тем она длиннее. Подходит тем, кто любит считать.</p>
+    <div class="stage"><div class="box"><p class="cap">Компьютер</p><div class="packs" data-v="2"></div></div>
+    <div class="box phone"><p class="cap">Телефон</p><div class="packs col" data-v="2"></div></div></div></section>
+
+  <section class="var v3" id="v3"><header><span class="tag">Вариант В</span><h2>Выгода рублями сверху</h2></header>
+    <p class="why">Яркая лента «Выгода 7 500 ₽» над каждым пакетом. Не нужно ничего считать: видно, сколько вы сэкономите деньгами.</p>
+    <div class="stage"><div class="box"><p class="cap">Компьютер</p><div class="packs" data-v="3"></div></div>
+    <div class="box phone"><p class="cap">Телефон</p><div class="packs col" data-v="3"></div></div></div></section>
+
+  <section class="var v4" id="v4"><header><span class="tag">Вариант Г</span><h2>Список с полоской «заплатил / подарок»</h2></header>
+    <p class="why">Каждый пакет — строка. Полоска показывает, какая часть пакета ваша, а какая подарок. Справа: цена, процент и экономия. Лучше всего на телефоне.</p>
+    <div class="stage"><div class="box"><p class="cap">Компьютер</p><div class="rows" data-v="4"></div></div>
+    <div class="box phone"><p class="cap">Телефон</p><div class="rows" data-v="4"></div></div></div></section>
+
+  <div class="box" id="summary" aria-live="polite">
+    <p class="cap">Итог (одинаково для всех вариантов)</p>
+    <div class="sum" id="sum"></div>
+    <button class="buy" type="button">Пополнить</button>
+  </div>
+
+  <div class="pick"><b>Моя рекомендация: А + Г.</b> На компьютере плитки с зачёркнутой ценой и «−23%» (вариант А), на телефоне строки с полоской (вариант Г). Если хочешь без процентов — Б или В. Скажи букву, и я заменю в окне поддержки.</div>
+</div>
+<script>
+const PACKS=[{c:50,g:5},{c:100,g:20,badge:'Популярный'},{c:500,g:150,badge:'Выгоднее всего',green:true}];
+const BASE=50,coin='../media/ranks/coin-stack-96.webp';
+const fmt=n=>n.toLocaleString('ru-RU').replace(/ /g,' ');
+const m=p=>{const total=p.c+p.g,pay=p.c*BASE,worth=total*BASE,save=worth-pay;return {total,pay,worth,save,pct:Math.round(save/worth*100),per:pay/total}};
+let sel=100;
+const img=`<img class="coin" src="${coin}" alt="" width="26" height="26">`;
+const badge=p=>p.badge?`<span class="badge${p.green?' g':''}">${p.badge}</span>`:'';
+const T={
+1:p=>{const x=m(p);return `<button type="button" class="tile" data-c="${p.c}" aria-pressed="${sel===p.c}">${badge(p)}
+ <div class="big num">${img}${x.total}</div><div class="dim">${p.c} + ${p.g} в подарок</div>
+ <div class="offrow"><span class="old num">${fmt(x.worth)} ₽</span></div><div class="price num">${fmt(x.pay)} ₽</div><div style="margin-top:6px"><span class="off">−${x.pct}%</span></div></button>`},
+2:p=>{const x=m(p);const w=Math.round((1-x.per/BASE)/0.25*100);return `<button type="button" class="tile" data-c="${p.c}" aria-pressed="${sel===p.c}">${badge(p)}
+ <div class="big num">${img}${x.total}</div><div class="dim">${p.c} + ${p.g} в подарок</div>
+ <div class="per num" style="margin-top:8px">${x.per.toFixed(2).replace('.',',')} ₽</div><div class="dim">за Coin, вместо 50 ₽</div>
+ <div class="bar"><i style="width:${Math.min(100,w)}%"></i></div><div class="price num">${fmt(x.pay)} ₽</div></button>`},
+3:p=>{const x=m(p);return `<button type="button" class="tile" data-c="${p.c}" aria-pressed="${sel===p.c}">${badge(p)}
+ <div class="band num">Выгода ${fmt(x.save)} ₽</div>
+ <div class="big num">${img}${x.total}</div><div class="dim">${p.c} + ${p.g} в подарок</div>
+ <div class="price num" style="margin-top:8px">${fmt(x.pay)} ₽</div><div class="dim num">вместо ${fmt(x.worth)} ₽</div></button>`},
+4:p=>{const x=m(p);const gp=Math.round(p.g/x.total*100);return `<button type="button" class="row" data-c="${p.c}" aria-pressed="${sel===p.c}">${badge(p)}
+ <div class="l">${img}<div><div class="big num">${x.total} Coins</div><div class="dim">${p.c} ваших + ${p.g} подарок</div></div></div>
+ <div class="r"><div class="price num">${fmt(x.pay)} ₽</div><div><span class="off">−${x.pct}%</span></div></div>
+ <div class="meter" aria-hidden="true"><i class="pay" style="width:${100-gp}%"></i><i class="gift" style="width:${gp}%"></i></div>
+ <div class="note num"><span>Вместо ${fmt(x.worth)} ₽</span><span class="save">экономия ${fmt(x.save)} ₽</span></div></button>`}};
+function paint(){
+  document.querySelectorAll('[data-v]').forEach(el=>{el.innerHTML=PACKS.map(T[el.dataset.v]).join('')});
+  const p=PACKS.find(x=>x.c===sel),x=m(p);
+  document.getElementById('sum').innerHTML=`<div class="line"><span class="dim">Вы платите</span><b class="num">${fmt(x.pay)} ₽</b></div>
+  <div class="line"><span class="dim">Получаете</span><b class="num">${x.total} Coins (${p.c} + ${p.g} в подарок)</b></div>
+  <div class="line"><span class="dim">Цена за Coin</span><b class="num">${x.per.toFixed(2).replace('.',',')} ₽ вместо 50 ₽</b></div>
+  <div class="line"><span class="dim">Скидка</span><b class="num save">−${x.pct}% · экономия ${fmt(x.save)} ₽</b></div>`;
+  document.querySelector('.buy').textContent=`Пополнить на ${p.c} Coins · ${fmt(x.pay)} ₽`;
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;sel=+b.dataset.c;paint()});
+paint();
+</script>
+</body>
+</html>
