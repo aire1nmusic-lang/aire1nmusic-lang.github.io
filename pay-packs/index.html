@@ -80,8 +80,8 @@ h1{font:800 26px/1.15 var(--display);margin:0 0 6px}
 @media(max-width:700px){.stage .box:first-child{display:none}.wrap{padding:18px 12px 70px}}
 
 .v1 .tile.sale,.tile.sale{padding:0 8px 18px;overflow:visible}
-.tile.sale .badge{top:auto;bottom:-10px}
-.tile.sale .sband{margin:0 -8px 10px;padding:7px 4px;border-radius:17px 17px 0 0;background:linear-gradient(180deg,#ff5468,#e0283d);color:#fff;font:800 13.5px/1.2 var(--display);letter-spacing:.06em;text-shadow:0 1px 0 rgb(0 0 0 / .25)}
+.tile.sale .badge{top:-11px;bottom:auto;z-index:2;box-shadow:0 2px 8px rgb(0 0 0 / .45)}
+.tile.sale .sband{margin:0 -8px 10px;padding:14px 4px 7px;border-radius:17px 17px 0 0;background:linear-gradient(180deg,#ff5468,#e0283d);color:#fff;font:800 13.5px/1.2 var(--display);letter-spacing:.06em;text-shadow:0 1px 0 rgb(0 0 0 / .25)}
 .tile.sale[aria-pressed=true] .sband{background:linear-gradient(180deg,#ff6a7b,#ee3149)}
 .tile.sale .oldrow{margin-top:8px}
 .tile.sale .old{font-size:19px}
@@ -180,12 +180,12 @@ let sel=100;
 const img=`<img class="coin" src="${coin}" alt="" width="26" height="26">`;
 const badge=p=>p.badge?`<span class="badge${p.green?' g':''}">${p.badge}</span>`:'';
 const T={
-1:p=>{const x=m(p);return `<button type="button" class="tile sale" data-c="${p.c}" aria-pressed="${sel===p.c}">
+1:p=>{const x=m(p);return `<button type="button" class="tile sale" data-c="${p.c}" aria-pressed="${sel===p.c}">${badge(p)}
  <div class="sband num">${p.g?'ПОДАРОК +'+p.g:'СКИДКА −'+x.pct+'%'}</div>
  <div class="big num">${img}${x.total}</div><div class="dim">Coins</div>
  <div class="oldrow"><span class="old num">${fmt(x.worth)} ₽</span></div>
  <div class="price num newp">${fmt(x.pay)} ₽</div>
- <div class="spill num">Экономия ${fmt(x.save)} ₽</div>${badge(p)}</button>`},
+ <div class="spill num">Экономия ${fmt(x.save)} ₽</div></button>`},
 2:p=>{const x=m(p);const w=Math.round((1-x.per/BASE)/0.25*100);return `<button type="button" class="tile" data-c="${p.c}" aria-pressed="${sel===p.c}">${badge(p)}
  <div class="big num">${img}${x.total}</div><div class="dim">${sub(p,x)}</div>
  <div class="per num" style="margin-top:8px">${x.per.toFixed(2).replace('.',',')} ₽</div><div class="dim">за Coin, вместо 50 ₽</div>
