@@ -80,6 +80,39 @@ h1{font:800 26px/1.15 var(--display);margin:0 0 6px}
 @media(max-width:700px){.stage .box:first-child{display:none}.wrap{padding:18px 12px 70px}}
 .pick{margin:26px 0 0;border:1px dashed var(--lime);border-radius:18px;padding:16px;background:rgb(200 255 85 / .05)}
 .pick b{color:var(--lime)}
+
+/* ---- как это выглядит в окне поддержки ---- */
+.sw{margin:0 0 40px}
+.sw .ctl{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 14px;align-items:center}
+.sw .ctl span{color:var(--ink-300);font-size:13px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:9px 16px;min-height:40px;color:var(--ink-200);font-weight:600}
+.seg button[aria-pressed=true]{background:var(--lime);color:var(--lime-ink)}
+.win{margin:0 auto;border:1px solid rgb(217 199 153 / .42);border-radius:26px;background:rgb(13 15 19 / .94);box-shadow:0 30px 80px rgb(0 0 0 / .55);overflow:hidden}
+.win.d{max-width:1060px}.win.p{max-width:392px}
+.win .hd{display:flex;gap:12px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.win .hd i{width:44px;height:44px;border-radius:12px;background:#223018;display:grid;place-items:center;font-style:normal;font-weight:800;color:var(--lime)}
+.win .hd small{display:block;color:var(--lime);letter-spacing:.08em;font-size:11.5px;font-weight:700}
+.win .hd b{font:700 22px/1.2 var(--display);color:#ffe39a}
+.win .bd{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0}
+.win.p .bd{grid-template-columns:1fr}
+.win .main{padding:18px 20px}
+.win .side{padding:18px 20px;border-left:1px solid var(--line)}
+.win.p .side{border-left:0;border-top:1px solid var(--line)}
+.win h3{margin:0 0 12px;font:700 12.5px/1.2 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-200)}
+.win .tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.win.p .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+.win .tiles .tile{padding:12px 6px 10px}
+.win .tiles .big{font-size:24px}
+.win.d .tiles .tile .price{font-size:15px}
+.win .tiles.rows{grid-template-columns:1fr}
+.win .base{border:1px solid var(--line2);border-radius:16px;padding:12px;text-align:center;background:var(--ink-800)}
+.win .base .big{font-size:26px}
+.win .own{border:1px dashed var(--line2);border-radius:16px;display:grid;place-items:center;text-align:center;padding:12px 6px;color:var(--ink-200);font-weight:700}
+.win .split{margin-top:14px;border:1px solid var(--line);border-radius:16px;padding:12px 14px;color:var(--ink-200)}
+.win .split b{color:var(--ink-50)}
+.win .sum2{display:grid;gap:8px}
+.win .sum2 .line{display:flex;justify-content:space-between;gap:10px}
 </style>
 </head>
 <body>
@@ -90,6 +123,13 @@ h1{font:800 26px/1.15 var(--display);margin:0 0 6px}
     <span class="num">50 → получите 55 за 2 500 ₽</span> · <span class="num">100 → 120 за 5 000 ₽</span> · <span class="num">500 → 650 за 25 000 ₽</span>.
     Ничего не меняется в ядре: меняется только то, как это нарисовано.</div>
 
+
+  <section class="sw" id="sw"><header style="margin-bottom:10px"><span class="tag" style="color:var(--lime);font-size:12px;letter-spacing:.06em;text-transform:uppercase">Сразу в окне поддержки</span>
+    <h2 style="font:700 20px/1.2 var(--display);margin:4px 0 6px">Как это будет выглядеть в самом окне</h2>
+    <p class="why" style="margin:0 0 12px;color:var(--ink-300);font-size:14px">Переключай вариант и устройство. Слева в окне те же плитки «+1 место», «Сразу в топ-1» и «Своя сумма», что и на сайте сейчас.</p></header>
+    <div class="ctl"><span>Вариант:</span><div class="seg" id="segv"><button data-k="1">А</button><button data-k="2">Б</button><button data-k="3">В</button><button data-k="4">Г</button></div>
+    <span>Экран:</span><div class="seg" id="segd"><button data-d="d">Компьютер</button><button data-d="p">Телефон</button></div></div>
+    <div id="win"></div></section>
   <section class="var v1" id="v1"><header><span class="tag">Вариант А</span><h2>Зачёркнутая цена и процент скидки</h2></header>
     <p class="why">Как в магазинах: сверху сколько это стоило бы по обычной цене, рядом ваша цена и «−23%». Самое привычное и быстрее всего читается.</p>
     <div class="stage"><div class="box"><p class="cap">Компьютер</p><div class="packs" data-v="1"></div></div>
@@ -152,8 +192,28 @@ function paint(){
   <div class="line"><span class="dim">Скидка</span><b class="num save">−${x.pct}% · экономия ${fmt(x.save)} ₽</b></div>`;
   document.querySelector('.buy').textContent=`Пополнить на ${p.c} Coins · ${fmt(x.pay)} ₽`;
 }
-document.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;sel=+b.dataset.c;paint()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;sel=+b.dataset.c;paint();paintWin()});
 paint();
+let WV=1,WD=window.innerWidth<700?'p':'d';
+function paintWin(){
+  const dev=WD, tile=T[WV];
+  const std=`<div class="base"><div class="dim">+1 МЕСТО</div><div class="big num">${img}1</div><div class="dim">50 ₽ · #137 → #12</div></div>
+   <div class="base" style="border-color:var(--lime)"><div class="dim">СРАЗУ В ТОП-1</div><div class="big num">${img}8</div><div class="dim">400 ₽ · лидер +1</div></div>`;
+  const own=`<div class="own"><div>Своя сумма<div class="dim">от 1 Coin</div></div></div>`;
+  const packs=WV===4?`<div class="tiles rows" style="margin-top:10px">${PACKS.map(T[4]).join('')}</div>`:`<div class="tiles" style="margin-top:10px;grid-template-columns:repeat(${dev==='p'?1:3},minmax(0,1fr))">${PACKS.map(tile).join('')}</div>`;
+  const p=PACKS.find(x=>x.c===sel),x=m(p);
+  document.getElementById('win').innerHTML=`<div class="win ${dev}"><div class="hd"><i>L2</i><div><small>LINEAGE 2 · HIGH FIVE · X7</small><b>L2highfive.ru x7</b></div></div>
+   <div class="bd"><div class="main"><h3>1 · Выберите поддержку</h3>
+     <div class="tiles" style="grid-template-columns:repeat(${dev==='p'?2:3},minmax(0,1fr))">${std}${own}</div>${packs}
+     <div class="split"><b>Получите ${x.total} Coins</b> — ${p.c} + ${p.g} в подарок. Серверу сейчас, остальное на баланс.</div></div>
+    <div class="side"><h3>Итого</h3><div class="sum2"><div class="line"><span class="dim">Пакет</span><b class="num">${p.c} Coins</b></div><div class="line"><span class="dim">Подарок</span><b class="num save">+${p.g} Coins</b></div>
+     <div class="line"><span class="dim">Скидка</span><b class="num save">−${x.pct}%</b></div><div class="line"><span class="t num">К оплате</span><b class="t num">${fmt(x.pay)} ₽</b></div></div>
+     <button class="buy" type="button">Пополнить на ${p.c} Coins · ${fmt(x.pay)} ₽</button></div></div></div>`;
+  document.querySelectorAll('#segv button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.k===WV));
+  document.querySelectorAll('#segd button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.d===WD));
+}
+document.addEventListener('click',e=>{const v=e.target.closest('#segv button');if(v){WV=+v.dataset.k;paintWin();return}const d=e.target.closest('#segd button');if(d){WD=d.dataset.d;paintWin()}});
+paintWin();
 </script>
 </body>
 </html>
